@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<!-- ==========================================================================
+   MATRI JEWELLERS
+   --------------------------------------------------------------------------
+   Main landing page : clean contemporary boutique, midnight-sapphire theme.
+   Includes: hero, about, categories, featured products,
+   why-choose-us, testimonials, newsletter, contact, and footer.
+   ========================================================================== -->
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description"
+        content="Matri Jewellers — exquisite handcrafted jewellery in midnight sapphire & gold. Rings, necklaces, earrings and bangles crafted with love." />
+  <title>Matri Jewellers | Exquisite Handcrafted Jewellery</title>
+
+  <!-- Google Fonts: Playfair Display (headings) + Poppins (body) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet" />
+
+  <!-- Site stylesheets -->
+  <link rel="stylesheet" href="css/variables.css" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+
+<body>
+
+  <!-- ======================================================================
+       HEADER / NAVIGATION
+       ====================================================================== -->
+  <header class="header">
+    <div class="container header__inner">
+
+      <!-- Brand logo -->
+      <a href="#home" class="logo" aria-label="Matri Jewellers home">
+        <span class="logo__mark" aria-hidden="true">◆</span>
+        <span class="logo__text">Matri<span>Jewellers</span></span>
+      </a>
+
+      <!-- Primary navigation -->
+      <nav class="nav" id="nav" aria-label="Primary">
+        <ul class="nav__list">
+          <li><a class="nav__link" href="#home">Home</a></li>
+          <li><a class="nav__link" href="#about">About</a></li>
+          <li><a class="nav__link" href="#categories">Collections</a></li>
+          <li><a class="nav__link" href="#products">Products</a></li>
+          <li><a class="nav__link" href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+
+      <!-- Right-side actions: cart + hamburger -->
+      <div class="header__actions">
+        <button class="cart-btn" id="cartBtn" aria-label="Cart">
+          <span aria-hidden="true">🛒</span>
+          <span class="cart-btn__count" id="cartCount">0</span>
+        </button>
+        <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+
+    </div>
+  </header>
+
+  <main>
+
+    <!-- ====================================================================
+         HERO SECTION (#home)
+         ==================================================================== -->
+    <section class="hero" id="home">
+      <!-- Full-bleed background image (see assets/images/hero-banner.svg) -->
+      <img class="hero__bg" src="assets/images/hero-banner.svg"
+           alt="" aria-hidden="true" />
+      <div class="hero__overlay" aria-hidden="true"></div>
+
+      <!-- Centered copy over the imagery -->
+      <div class="hero__content">
+        <span class="hero__eyebrow">Est. 1998 · Handcrafted</span>
+        <h1 class="hero__title">
+          Timeless Jewellery,<br />
+          <span>Royal</span> by Design
+        </h1>
+        <p class="hero__text">
+          Discover jewellery that crowns your every moment. Each Matri piece is
+          handcrafted from ethically sourced gold and stones, blending temple
+          heritage with contemporary elegance.
+        </p>
+
+        <div class="hero__cta">
+          <a href="#products" class="btn btn--gold">Explore Collection</a>
+          <a href="#contact" class="btn btn--outline-light">Book a Visit</a>
+        </div>
+
+        <!-- Quick trust stats -->
+        <div class="hero__stats">
+          <div class="hero__stat">
+            <p class="hero__stat-num">28+</p>
+            <p class="hero__stat-label">Years of Craft</p>
+          </div>
+          <div class="hero__stat">
+            <p class="hero__stat-num">12k</p>
+            <p class="hero__stat-label">Happy Clients</p>
+          </div>
+          <div class="hero__stat">
+            <p class="hero__stat-num">100%</p>
+            <p class="hero__stat-label">Hallmarked Gold</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         ABOUT SECTION (#about)
+         ==================================================================== -->
+    <section class="section" id="about">
+      <div class="container about__inner">
+
+        <!-- Left: image with gold frame -->
+        <div class="about__media reveal">
+          <!-- NOTE: replace placeholder source with a real workshop image -->
+          <img class="about__image"
+               src="assets/images/about-artisan.svg"
+               alt="Matri Jewellers artisan crafting jewellery" />
+        </div>
+
+        <!-- Right: story -->
+        <div class="about__content reveal">
+          <p class="about__eyebrow">Our Legacy</p>
+          <h2 class="about__title">Crafted by Hands, Cherished by Generations</h2>
+          <p class="about__text">
+            Since 1998, Matri Jewellers has been the name families trust for their
+            most precious moments — from weddings to festivals. Every ornament that
+            leaves our atelier is a promise of purity, artistry and heritage.
+          </p>
+          <p class="about__text">
+            We blend the grandeur of royal Indian craftsmanship with modern design
+            sensibility, so every piece feels timeless yet of its time.
+          </p>
+
+          <div class="about__features">
+            <div class="about__feature">
+              <span class="about__feature-icon" aria-hidden="true">🔬</span>
+              BIS Hallmarked Gold
+            </div>
+            <div class="about__feature">
+              <span class="about__feature-icon" aria-hidden="true">💎</span>
+              Certified Gemstones
+            </div>
+            <div class="about__feature">
+              <span class="about__feature-icon" aria-hidden="true">🛡️</span>
+              Lifetime Buyback
+            </div>
+            <div class="about__feature">
+              <span class="about__feature-icon" aria-hidden="true">🔧</span>
+              Free Repairs
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         CATEGORIES SECTION (#categories)
+         ==================================================================== -->
+    <section class="section section--cream" id="categories">
+      <div class="container">
+
+        <div class="section-head reveal">
+          <span class="section-head__eyebrow">Collections</span>
+          <h2 class="section-head__title">Shop by Category</h2>
+          <p class="section-head__subtitle">
+            From daily elegance to bridal grandeur — find your match.
+          </p>
+        </div>
+
+        <div class="categories__grid">
+          <!-- NOTE: replace each placeholder source with a real category image -->
+          <article class="category-card reveal">
+            <div class="category-card__media">
+              <img class="category-card__image"
+                   src="assets/images/category-rings.svg" alt="Gold rings collection" />
+            </div>
+            <div class="category-card__body">
+              <h3 class="category-card__name">Rings</h3>
+              <p class="category-card__count">124 Designs</p>
+            </div>
+          </article>
+
+          <article class="category-card reveal">
+            <div class="category-card__media">
+              <img class="category-card__image"
+                   src="assets/images/category-necklaces.svg" alt="Necklace collection" />
+            </div>
+            <div class="category-card__body">
+              <h3 class="category-card__name">Necklaces</h3>
+              <p class="category-card__count">89 Designs</p>
+            </div>
+          </article>
+
+          <article class="category-card reveal">
+            <div class="category-card__media">
+              <img class="category-card__image"
+                   src="assets/images/category-earrings.svg" alt="Earring collection" />
+            </div>
+            <div class="category-card__body">
+              <h3 class="category-card__name">Earrings</h3>
+              <p class="category-card__count">150 Designs</p>
+            </div>
+          </article>
+
+          <article class="category-card reveal">
+            <div class="category-card__media">
+              <img class="category-card__image"
+                   src="assets/images/category-bangles.svg" alt="Bangle collection" />
+            </div>
+            <div class="category-card__body">
+              <h3 class="category-card__name">Bangles</h3>
+              <p class="category-card__count">98 Designs</p>
+            </div>
+          </article>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         FEATURED PRODUCTS SECTION (#products)
+         ==================================================================== -->
+    <section class="section" id="products">
+      <div class="container">
+
+        <div class="section-head reveal">
+          <span class="section-head__eyebrow">Handpicked For You</span>
+          <h2 class="section-head__title">Featured Products</h2>
+          <p class="section-head__subtitle">
+            Our most-loved signature pieces, refreshed every season.
+          </p>
+        </div>
+
+        <!-- Product cards are injected here from data in js/main.js -->
+        <div class="products__grid" id="productsGrid" data-product-count="9"></div>
+
+        <div class="products__footer">
+          <button class="btn btn--primary" id="loadMoreBtn">Load More Designs</button>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         WHY CHOOSE US (#why)
+         ==================================================================== -->
+    <section class="section features" id="why">
+      <div class="container">
+
+        <div class="section-head reveal">
+          <span class="section-head__eyebrow" style="color: #C9A227;">The Matri Promise</span>
+          <h2 class="section-head__title">Why Choose Matri Jewellers?</h2>
+          <p class="section-head__subtitle">
+            More than a store — a legacy of trust you can wear.
+          </p>
+        </div>
+
+        <div class="features__grid">
+          <div class="feature-card reveal">
+            <div class="feature-card__icon" aria-hidden="true">💎</div>
+            <h3 class="feature-card__title">Pure & Certified</h3>
+            <p class="feature-card__text">
+              Every piece is BIS hallmarked with certified lab-grown or natural stones.
+            </p>
+          </div>
+
+          <div class="feature-card reveal">
+            <div class="feature-card__icon" aria-hidden="true">🎨</div>
+            <h3 class="feature-card__title">Bespoke Design</h3>
+            <p class="feature-card__text">
+              Dream it, and our designers will craft a one-of-a-kind ornament for you.
+            </p>
+          </div>
+
+          <div class="feature-card reveal">
+            <div class="feature-card__icon" aria-hidden="true">🚚</div>
+            <h3 class="feature-card__title">Insured Delivery</h3>
+            <p class="feature-card__text">
+              Doorstep delivery with full insurance and secure tamper-proof packaging.
+            </p>
+          </div>
+
+          <div class="feature-card reveal">
+            <div class="feature-card__icon" aria-hidden="true">🔄</div>
+            <h3 class="feature-card__title">Easy Exchange</h3>
+            <p class="feature-card__text">
+              Hassle-free 30-day exchange along with a lifetime buyback guarantee.
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         TESTIMONIALS SECTION
+         ==================================================================== -->
+    <section class="section" id="testimonials">
+      <div class="container">
+
+        <div class="section-head reveal">
+          <span class="section-head__eyebrow">Words of Love</span>
+          <h2 class="section-head__title">What Our Customers Say</h2>
+        </div>
+
+        <div class="testimonials__grid">
+          <article class="testimonial-card reveal">
+            <p class="testimonial-card__text">
+              "The bridal set they crafted for my daughter was beyond anything we
+              imagined. Royal, elegant, and simply breathtaking."
+            </p>
+            <div class="testimonial-card__author">
+              <span class="testimonial-card__avatar" aria-hidden="true">SM</span>
+              <div>
+                <p class="testimonial-card__name">Suhana Mehta</p>
+                <p class="testimonial-card__stars">★★★★★</p>
+              </div>
+            </div>
+          </article>
+
+          <article class="testimonial-card reveal">
+            <p class="testimonial-card__text">
+              "Bought my engagement ring here — the craftsmanship and the pure gold
+              purity certificates gave us complete peace of mind."
+            </p>
+            <div class="testimonial-card__author">
+              <span class="testimonial-card__avatar" aria-hidden="true">RK</span>
+              <div>
+                <p class="testimonial-card__name">Rahul Kapoor</p>
+                <p class="testimonial-card__stars">★★★★★</p>
+              </div>
+            </div>
+          </article>
+
+          <article class="testimonial-card reveal">
+            <p class="testimonial-card__text">
+              "Their kundan earrings are a work of art. I receive compliments every
+              single time I wear them. Truly a legacy brand."
+            </p>
+            <div class="testimonial-card__author">
+              <span class="testimonial-card__avatar" aria-hidden="true">AI</span>
+              <div>
+                <p class="testimonial-card__name">Ananya Iyer</p>
+                <p class="testimonial-card__stars">★★★★★</p>
+              </div>
+            </div>
+          </article>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         NEWSLETTER SIGNUP (CTA)
+         ==================================================================== -->
+    <section class="newsletter" id="newsletter">
+      <div class="container newsletter__inner">
+        <div>
+          <h2 class="newsletter__title">Join the Royal Circle</h2>
+          <p class="newsletter__text">
+            Get early access to new collections and exclusive offers.
+          </p>
+        </div>
+
+        <form class="newsletter__form" id="newsletterForm" novalidate>
+          <input class="newsletter__input" type="email" id="newsletterEmail"
+                 placeholder="Enter your email" aria-label="Email address" />
+          <button class="btn btn--gold" type="submit">Subscribe</button>
+          <p class="newsletter__note" id="newsletterNote" aria-live="polite"></p>
+        </form>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         CONTACT SECTION (#contact)
+         ==================================================================== -->
+    <section class="section" id="contact">
+      <div class="container contact__inner">
+
+        <!-- Contact details -->
+        <div class="contact__info reveal">
+          <p class="contact__eyebrow">Get in Touch</p>
+          <h2 class="contact__title">Visit Our Boutique</h2>
+          <p>
+            Our doors are open for you — walk in for a cup of chai and a sparkle of gold.
+          </p>
+
+          <div class="contact__row">
+            <span class="contact__icon" aria-hidden="true">📍</span>
+            <div>
+              <p class="contact__label">Address</p>
+              <p class="contact__value">12, Heritage Lane, MG Road, Bengaluru 560001</p>
+            </div>
+          </div>
+
+          <div class="contact__row">
+            <span class="contact__icon" aria-hidden="true">📞</span>
+            <div>
+              <p class="contact__label">Phone</p>
+              <p class="contact__value">+91 98765 43210</p>
+            </div>
+          </div>
+
+          <div class="contact__row">
+            <span class="contact__icon" aria-hidden="true">✉️</span>
+            <div>
+              <p class="contact__label">Email</p>
+              <p class="contact__value">hello@matrijewellers.com</p>
+            </div>
+          </div>
+
+          <div class="contact__row">
+            <span class="contact__icon" aria-hidden="true">🕐</span>
+            <div>
+              <p class="contact__label">Hours</p>
+              <p class="contact__value">Mon – Sun · 10:00 AM – 8:30 PM</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Contact form (static demo) -->
+        <form class="contact__form reveal" id="contactForm" novalidate>
+          <div class="form-field">
+            <label class="form-field__label" for="contactName">Your Name</label>
+            <input class="form-field__input" type="text" id="contactName"
+                   placeholder="Full name" />
+            <p class="form-field__msg" data-error-for="contactName">Please enter your name.</p>
+          </div>
+
+          <div class="form-field">
+            <label class="form-field__label" for="contactEmail">Your Email</label>
+            <input class="form-field__input" type="email" id="contactEmail"
+                   placeholder="you@example.com" />
+            <p class="form-field__msg" data-error-for="contactEmail">Enter a valid email address.</p>
+          </div>
+
+          <div class="form-field">
+            <label class="form-field__label" for="contactMessage">Message</label>
+            <textarea class="form-field__textarea" id="contactMessage" rows="4"
+                      placeholder="Tell us what you're looking for..."></textarea>
+            <p class="form-field__msg" data-error-for="contactMessage">Message must be at least 10 characters.</p>
+          </div>
+
+          <button class="btn btn--primary" type="submit">Send Message</button>
+        </form>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ======================================================================
+       FOOTER
+       ====================================================================== -->
+  <footer class="footer">
+    <div class="container">
+
+      <div class="footer__grid">
+        <!-- Brand column -->
+        <div>
+          <a href="#home" class="logo" aria-label="Matri Jewellers home">
+            <span class="logo__mark" aria-hidden="true">◆</span>
+            <span class="logo__text">Matri<span>Jewellers</span></span>
+          </a>
+          <p class="footer__brand-text">
+            A legacy of craftsmanship and trust, dressing generations in gold
+            and glory since 1998.
+          </p>
+        </div>
+
+        <!-- Quick links -->
+        <div>
+          <h3 class="footer__heading">Quick Links</h3>
+          <ul class="footer__links">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#about">About Us</a></li>
+            <li><a href="#categories">Collections</a></li>
+            <li><a href="#products">Products</a></li>
+            <li><a href="#contact">Contact</a></li>
+          </ul>
+        </div>
+
+        <!-- Support links -->
+        <div>
+          <h3 class="footer__heading">Support</h3>
+          <ul class="footer__links">
+            <li><a href="#">Shipping Policy</a></li>
+            <li><a href="#">Returns & Exchange</a></li>
+            <li><a href="#">Care Guide</a></li>
+            <li><a href="#">Jewellery Insurance</a></li>
+            <li><a href="#">Fair Pricing</a></li>
+          </ul>
+        </div>
+
+        <!-- Contact summary -->
+        <div>
+          <h3 class="footer__heading">Reach Us</h3>
+          <ul class="footer__contact">
+            <li>📍 Purbachal, Tetultala</li>
+            <li>📞 +91 98765 43210</li>
+            <li>✉️ hello@matrijewellers.com</li>
+          </ul>
+          <div class="footer__social">
+            <a href="#" aria-label="Instagram">IG</a>
+            <a href="#" aria-label="Facebook">FB</a>
+            <a href="#" aria-label="YouTube">YT</a>
+            <a href="#" aria-label="WhatsApp">WA</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer__bottom">
+        <p>© <span id="year">2025</span> Matri Jewellers. All rights reserved.</p>
+      </div>
+
+    </div>
+  </footer>
+
+  <!-- Back-to-top button -->
+  <button class="scroll-top" id="scrollTop" aria-label="Back to top">↑</button>
+
+  <!-- Site scripts -->
+  <script src="js/main.js"></script>
+</body>
+</html>

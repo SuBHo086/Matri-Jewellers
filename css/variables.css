@@ -1,0 +1,99 @@
+/* ==========================================================================
+   MATRI JEWELLERS - Design Variables / Design Tokens
+   --------------------------------------------------------------------------
+   Central place for all colors, fonts, spacing, and other design tokens.
+   Change values here to re-theme the entire site.
+   Theme: Midnight Sapphire Royal Palette
+   ========================================================================== */
+
+:root {
+  /* ---------- Color Palette: Midnight Sapphire Royal Theme ---------- */
+
+  /* Primary Brand Colors */
+  --color-crimson:          #2A5B8C;   /* Primary sapphire blue        */
+  --color-maroon:           #14213D;   /* Deep midnight navy           */
+  --color-rosewood:         #0E1626;   /* Deepest navy - shadows       */
+  --color-gold:             #C9A227;   /* Champagne gold accent        */
+  --color-rose-gold:        #B8C6D9;   /* Platinum silver accent       */
+
+  /* Extended Sapphire Palette (gradient & hover shades) */
+  --color-crimson-dark:     #1D3A5F;   /* Darker sapphire for hover    */
+  --color-crimson-light:    #4A7DB0;   /* Lighter sapphire for glows   */
+  --color-crimson-soft:     #E3ECF6;   /* Very soft sapphire wash      */
+
+  /* Neutral & Background */
+  --color-ivory:            #F6F7FB;   /* Cool off-white background    */
+  --color-cream:            #EEF2F9;   /* Soft blue-tinted sections    */
+  --color-ink:              #0E1626;   /* Near-black navy text color   */
+  --color-charcoal:         #3D4A5C;   /* Muted blue-gray for subtitles*/
+  --color-white:            #FFFFFF;   /* Pure white                   */
+
+  /* ---------- Typography ---------- */
+  --font-heading: 'Playfair Display', 'Georgia', 'Times New Roman', serif;
+  --font-body:    'Poppins', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+
+  --fs-xs:        0.75rem;   /* 12px - small captions      */
+  --fs-sm:        0.875rem;  /* 14px - body small          */
+  --fs-base:      1rem;      /* 16px - body base           */
+  --fs-md:        1.125rem;  /* 18px - emphasized body     */
+  --fs-lg:        1.5rem;    /* 24px - card titles         */
+  --fs-xl:        2.25rem;   /* 36px - section headings    */
+  --fs-2xl:       3rem;      /* 48px - large headings      */
+  --fs-3xl:       4rem;      /* 64px - hero headings       */
+  --fs-4xl:       5rem;      /* 80px - large hero text     */
+
+  --fw-light:     300;
+  --fw-normal:    400;
+  --fw-medium:    500;
+  --fw-semibold:  600;
+  --fw-bold:      700;
+
+  /* ---------- Spacing Scale ---------- */
+  --sp-1:  0.25rem;   /*  4px  */
+  --sp-2:  0.5rem;    /*  8px  */
+  --sp-3:  0.75rem;   /* 12px  */
+  --sp-4:  1rem;      /* 16px  */
+  --sp-5:  1.5rem;    /* 24px  */
+  --sp-6:  2rem;      /* 32px  */
+  --sp-7:  2.5rem;    /* 40px  */
+  --sp-8:  3rem;      /* 48px  */
+  --sp-10: 4rem;      /* 64px  */
+  --sp-12: 5rem;      /* 80px  */
+  --sp-14: 6rem;      /* 96px  */
+  --sp-16: 7rem;      /* 112px */
+
+  /* ---------- Layout ---------- */
+  --container-max: 1200px;
+  --header-height: 76px;
+  --section-pad:   7rem 0;
+
+  /* ---------- Effects ---------- */
+  --radius-sm:    8px;
+  --radius-md:    16px;
+  --radius-lg:    24px;
+  --radius-xl:    32px;
+  --radius-full:  50%;
+
+  /* Soft, layered "workbench" shadows - calm depth without harshness */
+  --shadow-xs:  0 1px  3px  rgba(14, 22, 38, 0.05);
+  --shadow-sm:  0 2px  8px  rgba(14, 22, 38, 0.06), 0 1px 2px rgba(14, 22, 38, 0.04);
+  --shadow-md:  0 4px  16px rgba(14, 22, 38, 0.08), 0 2px 4px rgba(14, 22, 38, 0.05);
+  --shadow-lg:  0 12px 32px rgba(14, 22, 38, 0.10), 0 4px 8px  rgba(14, 22, 38, 0.06);
+  --shadow-xl:  0 20px 48px rgba(14, 22, 38, 0.14), 0 8px 16px rgba(14, 22, 38, 0.08);
+  --shadow-lift: 0 16px 40px rgba(14, 22, 38, 0.12), 0 6px 12px rgba(14, 22, 38, 0.07);
+  --shadow-gold: 0 8px 24px rgba(201, 162, 39, 0.22);
+
+  --gradient-hero: linear-gradient(135deg, #14213D 0%, #2A5B8C 45%, #16324F 100%);
+  --gradient-btn:  linear-gradient(135deg, #2A5B8C 0%, #0E1626 100%);
+  --gradient-gold: linear-gradient(135deg, #C9A227 0%, #8a6d1a 100%);
+
+  --transition-fast: 0.2s ease;
+  --transition-med:  0.4s ease;
+  --transition-slow: 0.7s ease;
+
+  /* ---------- Z-Index Scale ---------- */
+  --z-header:   100;
+  --z-overlay:  200;
+  --z-modal:    300;
+  --z-toast:    400;
+}
