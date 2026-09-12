@@ -108,3 +108,6 @@ Express endpoint, or an email API) in the submit handlers in `js/main.js`.
 9. **Contact** — details + validation form
 10. **Footer** — links, socials, auto-year
 
+---
+
+Made with ♥ for Matri Jewellers.
