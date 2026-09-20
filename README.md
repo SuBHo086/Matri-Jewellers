@@ -1,4 +1,4 @@
-# 💎 Matri Jewellers — Royal Website
+#  Matri Jewellers — Royal Website
 
 A clean, contemporary marketing website for **Matri Jewellers**, a jewellery
 boutique. Themed around a **burgundy royal palette** accented with rose gold,
@@ -9,7 +9,7 @@ hand-crafted jewellery artwork.
 
 ---
 
-## ✨ Features
+##  Features
 
 - **Landing page** with a full-bleed hero banner + centered overlay, about story
 - **Collections grid** — Rings, Necklaces, Earrings, Bangles
@@ -24,7 +24,7 @@ hand-crafted jewellery artwork.
   small mobile (560px) breakpoints
 - Respects `prefers-reduced-motion` for accessibility
 
-## 🚀 Getting Started
+##  Getting Started
 
 There are no build steps or dependencies — it's a plain static site.
 
@@ -40,7 +40,7 @@ There are no build steps or dependencies — it's a plain static site.
 No installation required. Google Fonts (Playfair Display + Poppins) load from
 the CDN; everything else is self-contained.
 
-> 💡 The collection is loaded from `data/products.json` over HTTP, so always
+>  The collection is loaded from `data/products.json` over HTTP, so always
 > prefer **option 2** (a local server). Opening `index.html` directly from disk
 > (`file://`) can block that request in some browsers — in that case the
 > collection area shows a short helper message instead of cards.
@@ -62,7 +62,7 @@ Matri Jewellers Website/
 └── README.md
 ```
 
-## 🎨 Customisation
+##  Customisation
 
 ### Change the theme color
 
@@ -146,7 +146,7 @@ Both forms are **static demos** with client-side validation only. To send
 messages for real, wire up a backend service (e.g. Formspree, a small
 Express endpoint, or an email API) in the submit handlers in `js/main.js`.
 
-## 📱 Responsive Behaviour
+##  Responsive Behaviour
 
 | Breakpoint    | What changes                                       |
 | ------------- | -------------------------------------------------- |
@@ -154,7 +154,7 @@ Express endpoint, or an email API) in the submit handlers in `js/main.js`.
 | ≤ 768px       | Nav becomes a slide-out drawer, sections stack     |
 | ≤ 560px       | Single-column grids, tighter hero text             |
 
-## 🧭 Section Index (index.html)
+##  Section Index (index.html)
 
 1. **Header / Navigation** — fixed, white with centered search + category menu
 2. **Hero** — full-bleed sage SVG scene, elegant serif + script headline, CTAs, carousel dots
