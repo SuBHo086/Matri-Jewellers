@@ -401,7 +401,7 @@ h1, h2, h3, h4 {
   align-items: center;
   justify-content: flex-start;
   padding-inline: var(--sp-6);
-  padding-left: 280px; /* Move searchbar to the right of logo */
+  padding-left: 280px; /* Move searchbar to the right of logo — overridden on mobile */
   pointer-events: none;
 }
 
@@ -2207,6 +2207,18 @@ h1, h2, h3, h4 {
 
 /* ----- Mobile / Small tablet (≤ 768px) ----- */
 @media (max-width: 768px) {
+  /* Tighten container padding so content doesn't kiss the edges */
+  .container {
+    padding-inline: var(--sp-4);
+  }
+
+  /* The header is now 2 rows tall on mobile (logo + search bar).
+     Bump --header-height so sections don't hide under it. */
+  :root {
+    --header-height: 148px;
+    --section-pad: 4rem 0;
+  }
+
   /* Navigation collapses into a slide-down drawer */
   .nav {
     position: fixed;
@@ -2465,6 +2477,30 @@ h1, h2, h3, h4 {
     grid-template-columns: 1fr;
   }
 
+  /* About feature icons: single column on small phones */
+  .about__features {
+    grid-template-columns: 1fr;
+  }
+
+  /* Newsletter: stack and centre on phones */
+  .newsletter__inner {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding-block: var(--sp-8);
+  }
+
+  .newsletter__form {
+    width: 100%;
+    max-width: 100%;
+    margin-inline: 0;
+  }
+
+  /* Contact form: tighten padding */
+  .contact__form {
+    padding: var(--sp-5);
+  }
+
   .features-carousel {
     height: 68vh;
     min-height: 380px;
@@ -2586,9 +2622,9 @@ h1, h2, h3, h4 {
     display: none;
   }
 
-  /* Hide the logo text on the smallest screens to save space */
-  .logo__text {
-    font-size: var(--fs-base);
+  /* Hide the logo image on phones, keep the store name text */
+  .header .logo__image {
+    display: none;
   }
 }
 
