@@ -7,30 +7,34 @@
    ========================================================================== */
 
 :root {
-  /* ---------- Color Palette: Midnight Sapphire Royal Theme ---------- */
+  /* ---------- Color Palette: Burgundy Royal Theme ---------- */
 
   /* Primary Brand Colors */
-  --color-crimson:          #2A5B8C;   /* Primary sapphire blue        */
-  --color-maroon:           #14213D;   /* Deep midnight navy           */
-  --color-rosewood:         #0E1626;   /* Deepest navy - shadows       */
-  --color-gold:             #C9A227;   /* Champagne gold accent        */
-  --color-rose-gold:        #B8C6D9;   /* Platinum silver accent       */
+  --color-crimson:          #5C1F1F;   /* Primary burgundy             */
+  --color-maroon:           #3B0D0D;   /* Deep burgundy                */
+  --color-rosewood:         #2A0A0A;   /* Deepest burgundy - shadows   */
+  --color-gold:             #D4A574;   /* Warm rose-gold accent        */
+  --color-rose-gold:        #C9A89E;   /* Soft rose accent             */
 
-  /* Extended Sapphire Palette (gradient & hover shades) */
-  --color-crimson-dark:     #1D3A5F;   /* Darker sapphire for hover    */
-  --color-crimson-light:    #4A7DB0;   /* Lighter sapphire for glows   */
-  --color-crimson-soft:     #E3ECF6;   /* Very soft sapphire wash      */
+  /* Extended Burgundy Palette (gradient & hover shades) */
+  --color-crimson-dark:     #3B0D0D;   /* Darker burgundy for hover    */
+  --color-crimson-light:    #8B4545;   /* Lighter burgundy for glows   */
+  --color-crimson-soft:     #F5EDED;   /* Very soft burgundy wash      */
+
+  /* HERO accent (sage green from screenshot) */
+  --color-sage:             #6B8E7F;   /* Sage green for hero imagery  */
 
   /* Neutral & Background */
-  --color-ivory:            #F6F7FB;   /* Cool off-white background    */
-  --color-cream:            #EEF2F9;   /* Soft blue-tinted sections    */
-  --color-ink:              #0E1626;   /* Near-black navy text color   */
-  --color-charcoal:         #3D4A5C;   /* Muted blue-gray for subtitles*/
+  --color-ivory:            #FDFBF7;   /* Warm off-white background    */
+  --color-cream:            #F9F6F2;   /* Warmer cream sections        */
+  --color-ink:              #2A0A0A;   /* Near-black burgundy text     */
+  --color-charcoal:         #5A4A4A;   /* Muted warm gray for subtitles*/
   --color-white:            #FFFFFF;   /* Pure white                   */
 
   /* ---------- Typography ---------- */
-  --font-heading: 'Playfair Display', 'Georgia', 'Times New Roman', serif;
+  --font-heading: 'Cormorant Garamond', 'Georgia', 'Times New Roman', serif;
   --font-body:    'Poppins', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+  --font-brand:   'Cinzel', 'Georgia', serif;
 
   --fs-xs:        0.75rem;   /* 12px - small captions      */
   --fs-sm:        0.875rem;  /* 14px - body small          */
@@ -64,7 +68,7 @@
 
   /* ---------- Layout ---------- */
   --container-max: 1200px;
-  --header-height: 76px;
+  --header-height: 122px;
   --section-pad:   7rem 0;
 
   /* ---------- Effects ---------- */
@@ -81,11 +85,11 @@
   --shadow-lg:  0 12px 32px rgba(14, 22, 38, 0.10), 0 4px 8px  rgba(14, 22, 38, 0.06);
   --shadow-xl:  0 20px 48px rgba(14, 22, 38, 0.14), 0 8px 16px rgba(14, 22, 38, 0.08);
   --shadow-lift: 0 16px 40px rgba(14, 22, 38, 0.12), 0 6px 12px rgba(14, 22, 38, 0.07);
-  --shadow-gold: 0 8px 24px rgba(201, 162, 39, 0.22);
+  --shadow-gold: 0 8px 24px rgba(212, 165, 116, 0.28);
 
-  --gradient-hero: linear-gradient(135deg, #14213D 0%, #2A5B8C 45%, #16324F 100%);
-  --gradient-btn:  linear-gradient(135deg, #2A5B8C 0%, #0E1626 100%);
-  --gradient-gold: linear-gradient(135deg, #C9A227 0%, #8a6d1a 100%);
+  --gradient-hero: linear-gradient(135deg, #3B0D0D 0%, #5C1F1F 50%, #2A0A0A 100%);
+  --gradient-btn:  linear-gradient(135deg, #5C1F1F 0%, #3B0D0D 100%);
+  --gradient-gold: linear-gradient(135deg, #D4A574 0%, #B8956A 100%);
 
   --transition-fast: 0.2s ease;
   --transition-med:  0.4s ease;
@@ -96,4 +100,103 @@
   --z-overlay:  200;
   --z-modal:    300;
   --z-toast:    400;
+}
+
+/* ==========================================================================
+   SILVER MODE TOKENS (light)
+   Activated by <html data-metal="silver"> (see the metal toggle in main.js).
+   The warm burgundy + rose-gold palette is swapped for a cool navy +
+   silver/platinum accent. Combines with [data-theme="dark"] below.
+   ========================================================================== */
+[data-metal="silver"] {
+  /* Primary Brand Colors */
+  --color-crimson:          #3A506B;   /* Muted slate blue             */
+  --color-maroon:           #1A2332;   /* Deep navy                    */
+  --color-rosewood:         #0D1520;   /* Darkest navy - shadows       */
+  --color-gold:             #B0BCC8;   /* Bright steel accent          */
+  --color-rose-gold:        #8FA2B4;   /* Muted cool silver            */
+
+  /* Extended Palette */
+  --color-crimson-dark:     #283B52;   /* Darker steel for hover       */
+  --color-crimson-light:    #5E7A98;   /* Lighter steel for glows      */
+  --color-crimson-soft:     #D8DFE8;   /* Visible blue-grey wash       */
+
+  /* HERO accent (slate for silver hero imagery) */
+  --color-sage:             #6B8399;
+
+  /* Neutral & Background */
+  --color-ivory:            #D4DCE6;   /* Cool slate background        */
+  --color-cream:            #BFC9D6;   /* Mid-tone grey sections       */
+  --color-ink:              #0D1520;   /* Near-black navy text         */
+  --color-charcoal:         #4A5D72;   /* Cool grey for subtitles      */
+  --color-white:            #E8ECF1;   /* Slightly lifted card base    */
+
+  /* Effects */
+  --shadow-gold: 0 8px 24px rgba(26, 35, 50, 0.40);
+
+  --gradient-hero: linear-gradient(135deg, #1A2332 0%, #3A506B 50%, #0D1520 100%);
+  --gradient-btn:  linear-gradient(135deg, #3A506B 0%, #1A2332 100%);
+  --gradient-gold: linear-gradient(135deg, #B0BCC8 0%, #8FA2B4 100%);
+}
+
+/* ==========================================================================
+   SILVER MODE TOKENS (dark)
+   Dark silver: cool navy canvas + light steel accents that draw on it.
+   ========================================================================== */
+[data-metal="silver"][data-theme="dark"] {
+  --color-crimson:          #6B8AAE;   /* Steel accent for dark surfaces */
+  --color-maroon:           #D4DCE6;   /* Light chalk — primary text     */
+  --color-rosewood:         #090F16;   /* Deep near-black navy canvas    */
+  --color-gold:             #C5D0DC;   /* Bright silver accent           */
+  --color-rose-gold:        #8FA2B4;
+
+  /* Extended Palette */
+  --color-crimson-dark:     #4A6480;   /* Deeper steel for hover fills   */
+  --color-crimson-light:    #7E98B5;   /* Lifted steel for glows         */
+  --color-crimson-soft:     #121C28;   /* Subtle hover wash on dark cards */
+
+  /* Neutral & Background */
+  --color-ivory:            #090F16;   /* Deep page background           */
+  --color-cream:            #10192A;   /* Slightly lighter content band  */
+  --color-ink:              #D4DCE6;   /* Light chalk primary text       */
+  --color-charcoal:         #8FA2B4;   /* Muted steel grey for subtitles */
+  --color-white:            #1A2332;   /* Raised card surface            */
+}
+
+/* ==========================================================================
+   NIGHT MODE TOKENS
+   Activated by <html data-theme="dark"> (see the theme toggle in main.js).
+   The palette is flipped so the same token-driven styles re-theme themselves.
+   ========================================================================== */
+[data-theme="dark"] {
+  /* Primary Brand Colors */
+  /* NOTE: --color-maroon flips to a warm chalk tone so text draws on the
+     deep background. The brand-filled components that USED to be maroon
+     (primary buttons, scroll-top, avatar chips) are re-asserted with fixed
+     burgundy fills lower in styles.css, so brand colour survives dark mode. */
+  --color-crimson:          #C0715F;   /* Wine accent for dark surfaces   */
+  --color-maroon:           #F3E6DB;   /* Warm chalk — primary text       */
+  --color-rosewood:         #160505;   /* Deep near-black page canvas     */
+  --color-gold:             #E9C193;   /* Brighter champagne gold         */
+  --color-rose-gold:        #DAB39F;
+
+  /* Extended Burgundy Palette */
+  --color-crimson-dark:     #8A4638;   /* Deeper wine for hover fills     */
+  --color-crimson-light:    #CD7B68;   /* Lifted wine for glows           */
+  --color-crimson-soft:     #2C0F0F;   /* Soft hover wash on dark cards   */
+
+  /* Neutral & Background */
+  --color-ivory:            #160505;   /* Deep page background            */
+  --color-cream:            #221010;   /* Slightly lighter content band   */
+  --color-ink:              #F3E6DB;   /* Light chalk primary text        */
+  --color-charcoal:         #C6B09E;   /* Muted warm grey for subtitles   */
+  --color-white:            #2C0F0F;   /* Raised card surface             */
+
+  /* Effects - shadows go darker against a dark canvas */
+  --shadow-xs:   0 1px  3px  rgba(0, 0, 0, 0.40);
+  --shadow-sm:   0 2px  8px  rgba(0, 0, 0, 0.35), 0 1px 2px rgba(0, 0, 0, 0.30);
+  --shadow-md:   0 4px  16px rgba(0, 0, 0, 0.40), 0 2px 4px rgba(0, 0, 0, 0.35);
+  --shadow-lg:   0 12px 32px rgba(0, 0, 0, 0.45), 0 4px 8px  rgba(0, 0, 0, 0.35);
+  --shadow-xl:   0 20px 48px rgba(0, 0, 0, 0.50), 0 8px 16px rgba(0, 0, 0, 0.40);
+  --shadow-lift: 0 16px 40px rgba(0, 0, 0, 0.45), 0 6px 12px rgba(0, 0, 0, 0.40);
 }

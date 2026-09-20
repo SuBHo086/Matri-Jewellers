@@ -2,7 +2,7 @@
 <!-- ==========================================================================
    MATRI JEWELLERS
    --------------------------------------------------------------------------
-   Main landing page : clean contemporary boutique, midnight-sapphire theme.
+   Main landing page : clean contemporary boutique, burgundy royal theme.
    Includes: hero, about, categories, featured products,
    why-choose-us, testimonials, newsletter, contact, and footer.
    ========================================================================== -->
@@ -11,21 +11,167 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description"
-        content="Matri Jewellers — exquisite handcrafted jewellery in midnight sapphire & gold. Rings, necklaces, earrings and bangles crafted with love." />
+        content="Matri Jewellers — exquisite handcrafted jewellery in royal burgundy & rose gold. Rings, necklaces, earrings and bangles crafted with love." />
   <title>Matri Jewellers | Exquisite Handcrafted Jewellery</title>
 
-  <!-- Google Fonts: Playfair Display (headings) + Poppins (body) -->
+  <!-- Google Fonts: Cinzel (luxury branding) + Cormorant Garamond (elegant headings) + Poppins (body) -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Poppins:wght@300;400;500;600;700&display=swap"
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Poppins:wght@300;400;500;600;700&display=swap"
         rel="stylesheet" />
 
   <!-- Site stylesheets -->
   <link rel="stylesheet" href="css/variables.css" />
   <link rel="stylesheet" href="css/styles.css" />
+
+  <!-- Apply saved/system theme before first paint to avoid a flash -->
+  <script>
+    (function () {
+      var saved = null;
+      try { saved = localStorage.getItem("matri-theme"); } catch (e) {}
+      var theme = saved || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+      document.documentElement.setAttribute("data-theme", theme);
+
+      // Metal mode (gold / silver): apply before first paint too.
+      var savedMetal = null;
+      try { savedMetal = localStorage.getItem("matri-metal"); } catch (e) {}
+      document.documentElement.setAttribute("data-metal", savedMetal || "gold");
+    })();
+  </script>
 </head>
 
 <body>
+
+  <!-- Scroll progress ribbon — thin gradient bar at the very top -->
+  <div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
+
+  <!-- SVG icon bank (shared by the secondary nav + mega-menu) -->
+  <svg width="0" height="0" style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true">
+    <defs>
+      <symbol id="i-sparkle" viewBox="0 0 24 24">
+        <g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 4l1.7 4.3L18 10l-4.3 1.7L12 16l-1.7-4.3L6 10l4.3-1.7L12 4z"/>
+          <path d="M18.6 15.4l.7 1.8L21 18l-1.7.7-.7 1.8-.7-1.8-1.7-.7 1.7-.7.7-1.9z"/>
+        </g>
+      </symbol>
+      <symbol id="i-gold" viewBox="0 0 24 24">
+        <g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M5 8h14l-1.4 8.4a2 2 0 0 1-2 1.6h-7.2a2 2 0 0 1-2-1.6L5 8z"/>
+          <path d="M4.5 8h15a.8.8 0 0 1 0 1.6h-15A.8.8 0 0 1 4.5 8z"/>
+          <path d="M12 5.2a1.4 1.4 0 1 1 2.4 1z"/>
+        </g>
+      </symbol>
+      <symbol id="i-diamond" viewBox="0 0 24 24">
+        <g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M6 3h12l4 6-10 12L2 9l4-6z"/>
+          <path d="M2 9h20"/>
+        </g>
+      </symbol>
+      <symbol id="i-earring" viewBox="0 0 24 24">
+        <g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="8" cy="9.5" r="4"/>
+          <circle cx="16" cy="9.5" r="4"/>
+          <path d="M8 5.5V4M16 5.5V4"/>
+        </g>
+      </symbol>
+      <symbol id="i-star" viewBox="0 0 24 24">
+        <g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 3l2.4 5.1 5.6.8-4 3.9.9 5.6-4.9-2.6-4.9 2.6.9-5.6-4-3.9 5.6-.8L12 3z"/>
+        </g>
+      </symbol>
+      <symbol id="i-gem" viewBox="0 0 24 24">
+        <g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M7 3h10l4 6-9 12L3 9l4-6z"/>
+          <path d="M3 9h18"/>
+          <path d="M12 21L9 9l3-6 3 6-3 12z"/>
+        </g>
+      </symbol>
+      <symbol id="i-wedding" viewBox="0 0 24 24">
+        <g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="8.5" cy="15" r="5.5"/>
+          <circle cx="15.5" cy="15" r="5.5"/>
+          <path d="M11.5 15.3l.5 1.2 1.5-.8"/>
+        </g>
+      </symbol>
+      <symbol id="i-gift" viewBox="0 0 24 24">
+        <g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3.5" y="8" width="17" height="12" rx="1.5"/>
+          <path d="M12 8v12"/>
+          <path d="M12 8H7.6a2.4 2.4 0 0 1 0-4.8c3 0 4.4 4.8 4.4 4.8zM12 8h4.4a2.4 2.4 0 0 0 0-4.8C13.4 3.2 12 8 12 8z"/>
+        </g>
+      </symbol>
+      <symbol id="i-tag" viewBox="0 0 24 24">
+        <g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M20.6 13.4L11.5 3.6a1.8 1.8 0 0 0-1.3-.6H4.2a1.5 1.5 0 0 0-1.5 1.5v5.9c0 .8.3 1.4.9 1.8l9.7 9.3a2 2 0 0 0 2.9 0l4-4.2a2 2 0 0 0 .4-2.9z"/>
+          <path d="M7 8a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/>
+        </g>
+      </symbol>
+      <symbol id="i-plus" viewBox="0 0 24 24">
+        <g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="8.6"/>
+          <path d="M12 8.4v7.2M8.4 12h7.2"/>
+        </g>
+      </symbol>
+      <symbol id="i-pendant" viewBox="0 0 24 24">
+        <g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 2.6v3.2"/>
+          <path d="M8.6 11.2c0-2 1.2-3.4 3.4-3.4s3.4 1.4 3.4 3.4c0 2.4-3.4 9.6-3.4 9.6s-3.4-7.2-3.4-9.6z"/>
+        </g>
+      </symbol>
+      <symbol id="i-ring" viewBox="0 0 24 24">
+        <g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M8.6 12a3.4 3.4 0 0 1 6.8 0c0 2.3-1.7 4.9-3.4 6-1.7-1.1-3.4-3.7-3.4-6z"/>
+          <path d="M10.6 12a1.4 1.4 0 0 1 2.8 0"/>
+        </g>
+      </symbol>
+      <symbol id="i-mangalsutra" viewBox="0 0 24 24">
+        <g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M6 9c.8-3.2 2.9-4.9 6-4.9s5.2 1.7 6 4.9"/>
+          <path d="M10.4 9h3.2l-.5 8.4h-2.2L10.4 9z"/>
+          <circle cx="12" cy="13.6" r=".9" fill="currentColor" stroke="none"/>
+        </g>
+      </symbol>
+      <symbol id="i-chain" viewBox="0 0 24 24">
+        <g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="6" cy="18" r="1.6"/>
+          <circle cx="10" cy="14" r="1.6"/>
+          <circle cx="14" cy="10" r="1.6"/>
+          <circle cx="18" cy="6" r="1.6"/>
+          <circle cx="8" cy="16.4" r="1.6"/>
+          <circle cx="12" cy="12.4" r="1.6"/>
+          <circle cx="16" cy="8.4" r="1.6"/>
+        </g>
+      </symbol>
+      <symbol id="i-necklace" viewBox="0 0 24 24">
+        <g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M5 11c.5-4.6 3.7-7.2 7-7.2s6.5 2.6 7 7.2"/>
+          <path d="M12 3.8v2.2"/>
+          <path d="M9.6 8.2h4.8L12 14.5l-2.4-6.3z"/>
+        </g>
+      </symbol>
+      <symbol id="i-set" viewBox="0 0 24 24">
+        <g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M5 11c.5-4.6 3.7-7 7-7s6.5 2.4 7 7"/>
+          <path d="M12 4v2"/>
+          <circle cx="8.4" cy="11" r=".5" fill="currentColor"/>
+          <circle cx="15.6" cy="11" r=".5" fill="currentColor"/>
+        </g>
+      </symbol>
+      <symbol id="i-bangles" viewBox="0 0 24 24">
+        <g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="8" cy="12" r="4.6"/>
+          <circle cx="16" cy="12" r="4.6"/>
+        </g>
+      </symbol>
+      <symbol id="i-bracelet" viewBox="0 0 24 24">
+        <g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M6.4 12a5.6 5.6 0 1 0 11.2 0"/>
+          <circle cx="12" cy="12" r="1.1"/>
+          <path d="M9 11.5l3-3.2 3 3.2"/>
+        </g>
+      </symbol>
+    </defs>
+  </svg>
 
   <!-- ======================================================================
        HEADER / NAVIGATION
@@ -35,26 +181,41 @@
 
       <!-- Brand logo -->
       <a href="#home" class="logo" aria-label="Matri Jewellers home">
-        <span class="logo__mark" aria-hidden="true">◆</span>
-        <span class="logo__text">Matri<span>Jewellers</span></span>
+        <img src="assets/images/logo.png" alt="Matri Jewellers" class="logo__image" />
+        <span class="logo__text">MATRI<span>JEWELLERS</span></span>
       </a>
 
-      <!-- Primary navigation -->
-      <nav class="nav" id="nav" aria-label="Primary">
-        <ul class="nav__list">
-          <li><a class="nav__link" href="#home">Home</a></li>
-          <li><a class="nav__link" href="#about">About</a></li>
-          <li><a class="nav__link" href="#categories">Collections</a></li>
-          <li><a class="nav__link" href="#products">Products</a></li>
-          <li><a class="nav__link" href="#contact">Contact</a></li>
-        </ul>
-      </nav>
-
-      <!-- Right-side actions: cart + hamburger -->
+      <!-- Utility icons right -->
       <div class="header__actions">
-        <button class="cart-btn" id="cartBtn" aria-label="Cart">
-          <span aria-hidden="true">🛒</span>
-          <span class="cart-btn__count" id="cartCount">0</span>
+        <a href="#categories" class="header__icon" aria-label="Browse designs">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+          </svg>
+        </a>
+        <a href="#" class="header__icon" aria-label="Gift ideas">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="20 12 20 22 4 22 4 12"/>
+            <rect x="2" y="7" width="20" height="5"/>
+            <line x1="12" y1="22" x2="12" y2="7"/>
+            <path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/>
+            <path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/>
+          </svg>
+        </a>
+        <a href="#contact" class="header__icon" aria-label="Contact us">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+            <circle cx="12" cy="7" r="4"/>
+          </svg>
+        </a>
+        <button class="theme-toggle" id="themeToggle"
+                aria-label="Switch to night mode" aria-pressed="false">
+          <svg class="theme-toggle__icon theme-toggle__icon--moon" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+            <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/>
+          </svg>
+          <svg class="theme-toggle__icon theme-toggle__icon--sun" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+            <circle cx="12" cy="12" r="5"/>
+            <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+          </svg>
         </button>
         <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false">
           <span></span><span></span><span></span>
@@ -62,6 +223,147 @@
       </div>
 
     </div>
+
+    <!-- Centered search bar — its own row so mobile can drop it to the
+         bottom slot where the category nav used to sit. -->
+    <div class="header__searchbar">
+      <div class="header__search">
+        <button class="header__search-icon" aria-label="Visual search">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="3" width="18" height="18" rx="2"/>
+            <circle cx="8.5" cy="8.5" r="1.5"/>
+            <path d="M21 21l-5.2-5.2"/>
+          </svg>
+        </button>
+        <input type="search" placeholder="Search by name or category..." aria-label="Search products" />
+      </div>
+    </div>
+
+    <!-- Secondary nav (category menu) -->
+    <nav class="secondary-nav" aria-label="Categories">
+      <div class="secondary-nav__wrap">
+        <ul class="secondary-nav__list">
+          <!-- <li><a href="#categories"><span id="all_jewellery" class="secondary-nav__icon"><svg class="icon-sm"><use href="#i-sparkle"/></svg></span> All Jewellery</a></li> -->
+          <li><a href="#categories" id="all_jewellery"><span class="secondary-nav__icon"><svg class="icon-sm"><use href="#i-sparkle"/></svg></span>All Jewellery</a></li>
+          <li><a href="#categories"><span class="secondary-nav__icon"><svg class="icon-sm"><use href="#i-gold"/></svg></span> Gold</a></li>
+          <li><a href="#categories"><span class="secondary-nav__icon"><svg class="icon-sm"><use href="#i-diamond"/></svg></span> Diamond</a></li>
+          <li><a href="#categories"><span class="secondary-nav__icon"><svg class="icon-sm"><use href="#i-earring"/></svg></span> Earrings</a></li>
+          <li><a href="#categories"><span class="secondary-nav__icon"><svg class="icon-sm"><use href="#i-star"/></svg></span> Daily Wear</a></li>
+          <li><a href="#categories"><span class="secondary-nav__icon"><svg class="icon-sm"><use href="#i-gem"/></svg></span> Gemstone</a></li>
+          <li><a href="#categories"><span class="secondary-nav__icon"><svg class="icon-sm"><use href="#i-wedding"/></svg></span> Wedding</a></li>
+          <li><a href="#categories"><span class="secondary-nav__icon"><svg class="icon-sm"><use href="#i-gift"/></svg></span> Gifting</a></li>
+          <li><a href="#categories"><span class="secondary-nav__icon"><svg class="icon-sm"><use href="#i-tag"/></svg></span> Under 50K</a></li>
+          <li><a href="#categories"><span class="secondary-nav__icon"><svg class="icon-sm"><use href="#i-plus"/></svg></span> More</a></li>
+        </ul>
+
+        <!-- Mega menu - revealed on hover/focus of the category bar -->
+        <div class="mega-menu" aria-label="Shop by jewellery type">
+          <div class="mega-menu__panel">
+            <!-- Left: browse facets -->
+            <aside class="mega-menu__filters">
+              <p class="mega-menu__label">Shop By</p>
+              <a href="#products" class="mega-menu__filter is-active">Category</a>
+              <a href="#products" class="mega-menu__filter">Price</a>
+              <a href="#products" class="mega-menu__filter">Occasion</a>
+              <a href="#products" class="mega-menu__filter">Gender</a>
+            </aside>
+
+            <!-- Centre: jewellery type grid -->
+            <div class="mega-menu__grid">
+              <a href="#products" class="mega-menu__item" i>
+                <span class="mega-menu__item-icon"><svg class="icon-md"><use href="#i-sparkle"/></svg></span>
+                <span class="mega-menu__item-name" >All Jewellery</span>
+              </a>
+              <a href="#products" class="mega-menu__item">
+                <span class="mega-menu__item-icon"><svg class="icon-md"><use href="#i-earring"/></svg></span>
+                <span class="mega-menu__item-name">Earrings</span>
+              </a>
+              <a href="#products" class="mega-menu__item">
+                <span class="mega-menu__item-icon"><svg class="icon-md"><use href="#i-pendant"/></svg></span>
+                <span class="mega-menu__item-name">Pendants</span>
+              </a>
+              <a href="#products" class="mega-menu__item">
+                <span class="mega-menu__item-icon"><svg class="icon-md"><use href="#i-ring"/></svg></span>
+                <span class="mega-menu__item-name">Finger Rings</span>
+              </a>
+              <a href="#products" class="mega-menu__item">
+                <span class="mega-menu__item-icon"><svg class="icon-md"><use href="#i-mangalsutra"/></svg></span>
+                <span class="mega-menu__item-name">Mangalsutra</span>
+              </a>
+              <a href="#products" class="mega-menu__item">
+                <span class="mega-menu__item-icon"><svg class="icon-md"><use href="#i-chain"/></svg></span>
+                <span class="mega-menu__item-name">Chains</span>
+              </a>
+              <a href="#products" class="mega-menu__item">
+                <span class="mega-menu__item-icon"><svg class="icon-md"><use href="#i-necklace"/></svg></span>
+                <span class="mega-menu__item-name">Necklaces</span>
+              </a>
+              <a href="#products" class="mega-menu__item">
+                <span class="mega-menu__item-icon"><svg class="icon-md"><use href="#i-set"/></svg></span>
+                <span class="mega-menu__item-name">Necklace Sets</span>
+              </a>
+              <a href="#products" class="mega-menu__item">
+                <span class="mega-menu__item-icon"><svg class="icon-md"><use href="#i-bangles"/></svg></span>
+                <span class="mega-menu__item-name">Bangles</span>
+              </a>
+              <a href="#products" class="mega-menu__item">
+                <span class="mega-menu__item-icon"><svg class="icon-md"><use href="#i-bracelet"/></svg></span>
+                <span class="mega-menu__item-name">Bracelets</span>
+              </a>
+            </div>
+
+            <!-- Right: featured image -->
+            <div class="mega-menu__promo">
+              <img src="assets/images/product-necklace.svg"
+                   alt="Featured crafted gold necklace" loading="lazy" />
+              <p class="mega-menu__promo-title">Discover Timeless Crafted Gold Jewellery</p>
+              <span class="mega-menu__promo-note">Every piece with a BIS hallmark of purity</span>
+            </div>
+          </div>
+
+          <!-- Bottom: full-width banner CTA -->
+          <div class="mega-menu__banner">
+            <span class="mega-menu__banner-text">Jewellery for Every Moment — See It All Here!</span>
+            <a href="#products" class="btn btn--gold mega-menu__viewall">View All</a>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Mobile drawer with primary page links -->
+    <nav class="nav" id="nav" aria-label="Primary">
+      <button class="nav__close" id="navClose" aria-label="Close menu">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <line x1="18" y1="6" x2="6" y2="18"/>
+          <line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </button>
+
+      <ul class="nav__list">
+        <li><a class="nav__link" href="#home">Home</a></li>
+        <li><a class="nav__link" href="#about">About</a></li>
+        <li><a class="nav__link" href="#categories">Collections</a></li>
+        <li><a class="nav__link" href="#products">Products</a></li>
+        <li><a class="nav__link" href="#contact">Contact</a></li>
+      </ul>
+
+      <!-- Category links that live in the top bar on desktop; on phone/tablet
+           they move behind the hamburger so the bar stays compact. -->
+      <div class="nav__shop">
+        <p class="nav__shop-label">Shop by Category</p>
+        <ul class="nav__shop-list">
+          <li><a class="nav__shop-link" href="#categories">All Jewellery</a></li>
+          <li><a class="nav__shop-link" href="#categories">Gold</a></li>
+          <li><a class="nav__shop-link" href="#categories">Diamond</a></li>
+          <li><a class="nav__shop-link" href="#categories">Earrings</a></li>
+          <li><a class="nav__shop-link" href="#categories">Daily Wear</a></li>
+          <li><a class="nav__shop-link" href="#categories">Gemstone</a></li>
+          <li><a class="nav__shop-link" href="#categories">Wedding</a></li>
+          <li><a class="nav__shop-link" href="#categories">Gifting</a></li>
+          <li><a class="nav__shop-link" href="#categories">Under 50K</a></li>
+        </ul>
+      </div>
+    </nav>
   </header>
 
   <main>
@@ -69,45 +371,50 @@
     <!-- ====================================================================
          HERO SECTION (#home)
          ==================================================================== -->
-    <section class="hero" id="home">
-      <!-- Full-bleed background image (see assets/images/hero-banner.svg) -->
-      <img class="hero__bg" src="assets/images/hero-banner.svg"
-           alt="" aria-hidden="true" />
-      <div class="hero__overlay" aria-hidden="true"></div>
+    <section class="hero" id="home" data-hero>
+      <!-- Sliding featured stories (auto-advancing carousel) -->
+      <div class="hero__slides" data-hero-slides>
 
-      <!-- Centered copy over the imagery -->
-      <div class="hero__content">
-        <span class="hero__eyebrow">Est. 1998 · Handcrafted</span>
-        <h1 class="hero__title">
-          Timeless Jewellery,<br />
-          <span>Royal</span> by Design
-        </h1>
-        <p class="hero__text">
-          Discover jewellery that crowns your every moment. Each Matri piece is
-          handcrafted from ethically sourced gold and stones, blending temple
-          heritage with contemporary elegance.
-        </p>
-
-        <div class="hero__cta">
-          <a href="#products" class="btn btn--gold">Explore Collection</a>
-          <a href="#contact" class="btn btn--outline-light">Book a Visit</a>
+        <!-- Slide 1 -->
+        <div class="hero__slide is-active" data-hero-slide role="group" aria-label="Slide 1 of 3: For Life's Most Precious Moments">
+          <a href="#products" class="hero__link" aria-label="Explore Bridal Collection - For Life's Most Precious Moments">
+            <picture class="hero__picture">
+              <source media="(min-width: 1025px)" srcset="assets/images/desktop_banner_01.webp" />
+              <source media="(min-width: 601px)" srcset="assets/images/tablet_banner_01.webp" />
+              <img class="hero__bg" src="assets/images/mobile_banner_01.webp" alt="Matri Jewellers — For Life's Most Precious Moments, Timeless Jewellery for Your Forever" width="1933" height="813" fetchpriority="high" decoding="async" />
+            </picture>
+          </a>
         </div>
 
-        <!-- Quick trust stats -->
-        <div class="hero__stats">
-          <div class="hero__stat">
-            <p class="hero__stat-num">28+</p>
-            <p class="hero__stat-label">Years of Craft</p>
-          </div>
-          <div class="hero__stat">
-            <p class="hero__stat-num">12k</p>
-            <p class="hero__stat-label">Happy Clients</p>
-          </div>
-          <div class="hero__stat">
-            <p class="hero__stat-num">100%</p>
-            <p class="hero__stat-label">Hallmarked Gold</p>
-          </div>
+        <!-- Slide 2 -->
+        <div class="hero__slide" data-hero-slide role="group" aria-label="Slide 2 of 3: Rooted in Tradition">
+          <a href="#products" class="hero__link" aria-label="Explore Our Collection - Rooted in Tradition, Crafted for Tomorrow">
+            <picture class="hero__picture">
+              <source media="(min-width: 1025px)" srcset="assets/images/desktop_banner_02.webp" />
+              <source media="(min-width: 601px)" srcset="assets/images/tablet_banner_02.webp" />
+              <img class="hero__bg" src="assets/images/mobile_banner_02.webp" alt="Matri Jewellers — Rooted in Tradition, Crafted for Tomorrow, Timeless Designs" width="1933" height="813" loading="lazy" decoding="async" />
+            </picture>
+          </a>
         </div>
+
+        <!-- Slide 3 -->
+        <div class="hero__slide" data-hero-slide role="group" aria-label="Slide 3 of 3: Tradition in Every Sparkle">
+          <a href="#products" class="hero__link" aria-label="Explore Our Collection - Tradition in Every Sparkle">
+            <picture class="hero__picture">
+              <source media="(min-width: 1025px)" srcset="assets/images/desktop_banner_03.webp" />
+              <source media="(min-width: 601px)" srcset="assets/images/tablet_banner_03.webp" />
+              <img class="hero__bg" src="assets/images/mobile_banner_03.webp" alt="Matri Jewellers — Tradition in Every Sparkle, Timeless Jewellery for Your Everyday Story" width="1933" height="813" loading="lazy" decoding="async" />
+            </picture>
+          </a>
+        </div>
+
+      </div><!-- /.hero__slides -->
+
+      <!-- Carousel dots -->
+      <div class="hero__dots" role="tablist" aria-label="Featured collection">
+        <button class="hero__dot is-active" data-hero-dot="0" role="tab" aria-label="For Life's Most Precious Moments" aria-selected="true"></button>
+        <button class="hero__dot" data-hero-dot="1" role="tab" aria-label="Rooted in Tradition" aria-selected="false"></button>
+        <button class="hero__dot" data-hero-dot="2" role="tab" aria-label="Tradition in Every Sparkle" aria-selected="false"></button>
       </div>
     </section>
 
@@ -117,12 +424,15 @@
     <section class="section" id="about">
       <div class="container about__inner">
 
-        <!-- Left: image with gold frame -->
+        <!-- Left: vertical looping jewellery carousel (2 columns, opposite directions) -->
         <div class="about__media reveal">
-          <!-- NOTE: replace placeholder source with a real workshop image -->
-          <img class="about__image"
-               src="assets/images/about-artisan.svg"
-               alt="Matri Jewellers artisan crafting jewellery" />
+          <div class="jewellery-carousel" id="jewelleryCarousel">
+            <!-- Left column: scrolls up -->
+            <div class="jewellery-carousel__column" data-carousel-column="up"></div>
+
+            <!-- Right column: scrolls down -->
+            <div class="jewellery-carousel__column" data-carousel-column="down"></div>
+          </div>
         </div>
 
         <!-- Right: story -->
@@ -178,10 +488,135 @@
 
         <div class="categories__grid">
           <!-- NOTE: replace each placeholder source with a real category image -->
+          <article class="category-card reveal" data-all-jewellery>
+            <div class="category-card__media">
+              <!-- CATEGORY IMAGE PLACEHOLDER — swap the <div> below for:
+                     <img class="category-card__image" src="assets/images/category-all.png"
+                          alt="All jewellery collections" /> -->
+              <div class="category-card__image category-card__image--placeholder" aria-hidden="true">
+                <span class="hero__placeholder-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="28" height="28">
+                    <rect x="3" y="4" width="18" height="16" rx="2"/>
+                    <circle cx="9" cy="10" r="1.6"/>
+                    <path d="M4.5 17.5l4.5-4.2 3 2.8 3.2-3 4.3 4.4"/>
+                  </svg>
+                </span>
+                <span class="hero__placeholder-title">Category Image</span>
+                <span class="hero__placeholder-hint">category-all.png</span>
+              </div>
+            </div>
+            <div class="category-card__body">
+              <h3 class="category-card__name">All Jewellery</h3>
+              <p class="category-card__count">12 Designs</p>
+            </div>
+          </article>
+
           <article class="category-card reveal">
             <div class="category-card__media">
-              <img class="category-card__image"
-                   src="assets/images/category-rings.svg" alt="Gold rings collection" />
+              <!-- CATEGORY IMAGE PLACEHOLDER — swap the <div> below for:
+                     <img class="category-card__image" src="assets/images/category-bracelets.png"
+                          alt="Bracelets collection" /> -->
+              <div class="category-card__image category-card__image--placeholder" aria-hidden="true">
+                <span class="hero__placeholder-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="28" height="28">
+                    <circle cx="12" cy="12" r="8"/>
+                    <path d="M8 12a4 4 0 0 1 8 0"/>
+                  </svg>
+                </span>
+                <span class="hero__placeholder-title">Category Image</span>
+                <span class="hero__placeholder-hint">category-bracelets.png</span>
+              </div>
+            </div>
+            <div class="category-card__body">
+              <h3 class="category-card__name">Bracelets</h3>
+              <p class="category-card__count">76 Designs</p>
+            </div>
+          </article>
+
+          <article class="category-card reveal">
+            <div class="category-card__media">
+              <!-- CATEGORY IMAGE PLACEHOLDER — swap the <div> below for:
+                     <img class="category-card__image" src="assets/images/category-pendants.png"
+                          alt="Pendants collection" /> -->
+              <div class="category-card__image category-card__image--placeholder" aria-hidden="true">
+                <span class="hero__placeholder-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="28" height="28">
+                    <path d="M12 3v4"/>
+                    <circle cx="12" cy="12" r="5"/>
+                    <path d="M9 7a3 3 0 0 1 6 0"/>
+                  </svg>
+                </span>
+                <span class="hero__placeholder-title">Category Image</span>
+                <span class="hero__placeholder-hint">category-pendants.png</span>
+              </div>
+            </div>
+            <div class="category-card__body">
+              <h3 class="category-card__name">Pendants</h3>
+              <p class="category-card__count">63 Designs</p>
+            </div>
+          </article>
+
+          <article class="category-card reveal">
+            <div class="category-card__media">
+              <!-- CATEGORY IMAGE PLACEHOLDER — swap the <div> below for:
+                     <img class="category-card__image" src="assets/images/category-anklets.png"
+                          alt="Anklets collection" /> -->
+              <div class="category-card__image category-card__image--placeholder" aria-hidden="true">
+                <span class="hero__placeholder-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="28" height="28">
+                    <path d="M5 18a7 7 0 0 1 14 0"/>
+                    <circle cx="12" cy="20" r="1.2"/>
+                  </svg>
+                </span>
+                <span class="hero__placeholder-title">Category Image</span>
+                <span class="hero__placeholder-hint">category-anklets.png</span>
+              </div>
+            </div>
+            <div class="category-card__body">
+              <h3 class="category-card__name">Anklets</h3>
+              <p class="category-card__count">45 Designs</p>
+            </div>
+          </article>
+
+          <article class="category-card reveal">
+            <div class="category-card__media">
+              <!-- CATEGORY IMAGE PLACEHOLDER — swap the <div> below for:
+                     <img class="category-card__image" src="assets/images/category-wedding.png"
+                          alt="Wedding collection" /> -->
+              <div class="category-card__image category-card__image--placeholder" aria-hidden="true">
+                <span class="hero__placeholder-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="28" height="28">
+                    <circle cx="8.5" cy="15" r="5.5"/>
+                    <circle cx="15.5" cy="15" r="5.5"/>
+                    <path d="M11.5 15.3l.5 1.2 1.5-.8"/>
+                  </svg>
+                </span>
+                <span class="hero__placeholder-title">Category Image</span>
+                <span class="hero__placeholder-hint">category-wedding.png</span>
+              </div>
+            </div>
+            <div class="category-card__body">
+              <h3 class="category-card__name">Wedding</h3>
+              <p class="category-card__count">112 Designs</p>
+            </div>
+          </article>
+
+          <article class="category-card reveal">
+            <div class="category-card__media">
+              <!-- CATEGORY IMAGE PLACEHOLDER — swap the <div> below for:
+                     <img class="category-card__image" src="assets/images/category-rings.png"
+                          alt="Gold rings collection" /> -->
+              <div class="category-card__image category-card__image--placeholder" aria-hidden="true">
+                <span class="hero__placeholder-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="28" height="28">
+                    <rect x="3" y="4" width="18" height="16" rx="2"/>
+                    <circle cx="9" cy="10" r="1.6"/>
+                    <path d="M4.5 17.5l4.5-4.2 3 2.8 3.2-3 4.3 4.4"/>
+                  </svg>
+                </span>
+                <span class="hero__placeholder-title">Category Image</span>
+                <span class="hero__placeholder-hint">category-rings.png</span>
+              </div>
             </div>
             <div class="category-card__body">
               <h3 class="category-card__name">Rings</h3>
@@ -191,8 +626,20 @@
 
           <article class="category-card reveal">
             <div class="category-card__media">
-              <img class="category-card__image"
-                   src="assets/images/category-necklaces.svg" alt="Necklace collection" />
+              <!-- CATEGORY IMAGE PLACEHOLDER — swap the <div> below for:
+                     <img class="category-card__image" src="assets/images/category-necklaces.png"
+                          alt="Necklace collection" /> -->
+              <div class="category-card__image category-card__image--placeholder" aria-hidden="true">
+                <span class="hero__placeholder-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="28" height="28">
+                    <rect x="3" y="4" width="18" height="16" rx="2"/>
+                    <circle cx="9" cy="10" r="1.6"/>
+                    <path d="M4.5 17.5l4.5-4.2 3 2.8 3.2-3 4.3 4.4"/>
+                  </svg>
+                </span>
+                <span class="hero__placeholder-title">Category Image</span>
+                <span class="hero__placeholder-hint">category-necklaces.png</span>
+              </div>
             </div>
             <div class="category-card__body">
               <h3 class="category-card__name">Necklaces</h3>
@@ -202,8 +649,20 @@
 
           <article class="category-card reveal">
             <div class="category-card__media">
-              <img class="category-card__image"
-                   src="assets/images/category-earrings.svg" alt="Earring collection" />
+              <!-- CATEGORY IMAGE PLACEHOLDER — swap the <div> below for:
+                     <img class="category-card__image" src="assets/images/category-earrings.png"
+                          alt="Earring collection" /> -->
+              <div class="category-card__image category-card__image--placeholder" aria-hidden="true">
+                <span class="hero__placeholder-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="28" height="28">
+                    <rect x="3" y="4" width="18" height="16" rx="2"/>
+                    <circle cx="9" cy="10" r="1.6"/>
+                    <path d="M4.5 17.5l4.5-4.2 3 2.8 3.2-3 4.3 4.4"/>
+                  </svg>
+                </span>
+                <span class="hero__placeholder-title">Category Image</span>
+                <span class="hero__placeholder-hint">category-earrings.png</span>
+              </div>
             </div>
             <div class="category-card__body">
               <h3 class="category-card__name">Earrings</h3>
@@ -213,14 +672,59 @@
 
           <article class="category-card reveal">
             <div class="category-card__media">
-              <img class="category-card__image"
-                   src="assets/images/category-bangles.svg" alt="Bangle collection" />
+              <!-- CATEGORY IMAGE PLACEHOLDER — swap the <div> below for:
+                     <img class="category-card__image" src="assets/images/category-bangles.png"
+                          alt="Bangle collection" /> -->
+              <div class="category-card__image category-card__image--placeholder" aria-hidden="true">
+                <span class="hero__placeholder-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="28" height="28">
+                    <rect x="3" y="4" width="18" height="16" rx="2"/>
+                    <circle cx="9" cy="10" r="1.6"/>
+                    <path d="M4.5 17.5l4.5-4.2 3 2.8 3.2-3 4.3 4.4"/>
+                  </svg>
+                </span>
+                <span class="hero__placeholder-title">Category Image</span>
+                <span class="hero__placeholder-hint">category-bangles.png</span>
+              </div>
             </div>
             <div class="category-card__body">
               <h3 class="category-card__name">Bangles</h3>
               <p class="category-card__count">98 Designs</p>
             </div>
           </article>
+        </div>
+
+        <!-- Load More Categories Button -->
+        <div class="categories__footer">
+          <button class="btn btn--outline categories__load-more" id="categoriesLoadMore">
+            Load More Categories
+          </button>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         CATEGORY PRODUCTS SECTION (#categoryProducts)
+         Hidden until a category card is clicked. Shows ALL products that
+         belong to the selected category (featured and non-featured).
+         ==================================================================== -->
+    <section class="section section--cream" id="categoryProducts" hidden>
+      <div class="container">
+
+        <div class="section-head reveal">
+          <span class="section-head__eyebrow">Explore Collection</span>
+          <h2 class="section-head__title" id="categoryProductsTitle">Category</h2>
+          <p class="section-head__subtitle" id="categoryProductsSubtitle"></p>
+        </div>
+
+        <!-- Product cards are injected here from data in js/main.js -->
+        <div class="products__grid" id="categoryProductsGrid"></div>
+
+        <div class="products__footer">
+          <button class="btn btn--primary" id="categoryLoadMoreBtn">
+            Load More Designs
+          </button>
         </div>
 
       </div>
@@ -241,7 +745,7 @@
         </div>
 
         <!-- Product cards are injected here from data in js/main.js -->
-        <div class="products__grid" id="productsGrid" data-product-count="9"></div>
+        <div class="products__grid" id="productsGrid" data-product-count="12"></div>
 
         <div class="products__footer">
           <button class="btn btn--primary" id="loadMoreBtn">Load More Designs</button>
@@ -251,53 +755,88 @@
     </section>
 
     <!-- ====================================================================
-         WHY CHOOSE US (#why)
+         WHY CHOOSE US (#why) — Full-viewport cinematic carousel
          ==================================================================== -->
-    <section class="section features" id="why">
-      <div class="container">
+    <section class="features-carousel" id="why">
+      <div class="features-carousel__track">
 
-        <div class="section-head reveal">
-          <span class="section-head__eyebrow" style="color: #C9A227;">The Matri Promise</span>
-          <h2 class="section-head__title">Why Choose Matri Jewellers?</h2>
-          <p class="section-head__subtitle">
-            More than a store — a legacy of trust you can wear.
-          </p>
-        </div>
-
-        <div class="features__grid">
-          <div class="feature-card reveal">
-            <div class="feature-card__icon" aria-hidden="true">💎</div>
-            <h3 class="feature-card__title">Pure & Certified</h3>
-            <p class="feature-card__text">
-              Every piece is BIS hallmarked with certified lab-grown or natural stones.
-            </p>
-          </div>
-
-          <div class="feature-card reveal">
-            <div class="feature-card__icon" aria-hidden="true">🎨</div>
-            <h3 class="feature-card__title">Bespoke Design</h3>
-            <p class="feature-card__text">
-              Dream it, and our designers will craft a one-of-a-kind ornament for you.
-            </p>
-          </div>
-
-          <div class="feature-card reveal">
-            <div class="feature-card__icon" aria-hidden="true">🚚</div>
-            <h3 class="feature-card__title">Insured Delivery</h3>
-            <p class="feature-card__text">
-              Doorstep delivery with full insurance and secure tamper-proof packaging.
-            </p>
-          </div>
-
-          <div class="feature-card reveal">
-            <div class="feature-card__icon" aria-hidden="true">🔄</div>
-            <h3 class="feature-card__title">Easy Exchange</h3>
-            <p class="feature-card__text">
-              Hassle-free 30-day exchange along with a lifetime buyback guarantee.
+        <!-- Slide 1 -->
+        <div class="features-carousel__slide features-carousel__slide--active">
+          <img src="assets/images/banner_05.png" alt="" class="features-carousel__img" />
+          <div class="features-carousel__overlay"></div>
+          <span class="features-carousel__deco" aria-hidden="true">MATRI</span>
+          <div class="features-carousel__content">
+            <span class="features-carousel__eyebrow">The Matri Promise</span>
+            <h2 class="features-carousel__title">Pure &<br/>Certified</h2>
+            <p class="features-carousel__text">
+              Every piece is BIS hallmarked with certified lab-grown or natural stones. Your trust, guaranteed.
             </p>
           </div>
         </div>
 
+        <!-- Slide 2 -->
+        <div class="features-carousel__slide">
+          <img src="assets/images/banner_02.png" alt="" class="features-carousel__img" />
+          <div class="features-carousel__overlay"></div>
+          <span class="features-carousel__deco" aria-hidden="true">DESIGN</span>
+          <div class="features-carousel__content">
+            <span class="features-carousel__eyebrow">The Matri Promise</span>
+            <h2 class="features-carousel__title">Bespoke<br/>Design</h2>
+            <p class="features-carousel__text">
+              Dream it, and our master artisans will craft a one-of-a-kind ornament just for you.
+            </p>
+          </div>
+        </div>
+
+        <!-- Slide 3 -->
+        <div class="features-carousel__slide">
+          <img src="assets/images/banner_03.png" alt="" class="features-carousel__img" />
+          <div class="features-carousel__overlay"></div>
+          <span class="features-carousel__deco" aria-hidden="true">CRAFT</span>
+          <div class="features-carousel__content">
+            <span class="features-carousel__eyebrow">The Matri Promise</span>
+            <h2 class="features-carousel__title">Insured<br/>Delivery</h2>
+            <p class="features-carousel__text">
+              Doorstep delivery with full insurance and secure tamper-proof packaging, every time.
+            </p>
+          </div>
+        </div>
+
+        <!-- Slide 4 -->
+        <div class="features-carousel__slide">
+          <img src="assets/images/banner_04.png" alt="" class="features-carousel__img" />
+          <div class="features-carousel__overlay"></div>
+          <span class="features-carousel__deco" aria-hidden="true">LEGACY</span>
+          <div class="features-carousel__content">
+            <span class="features-carousel__eyebrow">The Matri Promise</span>
+            <h2 class="features-carousel__title">Easy<br/>Exchange</h2>
+            <p class="features-carousel__text">
+              Hassle-free 30-day exchange with a lifetime buyback guarantee — always.
+            </p>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Navigation dots -->
+      <div class="features-carousel__dots" role="tablist" aria-label="Feature slides">
+        <button class="features-carousel__dot features-carousel__dot--active" data-slide="0" role="tab" aria-selected="true" aria-label="Slide 1: Pure & Certified"></button>
+        <button class="features-carousel__dot" data-slide="1" role="tab" aria-selected="false" aria-label="Slide 2: Bespoke Design"></button>
+        <button class="features-carousel__dot" data-slide="2" role="tab" aria-selected="false" aria-label="Slide 3: Insured Delivery"></button>
+        <button class="features-carousel__dot" data-slide="3" role="tab" aria-selected="false" aria-label="Slide 4: Easy Exchange"></button>
+      </div>
+
+      <!-- Slide counter -->
+      <div class="features-carousel__counter">
+        <span class="features-carousel__current">01</span>
+        <span class="features-carousel__sep">/</span>
+        <span class="features-carousel__total">04</span>
+      </div>
+
+      <!-- Scroll hint -->
+      <div class="features-carousel__scroll-hint" aria-hidden="true">
+        <span class="features-carousel__scroll-text">Scroll</span>
+        <span class="features-carousel__scroll-line"></span>
       </div>
     </section>
 
@@ -306,54 +845,361 @@
          ==================================================================== -->
     <section class="section" id="testimonials">
       <div class="container">
-
         <div class="section-head reveal">
           <span class="section-head__eyebrow">Words of Love</span>
           <h2 class="section-head__title">What Our Customers Say</h2>
         </div>
+      </div>
 
-        <div class="testimonials__grid">
-          <article class="testimonial-card reveal">
-            <p class="testimonial-card__text">
-              "The bridal set they crafted for my daughter was beyond anything we
-              imagined. Royal, elegant, and simply breathtaking."
-            </p>
-            <div class="testimonial-card__author">
-              <span class="testimonial-card__avatar" aria-hidden="true">SM</span>
-              <div>
-                <p class="testimonial-card__name">Suhana Mehta</p>
-                <p class="testimonial-card__stars">★★★★★</p>
-              </div>
-            </div>
-          </article>
+      <!-- Infinite dual-row marquee: reviews loop continuously left to right -->
+      <div class="testimonials__marquee">
 
-          <article class="testimonial-card reveal">
-            <p class="testimonial-card__text">
-              "Bought my engagement ring here — the craftsmanship and the pure gold
-              purity certificates gave us complete peace of mind."
-            </p>
-            <div class="testimonial-card__author">
-              <span class="testimonial-card__avatar" aria-hidden="true">RK</span>
-              <div>
-                <p class="testimonial-card__name">Rahul Kapoor</p>
-                <p class="testimonial-card__stars">★★★★★</p>
+        <!-- Row 1 -->
+        <div class="testimonials__row">
+          <div class="testimonials__track">
+            <article class="testimonial-card">
+              <p class="testimonial-card__text">
+                "The bridal set they crafted for my daughter was beyond anything we
+                imagined. Royal, elegant, and simply breathtaking."
+              </p>
+              <div class="testimonial-card__author">
+                <span class="testimonial-card__avatar" aria-hidden="true">SM</span>
+                <div>
+                  <p class="testimonial-card__name">Suhana Mehta</p>
+                  <p class="testimonial-card__stars">★★★★★</p>
+                </div>
               </div>
-            </div>
-          </article>
+            </article>
 
-          <article class="testimonial-card reveal">
-            <p class="testimonial-card__text">
-              "Their kundan earrings are a work of art. I receive compliments every
-              single time I wear them. Truly a legacy brand."
-            </p>
-            <div class="testimonial-card__author">
-              <span class="testimonial-card__avatar" aria-hidden="true">AI</span>
-              <div>
-                <p class="testimonial-card__name">Ananya Iyer</p>
-                <p class="testimonial-card__stars">★★★★★</p>
+            <article class="testimonial-card">
+              <p class="testimonial-card__text">
+                "Bought my engagement ring here — the craftsmanship and the pure
+                gold purity certificates gave us complete peace of mind."
+              </p>
+              <div class="testimonial-card__author">
+                <span class="testimonial-card__avatar" aria-hidden="true">RK</span>
+                <div>
+                  <p class="testimonial-card__name">Rahul Kapoor</p>
+                  <p class="testimonial-card__stars">★★★★★</p>
+                </div>
               </div>
-            </div>
-          </article>
+            </article>
+
+            <article class="testimonial-card">
+              <p class="testimonial-card__text">
+                "Their kundan earrings are a work of art. I receive compliments
+                every single time I wear them. Truly a legacy brand."
+              </p>
+              <div class="testimonial-card__author">
+                <span class="testimonial-card__avatar" aria-hidden="true">AI</span>
+                <div>
+                  <p class="testimonial-card__name">Ananya Iyer</p>
+                  <p class="testimonial-card__stars">★★★★★</p>
+                </div>
+              </div>
+            </article>
+
+            <article class="testimonial-card">
+              <p class="testimonial-card__text">
+                "The mangalsutra is so light I forget I'm wearing it, yet everyone
+                stops to admire it. Beautiful, delicate work."
+              </p>
+              <div class="testimonial-card__author">
+                <span class="testimonial-card__avatar" aria-hidden="true">PS</span>
+                <div>
+                  <p class="testimonial-card__name">Priya Sharma</p>
+                  <p class="testimonial-card__stars">★★★★★</p>
+                </div>
+              </div>
+            </article>
+
+            <article class="testimonial-card">
+              <p class="testimonial-card__text">
+                "Exchanged a pendant within a single day — no questions, no
+                hassle. This is how gifting should feel."
+              </p>
+              <div class="testimonial-card__author">
+                <span class="testimonial-card__avatar" aria-hidden="true">VS</span>
+                <div>
+                  <p class="testimonial-card__name">Vikram Singh</p>
+                  <p class="testimonial-card__stars">★★★★★</p>
+                </div>
+              </div>
+            </article>
+
+            <article class="testimonial-card">
+              <p class="testimonial-card__text">
+                "Their jhumkas and bangles sparkle like nothing else in the city.
+                I've gifted three sets and counting."
+              </p>
+              <div class="testimonial-card__author">
+                <span class="testimonial-card__avatar" aria-hidden="true">MP</span>
+                <div>
+                  <p class="testimonial-card__name">Meera Patel</p>
+                  <p class="testimonial-card__stars">★★★★★</p>
+                </div>
+              </div>
+            </article>
+
+            <!-- Duplicate set (aria-hidden) for the seamless loop -->
+            <article class="testimonial-card" aria-hidden="true">
+              <p class="testimonial-card__text">
+                "The bridal set they crafted for my daughter was beyond anything we
+                imagined. Royal, elegant, and simply breathtaking."
+              </p>
+              <div class="testimonial-card__author">
+                <span class="testimonial-card__avatar" aria-hidden="true">SM</span>
+                <div>
+                  <p class="testimonial-card__name">Suhana Mehta</p>
+                  <p class="testimonial-card__stars">★★★★★</p>
+                </div>
+              </div>
+            </article>
+
+            <article class="testimonial-card" aria-hidden="true">
+              <p class="testimonial-card__text">
+                "Bought my engagement ring here — the craftsmanship and the pure
+                gold purity certificates gave us complete peace of mind."
+              </p>
+              <div class="testimonial-card__author">
+                <span class="testimonial-card__avatar" aria-hidden="true">RK</span>
+                <div>
+                  <p class="testimonial-card__name">Rahul Kapoor</p>
+                  <p class="testimonial-card__stars">★★★★★</p>
+                </div>
+              </div>
+            </article>
+
+            <article class="testimonial-card" aria-hidden="true">
+              <p class="testimonial-card__text">
+                "Their kundan earrings are a work of art. I receive compliments
+                every single time I wear them. Truly a legacy brand."
+              </p>
+              <div class="testimonial-card__author">
+                <span class="testimonial-card__avatar" aria-hidden="true">AI</span>
+                <div>
+                  <p class="testimonial-card__name">Ananya Iyer</p>
+                  <p class="testimonial-card__stars">★★★★★</p>
+                </div>
+              </div>
+            </article>
+
+            <article class="testimonial-card" aria-hidden="true">
+              <p class="testimonial-card__text">
+                "The mangalsutra is so light I forget I'm wearing it, yet everyone
+                stops to admire it. Beautiful, delicate work."
+              </p>
+              <div class="testimonial-card__author">
+                <span class="testimonial-card__avatar" aria-hidden="true">PS</span>
+                <div>
+                  <p class="testimonial-card__name">Priya Sharma</p>
+                  <p class="testimonial-card__stars">★★★★★</p>
+                </div>
+              </div>
+            </article>
+
+            <article class="testimonial-card" aria-hidden="true">
+              <p class="testimonial-card__text">
+                "Exchanged a pendant within a single day — no questions, no
+                hassle. This is how gifting should feel."
+              </p>
+              <div class="testimonial-card__author">
+                <span class="testimonial-card__avatar" aria-hidden="true">VS</span>
+                <div>
+                  <p class="testimonial-card__name">Vikram Singh</p>
+                  <p class="testimonial-card__stars">★★★★★</p>
+                </div>
+              </div>
+            </article>
+
+            <article class="testimonial-card" aria-hidden="true">
+              <p class="testimonial-card__text">
+                "Their jhumkas and bangles sparkle like nothing else in the city.
+                I've gifted three sets and counting."
+              </p>
+              <div class="testimonial-card__author">
+                <span class="testimonial-card__avatar" aria-hidden="true">MP</span>
+                <div>
+                  <p class="testimonial-card__name">Meera Patel</p>
+                  <p class="testimonial-card__stars">★★★★★</p>
+                </div>
+              </div>
+            </article>
+          </div>
+        </div>
+
+        <!-- Row 2 -->
+        <div class="testimonials__row">
+          <div class="testimonials__track testimonials__track--faster">
+            <article class="testimonial-card">
+              <p class="testimonial-card__text">
+                "We bought our complete wedding jewellery in one sitting. The
+                designer stayed late to personalise every piece. Extraordinary."
+              </p>
+              <div class="testimonial-card__author">
+                <span class="testimonial-card__avatar" aria-hidden="true">AM</span>
+                <div>
+                  <p class="testimonial-card__name">Arjun Malhotra</p>
+                  <p class="testimonial-card__stars">★★★★★</p>
+                </div>
+              </div>
+            </article>
+
+            <article class="testimonial-card">
+              <p class="testimonial-card__text">
+                "Gifted my mother the pearl necklace for her 60th — she hasn't
+                taken it off since. Worth every rupee."
+              </p>
+              <div class="testimonial-card__author">
+                <span class="testimonial-card__avatar" aria-hidden="true">KR</span>
+                <div>
+                  <p class="testimonial-card__name">Kavya Reddy</p>
+                  <p class="testimonial-card__stars">★★★★★</p>
+                </div>
+              </div>
+            </article>
+
+            <article class="testimonial-card">
+              <p class="testimonial-card__text">
+                "Their anklets chime beautifully and the gold quality is unmatched.
+                You can feel the weight of honesty in every gram."
+              </p>
+              <div class="testimonial-card__author">
+                <span class="testimonial-card__avatar" aria-hidden="true">NJ</span>
+                <div>
+                  <p class="testimonial-card__name">Neha Joshi</p>
+                  <p class="testimonial-card__stars">★★★★★</p>
+                </div>
+              </div>
+            </article>
+
+            <article class="testimonial-card">
+              <p class="testimonial-card__text">
+                "As a first-time buyer I was nervous. They patiently explained the
+                purity, billing and buyback — a truly trustworthy store."
+              </p>
+              <div class="testimonial-card__author">
+                <span class="testimonial-card__avatar" aria-hidden="true">FA</span>
+                <div>
+                  <p class="testimonial-card__name">Farhan Ali</p>
+                  <p class="testimonial-card__stars">★★★★★</p>
+                </div>
+              </div>
+            </article>
+
+            <article class="testimonial-card">
+              <p class="testimonial-card__text">
+                "I sketched a rough idea of a custom ring on paper — they turned
+                it into the most breathtaking piece I own."
+              </p>
+              <div class="testimonial-card__author">
+                <span class="testimonial-card__avatar" aria-hidden="true">SN</span>
+                <div>
+                  <p class="testimonial-card__name">Sneha Nair</p>
+                  <p class="testimonial-card__stars">★★★★★</p>
+                </div>
+              </div>
+            </article>
+
+            <article class="testimonial-card">
+              <p class="testimonial-card__text">
+                "Used their lifetime buyback on old gold and walked out with a
+                glorious new choker. Fair prices, always."
+              </p>
+              <div class="testimonial-card__author">
+                <span class="testimonial-card__avatar" aria-hidden="true">AV</span>
+                <div>
+                  <p class="testimonial-card__name">Aditya Verma</p>
+                  <p class="testimonial-card__stars">★★★★★</p>
+                </div>
+              </div>
+            </article>
+
+            <!-- Duplicate set (aria-hidden) for the seamless loop -->
+            <article class="testimonial-card" aria-hidden="true">
+              <p class="testimonial-card__text">
+                "We bought our complete wedding jewellery in one sitting. The
+                designer stayed late to personalise every piece. Extraordinary."
+              </p>
+              <div class="testimonial-card__author">
+                <span class="testimonial-card__avatar" aria-hidden="true">AM</span>
+                <div>
+                  <p class="testimonial-card__name">Arjun Malhotra</p>
+                  <p class="testimonial-card__stars">★★★★★</p>
+                </div>
+              </div>
+            </article>
+
+            <article class="testimonial-card" aria-hidden="true">
+              <p class="testimonial-card__text">
+                "Gifted my mother the pearl necklace for her 60th — she hasn't
+                taken it off since. Worth every rupee."
+              </p>
+              <div class="testimonial-card__author">
+                <span class="testimonial-card__avatar" aria-hidden="true">KR</span>
+                <div>
+                  <p class="testimonial-card__name">Kavya Reddy</p>
+                  <p class="testimonial-card__stars">★★★★★</p>
+                </div>
+              </div>
+            </article>
+
+            <article class="testimonial-card" aria-hidden="true">
+              <p class="testimonial-card__text">
+                "Their anklets chime beautifully and the gold quality is unmatched.
+                You can feel the weight of honesty in every gram."
+              </p>
+              <div class="testimonial-card__author">
+                <span class="testimonial-card__avatar" aria-hidden="true">NJ</span>
+                <div>
+                  <p class="testimonial-card__name">Neha Joshi</p>
+                  <p class="testimonial-card__stars">★★★★★</p>
+                </div>
+              </div>
+            </article>
+
+            <article class="testimonial-card" aria-hidden="true">
+              <p class="testimonial-card__text">
+                "As a first-time buyer I was nervous. They patiently explained the
+                purity, billing and buyback — a truly trustworthy store."
+              </p>
+              <div class="testimonial-card__author">
+                <span class="testimonial-card__avatar" aria-hidden="true">FA</span>
+                <div>
+                  <p class="testimonial-card__name">Farhan Ali</p>
+                  <p class="testimonial-card__stars">★★★★★</p>
+                </div>
+              </div>
+            </article>
+
+            <article class="testimonial-card" aria-hidden="true">
+              <p class="testimonial-card__text">
+                "I sketched a rough idea of a custom ring on paper — they turned
+                it into the most breathtaking piece I own."
+              </p>
+              <div class="testimonial-card__author">
+                <span class="testimonial-card__avatar" aria-hidden="true">SN</span>
+                <div>
+                  <p class="testimonial-card__name">Sneha Nair</p>
+                  <p class="testimonial-card__stars">★★★★★</p>
+                </div>
+              </div>
+            </article>
+
+            <article class="testimonial-card" aria-hidden="true">
+              <p class="testimonial-card__text">
+                "Used their lifetime buyback on old gold and walked out with a
+                glorious new choker. Fair prices, always."
+              </p>
+              <div class="testimonial-card__author">
+                <span class="testimonial-card__avatar" aria-hidden="true">AV</span>
+                <div>
+                  <p class="testimonial-card__name">Aditya Verma</p>
+                  <p class="testimonial-card__stars">★★★★★</p>
+                </div>
+              </div>
+            </article>
+          </div>
         </div>
 
       </div>
@@ -389,7 +1235,7 @@
         <!-- Contact details -->
         <div class="contact__info reveal">
           <p class="contact__eyebrow">Get in Touch</p>
-          <h2 class="contact__title">Visit Our Boutique</h2>
+          <h2 class="contact__title">Visit Our Shop</h2>
           <p>
             Our doors are open for you — walk in for a cup of chai and a sparkle of gold.
           </p>
@@ -464,57 +1310,131 @@
   <footer class="footer">
     <div class="container">
 
+      <!-- Brand logo -->
+      <div class="footer__brand">
+        <a href="#home" class="logo" aria-label="Matri Jewellers home">
+          <img src="assets/images/logo.png" alt="Matri Jewellers" class="logo__image" />
+          <span class="logo__text">MATRI<span>JEWELLERS</span></span>
+        </a>
+      </div>
+
       <div class="footer__grid">
-        <!-- Brand column -->
-        <div>
-          <a href="#home" class="logo" aria-label="Matri Jewellers home">
-            <span class="logo__mark" aria-hidden="true">◆</span>
-            <span class="logo__text">Matri<span>Jewellers</span></span>
-          </a>
-          <p class="footer__brand-text">
-            A legacy of craftsmanship and trust, dressing generations in gold
-            and glory since 1998.
-          </p>
+        <!-- Column 1: Download App -->
+        <div class="footer__col">
+          <h3 class="footer__heading">Download the Matri App Now</h3>
+          <div class="footer__qr">
+            <div class="footer__qr-placeholder" aria-label="QR Code">
+              <svg width="100" height="100" viewBox="0 0 100 100" fill="none">
+                <rect x="5" y="5" width="30" height="30" fill="white" stroke="white" stroke-width="1"/>
+                <rect x="65" y="5" width="30" height="30" fill="white" stroke="white" stroke-width="1"/>
+                <rect x="5" y="65" width="30" height="30" fill="white" stroke="white" stroke-width="1"/>
+                <rect x="10" y="10" width="20" height="20" fill="var(--color-maroon)"/>
+                <rect x="70" y="10" width="20" height="20" fill="var(--color-maroon)"/>
+                <rect x="10" y="70" width="20" height="20" fill="var(--color-maroon)"/>
+                <rect x="50" y="50" width="10" height="10" fill="white"/>
+                <rect x="45" y="20" width="5" height="5" fill="white"/>
+                <rect x="55" y="25" width="5" height="5" fill="white"/>
+              </svg>
+            </div>
+          </div>
+          <div class="footer__stores">
+            <a href="#" class="footer__store-badge" aria-label="Get on Google Play">
+              <svg width="120" height="40" viewBox="0 0 120 40" fill="none">
+                <rect width="120" height="40" rx="6" fill="white"/>
+                <text x="60" y="24" font-size="10" font-weight="600" fill="var(--color-maroon)" text-anchor="middle">Google Play</text>
+              </svg>
+            </a>
+            <a href="#" class="footer__store-badge" aria-label="Download on App Store">
+              <svg width="120" height="40" viewBox="0 0 120 40" fill="none">
+                <rect width="120" height="40" rx="6" fill="white"/>
+                <text x="60" y="24" font-size="10" font-weight="600" fill="var(--color-maroon)" text-anchor="middle">App Store</text>
+              </svg>
+            </a>
+          </div>
         </div>
 
-        <!-- Quick links -->
-        <div>
-          <h3 class="footer__heading">Quick Links</h3>
+        <!-- Column 2: Useful Links -->
+        <div class="footer__col">
+          <h3 class="footer__heading">Useful Links</h3>
           <ul class="footer__links">
-            <li><a href="#home">Home</a></li>
-            <li><a href="#about">About Us</a></li>
-            <li><a href="#categories">Collections</a></li>
-            <li><a href="#products">Products</a></li>
-            <li><a href="#contact">Contact</a></li>
+            <li><a href="#">Delivery Information</a></li>
+            <li><a href="#">International Shipping</a></li>
+            <li><a href="#">Browse Collections</a></li>
+            <li><a href="#">Store Locator</a></li>
+            <li><a href="#">Exchange Policy</a></li>
+            <li><a href="#">Find a Store</a></li>
+            <li><a href="#">Book Appointment</a></li>
           </ul>
         </div>
 
-        <!-- Support links -->
-        <div>
-          <h3 class="footer__heading">Support</h3>
+        <!-- Column 3: Information -->
+        <div class="footer__col">
+          <h3 class="footer__heading">Information</h3>
           <ul class="footer__links">
-            <li><a href="#">Shipping Policy</a></li>
-            <li><a href="#">Returns & Exchange</a></li>
+            <li><a href="#">Blog</a></li>
+            <li><a href="#">Offers & Events</a></li>
+            <li><a href="#">Help & FAQs</a></li>
+            <li><a href="#">About Matri</a></li>
             <li><a href="#">Care Guide</a></li>
             <li><a href="#">Jewellery Insurance</a></li>
-            <li><a href="#">Fair Pricing</a></li>
           </ul>
         </div>
 
-        <!-- Contact summary -->
-        <div>
-          <h3 class="footer__heading">Reach Us</h3>
-          <ul class="footer__contact">
-            <li>📍 Purbachal, Tetultala</li>
-            <li>📞 +91 98765 43210</li>
-            <li>✉️ hello@matrijewellers.com</li>
-          </ul>
-          <div class="footer__social">
-            <a href="#" aria-label="Instagram">IG</a>
-            <a href="#" aria-label="Facebook">FB</a>
-            <a href="#" aria-label="YouTube">YT</a>
-            <a href="#" aria-label="WhatsApp">WA</a>
+        <!-- Column 4: Contact -->
+        <div class="footer__col">
+          <h3 class="footer__heading">Contact Us</h3>
+          <p class="footer__phone">1800-296-6677</p>
+          <p class="footer__text">Mon – Sun, 10 AM – 8:30 PM</p>
+          <h3 class="footer__heading" style="margin-top: 1.5rem;">Chat With Us</h3>
+          <p class="footer__phone">+91 98765 43210</p>
+          <div class="footer__chat-icons">
+            <a href="#" aria-label="WhatsApp">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2C6.48 2 2 6.03 2 11c0 3.14 1.51 5.96 3.89 7.81L5 22l3.35-.91A10.96 10.96 0 0 0 12 22c5.52 0 10-4.03 10-9s-4.48-9-10-9z"/>
+              </svg>
+            </a>
+            <a href="mailto:hello@matrijewellers.com" aria-label="Email">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                <polyline points="22,6 12,13 2,6"/>
+              </svg>
+            </a>
+            <a href="#contact" aria-label="Live chat">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
+              </svg>
+            </a>
           </div>
+        </div>
+      </div>
+
+      <!-- Social row -->
+      <div class="footer__social-row">
+        <h3 class="footer__heading">Follow Us</h3>
+        <div class="footer__social">
+          <a href="#" aria-label="Instagram">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+              <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+              <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+            </svg>
+          </a>
+          <a href="#" aria-label="Facebook">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
+            </svg>
+          </a>
+          <a href="#" aria-label="YouTube">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.94 2C5.12 20 12 20 12 20s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/>
+              <polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02"/>
+            </svg>
+          </a>
+          <a href="#" aria-label="Twitter">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"/>
+            </svg>
+          </a>
         </div>
       </div>
 
@@ -527,6 +1447,33 @@
 
   <!-- Back-to-top button -->
   <button class="scroll-top" id="scrollTop" aria-label="Back to top">↑</button>
+
+  <!-- Metal mode toggle (floating sidebar): Gold / Silver -->
+  <div class="metal-toggle" id="metalToggle" role="radiogroup" aria-label="Metal mode">
+    <button class="metal-toggle__btn is-active" data-metal="gold"
+            aria-label="Show gold jewellery" aria-checked="true"
+            aria-pressed="true">
+      <svg class="metal-toggle__icon" viewBox="0 0 24 24" width="20" height="20"
+           fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
+           stroke-linejoin="round" aria-hidden="true">
+        <path d="M4.5 8h15l-1.4 8.4a2 2 0 0 1-2 1.6H7.9a2 2 0 0 1-2-1.6L4.5 8z"/>
+        <path d="M4 8h16a.8.8 0 0 1 0 1.6H4A.8.8 0 0 1 4 8z"/>
+        <path d="M12 5.2a1.4 1.4 0 1 1 2.4 1z"/>
+      </svg>
+      <span class="metal-toggle__label">Gold</span>
+    </button>
+    <button class="metal-toggle__btn" data-metal="silver"
+            aria-label="Show silver jewellery" aria-checked="false"
+            aria-pressed="false">
+      <svg class="metal-toggle__icon" viewBox="0 0 24 24" width="20" height="20"
+           fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
+           stroke-linejoin="round" aria-hidden="true">
+        <path d="M6 3h12l4 6-10 12L2 9l4-6z"/>
+        <path d="M2 9h20"/>
+      </svg>
+      <span class="metal-toggle__label">Silver</span>
+    </button>
+  </div>
 
   <!-- Site scripts -->
   <script src="js/main.js"></script>

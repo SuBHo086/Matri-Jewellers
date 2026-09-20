@@ -36,12 +36,14 @@
 html {
   scroll-behavior: smooth;
   scroll-padding-top: calc(var(--header-height) + 1rem);
+  overflow-x: hidden;
 }
 
 body {
   font-family: var(--font-body);
   font-size: var(--fs-base);
   line-height: 1.8;
+  transition: background-color var(--transition-med), color var(--transition-med);
   color: var(--color-ink);
   background-color: var(--color-ivory);
   overflow-x: hidden;
@@ -51,7 +53,7 @@ body {
 img {
   max-width: 100%;
   display: block;
-  object-fit: cover;
+  object-fit: contain;
 }
 
 a {
@@ -70,7 +72,7 @@ h1, h2, h3, h4 {
 }
 
 ::selection {
-  background: rgba(201, 162, 39, 0.35);
+  background: rgba(212, 165, 116, 0.4);
   color: var(--color-ink);
 }
 
@@ -88,12 +90,18 @@ h1, h2, h3, h4 {
   padding: var(--section-pad);
 }
 
+/* Keep the fixed header from covering sections when scrolling to them. */
+.section#products,
+.section#categoryProducts {
+  scroll-margin-top: 100px;
+}
+
 .section--cream {
   background: var(--color-cream);
 }
 
 .section--wash {
-  background: linear-gradient(180deg, var(--color-ivory) 0%, #EAF0F8 100%);
+  background: linear-gradient(180deg, var(--color-ivory) 0%, var(--color-cream) 100%);
 }
 
 /* Section heading block */
@@ -142,7 +150,9 @@ h1, h2, h3, h4 {
    ========================================================================== */
 .btn {
   display: inline-block;
-  padding: 1rem 2.5rem;
+  padding: 1rem 1rem;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
   border: none;
   border-radius: 100px;
   font-family: var(--font-body);
@@ -174,8 +184,8 @@ h1, h2, h3, h4 {
 
 .btn--gold:hover {
   transform: translateY(-2px);
-  background: #B8921F;
-  box-shadow: var(--shadow-gold), 0 10px 30px rgba(138, 109, 26, 0.28);
+  background: #C99A6B;
+  box-shadow: var(--shadow-gold), 0 10px 30px rgba(184, 149, 106, 0.28);
 }
 
 .btn--outline {
@@ -244,130 +254,504 @@ h1, h2, h3, h4 {
   top: 0;
   left: 0;
   width: 100%;
-  height: var(--header-height);
   z-index: var(--z-header);
-  background: rgba(246, 247, 251, 0.88);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border-bottom: 1px solid rgba(14, 22, 38, 0.06);
+  background: var(--color-white);
+  border-bottom: 1px solid rgba(43, 13, 13, 0.08);
+  box-shadow: 0 2px 12px rgba(43, 13, 13, 0.05);
   transition: background var(--transition-med), box-shadow var(--transition-med);
+  /* Grid: row 1 is the logo/action bar with the search overlaid dead-centre;
+     row 2 is the category nav. On mobile the search drops into row 2. */
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto auto;
 }
 
 .header.is-scrolled {
-  background: rgba(246, 247, 251, 0.97);
   box-shadow: var(--shadow-sm);
 }
 
 .header__inner {
-  height: var(--header-height);
+  grid-row: 1;
+  grid-column: 1;
+  min-height: 76px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: var(--sp-5);
+  padding-block: var(--sp-3);
 }
 
 /* Logo */
 .logo {
   display: flex;
   align-items: center;
-  gap: var(--sp-3);
+  gap: var(--sp-2);
+  flex-shrink: 0;
 }
 
-.logo__mark {
-  width: 40px;
-  height: 40px;
-  border-radius: var(--radius-full);
-  background: linear-gradient(135deg, var(--color-gold) 0%, #8a6d1a 100%);
-  display: grid;
-  place-items: center;
-  font-size: var(--fs-md);
-  color: var(--color-white);
-  box-shadow: var(--shadow-xs);
+.logo__image {
+  height: 55px;
+  width: auto;
+  object-fit: contain;
+}
+
+/* For dark theme, adjust logo color */
+[data-theme="dark"] .logo__image {
+  opacity: 0.9;
+}
+
+/* Footer logo styling */
+.footer .logo__image {
+  opacity: 1;
 }
 
 .logo__text {
-  font-family: var(--font-heading);
+  font-family: var(--font-brand);
   font-size: var(--fs-lg);
+  letter-spacing: 2px;
   color: var(--color-maroon);
   font-weight: var(--fw-bold);
-  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  text-shadow: 0 1px 2px rgba(43, 13, 13, 0.1);
+  white-space: nowrap;
 }
 
 .logo__text span {
   color: var(--color-gold);
+  font-weight: var(--fw-normal);
 }
 
-/* Navigation menu */
-.nav__list {
+/* Centered search bar */
+.header__search {
   display: flex;
   align-items: center;
-  gap: var(--sp-6);
+  gap: var(--sp-2);
+  flex: 1;
+  max-width: 520px;
+  margin-inline: auto;
+  background: var(--color-ivory);
+  border: 1px solid rgba(43, 13, 13, 0.12);
+  border-radius: 100px;
+  padding: var(--sp-1) var(--sp-2) var(--sp-1) var(--sp-2);
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
 }
 
-.nav__link {
+.header__search:focus-within {
+  border-color: var(--color-gold);
+  box-shadow: 0 0 0 3px rgba(212, 165, 116, 0.2);
+}
+
+.header__search-icon {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border: none;
+  background: none;
   color: var(--color-charcoal);
+  cursor: pointer;
+  border-radius: var(--radius-full);
+  transition: color var(--transition-fast), background var(--transition-fast);
+}
+
+.header__search-icon:hover {
+  color: var(--color-crimson);
+  background: var(--color-crimson-soft);
+}
+
+.header__search input {
+  flex: 1;
+  min-width: 0;
+  border: none;
+  outline: none;
+  background: none;
+  font-family: var(--font-body);
   font-size: var(--fs-sm);
-  font-weight: var(--fw-medium);
-  position: relative;
-  transition: color var(--transition-fast);
+  color: var(--color-ink);
+  padding: var(--sp-1) 0;
 }
 
-/* gold underline animation */
-.nav__link::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  bottom: -6px;
-  width: 0;
-  height: 2px;
-  background: var(--color-gold);
-  transition: width var(--transition-med);
+.header__search input::placeholder {
+  color: var(--color-charcoal);
+  opacity: 0.8;
+  animation: search-ph-shimmer 6s ease-in-out infinite;
 }
 
-.nav__link:hover {
-  color: var(--color-maroon);
+/* Pause the shimmer while the user is actively typing */
+.header__search:focus-within input::placeholder {
+  animation: none;
+  color: var(--color-charcoal);
+  opacity: 0.8;
 }
 
-.nav__link:hover::after {
-  width: 100%;
+/* Soft gold "breathing" shimmer for the rotating search hint */
+@keyframes search-ph-shimmer {
+  0%, 100% { color: var(--color-charcoal); opacity: 0.8; }
+  50%      { color: var(--color-gold);      opacity: 1; }
 }
 
-/* Header actions (cart, hamburger) */
+/* Search bar now lives in its own grid row; on desktop it overlays the logo/
+   action row dead-centre (identical to the old inline position). On phone/
+   tablet the overlay rules are dropped and it becomes a full-width row in
+   the category nav's old slot (row 2 of the header grid). */
+.header__searchbar {
+  grid-row: 1;
+  grid-column: 1;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding-inline: var(--sp-6);
+  padding-left: 280px; /* Move searchbar to the right of logo */
+  pointer-events: none;
+}
+
+.header__searchbar .header__search {
+  pointer-events: auto;
+}
+
+/* Utility icons */
 .header__actions {
   display: flex;
   align-items: center;
-  gap: var(--sp-4);
+  gap: var(--sp-2);
 }
 
-.cart-btn {
-  position: relative;
-  background: none;
-  border: none;
-  color: var(--color-maroon);
-  font-size: 1.3rem;
-  cursor: pointer;
-  transition: transform var(--transition-fast), color var(--transition-fast);
-}
-
-.cart-btn:hover {
-  transform: scale(1.1);
-  color: var(--color-gold);
-}
-
-.cart-btn__count {
-  position: absolute;
-  top: -6px;
-  right: -10px;
-  background: var(--color-gold);
-  color: var(--color-white);
-  font-size: 0.65rem;
-  font-weight: var(--fw-bold);
-  width: 18px;
-  height: 18px;
-  border-radius: var(--radius-full);
+.header__icon {
   display: grid;
   place-items: center;
+  width: 42px;
+  height: 42px;
+  border-radius: var(--radius-full);
+  color: var(--color-maroon);
+  transition: color var(--transition-fast), background var(--transition-fast),
+              transform var(--transition-fast);
 }
+
+.header__icon:hover {
+  color: var(--color-crimson);
+  background: var(--color-crimson-soft);
+  transform: translateY(-2px);
+}
+
+/* Primary page drawer is mobile-only; hidden on desktop */
+.nav {
+  display: none;
+}
+
+/* Secondary category navigation */
+.secondary-nav {
+  grid-row: 2;
+  grid-column: 1;
+  border-top: 1px solid rgba(43, 13, 13, 0.06);
+  background: var(--color-white);
+  padding: 0 1rem;
+}
+
+.secondary-nav__wrap {
+  position: relative;
+}
+
+.secondary-nav__list {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-2);
+  overflow-x: auto;
+  scrollbar-width: none;
+  padding-block: var(--sp-2);
+  -webkit-overflow-scrolling: touch;
+}
+
+.secondary-nav__list::-webkit-scrollbar {
+  display: none;
+}
+
+.secondary-nav__list a {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--sp-1);
+  padding: var(--sp-2) var(--sp-3);
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-medium);
+  color: var(--color-charcoal);
+  white-space: nowrap;
+  border-radius: var(--radius-sm);
+  transition: color var(--transition-fast), background var(--transition-fast);
+}
+
+/* Underline slides in on hover and fades out when the pointer leaves the item */
+.secondary-nav__list a::after {
+  content: "";
+  position: absolute;
+  left: var(--sp-3);
+  right: var(--sp-3);
+  bottom: var(--sp-1);
+  height: 2px;
+  border-radius: 2px;
+  background: var(--color-crimson);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--transition-fast);
+}
+
+.secondary-nav__list a:hover {
+  color: var(--color-crimson);
+  background: var(--color-crimson-soft);
+}
+
+.secondary-nav__list a:hover::after,
+.secondary-nav__list a:focus-visible::after {
+  transform: scaleX(1);
+}
+
+/* Icon chip inside each category link */
+.secondary-nav__icon {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  color: var(--color-maroon);
+}
+
+.secondary-nav__list a:hover .secondary-nav__icon {
+  color: var(--color-crimson);
+}
+
+.secondary-nav__list a .icon-sm {
+  width: 20px;
+  height: 20px;
+}
+
+/* Shared inline SVG sizing tokens */
+.icon-sm { width: 20px; height: 20px; display: block; }
+.icon-md { width: 22px; height: 22px; display: block; }
+
+/* ==========================================================================
+   4a. MEGA MENU - dropdown revealed on hover of the category bar
+   ========================================================================== */
+.mega-menu {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  right: 0;
+  z-index: 60;
+  background: var(--color-white);
+  border: 1px solid rgba(43, 13, 13, 0.08);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-xl);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(10px);
+  transition: opacity var(--transition-med), transform var(--transition-med),
+              visibility var(--transition-med);
+}
+
+/* Invisible bridge so the pointer never drops the hover between list + menu */
+.mega-menu::before {
+  content: "";
+  position: absolute;
+  top: -26px;
+  left: 0;
+  right: 0;
+  height: 26px;
+}
+
+/* #all_jewellery:hover .mega-menu,
+#all_jewellery:focus-within .mega-menu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+} */
+
+.secondary-nav__wrap:has(#all_jewellery:hover) .mega-menu,
+.secondary-nav__wrap:has(.mega-menu:hover) .mega-menu,
+.secondary-nav__wrap:has(#all_jewellery:focus-visible) .mega-menu,
+.secondary-nav__wrap:has(.mega-menu:focus-within) .mega-menu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.mega-menu__panel {
+  display: grid;
+  grid-template-columns: 150px 1fr 220px;
+  gap: var(--sp-4) var(--sp-5);
+  padding: var(--sp-4) var(--sp-5);
+}
+
+/* Left: browse facets */
+.mega-menu__label {
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-semibold);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--color-charcoal);
+  margin-bottom: var(--sp-3);
+}
+
+.mega-menu__filter {
+  position: relative;
+  display: block;
+  padding: var(--sp-2) var(--sp-3);
+  margin-bottom: var(--sp-1);
+  border-radius: var(--radius-sm);
+  color: var(--color-charcoal);
+  font-size: var(--fs-sm);
+  transition: color var(--transition-fast), background var(--transition-fast);
+}
+
+.mega-menu__filter:hover {
+  background: var(--color-crimson-soft);
+  color: var(--color-crimson);
+}
+
+.mega-menu__filter.is-active {
+  color: var(--color-crimson);
+  font-weight: var(--fw-semibold);
+}
+
+.mega-menu__filter.is-active::after {
+  content: "";
+  position: absolute;
+  left: var(--sp-3);
+  right: var(--sp-3);
+  bottom: var(--sp-1);
+  height: 2px;
+  background: var(--color-gold);
+}
+
+/* Centre: jewellery type grid */
+.mega-menu__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: var(--sp-2) var(--sp-4);
+  align-content: start;
+  padding-bottom: var(--sp-2);
+}
+
+.mega-menu__item {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  padding: var(--sp-2);
+  border-radius: var(--radius-sm);
+  color: var(--color-charcoal);
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-medium);
+  transition: color var(--transition-fast), background var(--transition-fast);
+}
+
+.mega-menu__item:hover {
+  background: var(--color-crimson-soft);
+  color: var(--color-crimson);
+}
+
+.mega-menu__item-icon {
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-full);
+  background: var(--color-ivory);
+  border: 1px solid rgba(43, 13, 13, 0.06);
+  color: var(--color-maroon);
+  transition: background var(--transition-fast), color var(--transition-fast),
+              border-color var(--transition-fast);
+}
+
+.mega-menu__item:hover .mega-menu__item-icon {
+  background: var(--color-crimson);
+  border-color: var(--color-crimson);
+  color: #fff;
+}
+
+/* Right: featured image */
+.mega-menu__promo {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  padding: var(--sp-4);
+  border-radius: var(--radius-md);
+  background: linear-gradient(160deg, var(--color-crimson) 0%, var(--color-maroon) 100%);
+}
+
+.mega-menu__promo img {
+  width: 100%;
+  max-height: 120px;
+  object-fit: contain;
+  border-radius: var(--radius-sm);
+  margin-bottom: var(--sp-3);
+}
+
+.mega-menu__promo-title {
+  font-weight: var(--fw-semibold);
+  font-size: var(--fs-sm);
+  color: #fff;
+  line-height: 1.4;
+}
+
+.mega-menu__promo-note {
+  margin-top: var(--sp-1);
+  font-size: var(--fs-xs);
+  color: rgba(255, 255, 255, 0.75);
+}
+
+/* Bottom: full-width banner CTA */
+.mega-menu__banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-4);
+  padding: var(--sp-3) var(--sp-6);
+  border-top: 1px solid rgba(43, 13, 13, 0.06);
+  border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+  background: var(--color-crimson-soft);
+}
+
+.mega-menu__banner-text {
+  font-weight: var(--fw-semibold);
+  font-size: var(--fs-sm);
+  color: var(--color-maroon);
+}
+
+.mega-menu__viewall {
+  padding: 0.65rem 1.6rem;
+  font-size: var(--fs-xs);
+}
+
+/* Day / night mode toggle button */
+.theme-toggle {
+  position: relative;
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-full);
+  border: 1px solid rgba(43, 13, 13, 0.12);
+  background: var(--color-white);
+  color: var(--color-maroon);
+  font-size: 1.15rem;
+  line-height: 1;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  box-shadow: var(--shadow-xs);
+  transition: transform var(--transition-fast), background var(--transition-fast),
+              color var(--transition-fast), border-color var(--transition-fast);
+}
+
+.theme-toggle:hover {
+  transform: scale(1.08);
+  color: var(--color-gold);
+  border-color: var(--color-gold);
+}
+
+/* Sun/moon glyphs — moon is shown in day mode, sun in night mode */
+.theme-toggle__icon--moon { display: block; }
+.theme-toggle__icon--sun   { display: none; }
+[data-theme="dark"] .theme-toggle__icon--moon { display: none; }
+[data-theme="dark"] .theme-toggle__icon--sun   { display: block; }
 
 /* Hamburger (mobile only) */
 .hamburger {
@@ -403,34 +787,231 @@ h1, h2, h3, h4 {
 /* ==========================================================================
    5. HERO SECTION
    ========================================================================== */
-.hero {
-  min-height: 100svh;
+/* .hero {
+  
+  margin-top: var(--header-height);
+  min-height: calc(80svh - var(--header-height));
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  isolation: isolate;
+} */
+
+.hero {
+  margin-top: var(--header-height);
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1933 / 813;
+  padding-bottom: 2.5rem;
+  overflow: hidden;
+}
+
+/* --- Carousel: sliding track --------------------------------------------------
+   Slides sit side-by-side in a flex track; JS shifts the track with
+   translateX(). Animating transform only (no opacity/visibility) keeps the
+   move on the GPU, so the hero glides smoothly even with heavy imagery. -------- */
+.hero__slides {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  overflow: visible;
+  transition: transform 850ms cubic-bezier(0.65, 0, 0.35, 1);
+  will-change: transform;
+}
+
+.hero__slide {
+  position: relative;
+  flex: 0 0 100%;
+  width: 100%;
+  height: 100%;
+  display: block;
+  overflow: hidden;
+}
+
+.hero__link {
+  display: block;
+  width: 100%;
+  height: 100%;
+  position: relative;
+  text-decoration: none;
+}
+
+.hero__picture {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 105%;
+  display: block;
 }
 
 .hero__bg {
   position: absolute;
   inset: 0;
   width: 100%;
-  height: 100%;
-  object-fit: cover;
-  z-index: -2;
+  height: 105%;
+  object-fit: contain;
+  object-position: center;
+  z-index: 0;
+  display: block;
 }
 
+/* --- Hero banner: image placeholder ---------------------------------------
+   Draft stand-in for the real banner photo. Painted under the overlay +
+   headline so the slide layout stays unchanged — swap the placeholder
+   <div> for an <img class="hero__bg"> once the artwork is ready. ------------ */
+.hero__bg--placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-2);
+  text-align: center;
+  color: rgba(212, 165, 116, 0.9);
+  outline: 2px dashed rgba(212, 165, 116, 0.7);
+  outline-offset: -24px;
+}
+
+.hero__placeholder-icon  { opacity: 0.9; }
+.hero__placeholder-title {
+  font-family: var(--font-heading);
+  font-size:   var(--fs-lg);
+  letter-spacing: 1px;
+  font-weight: var(--fw-semibold);
+  color: var(--color-gold);
+}
+.hero__placeholder-hint {
+  font-size:      var(--fs-xs);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--color-gold);
+  opacity: 0.7;
+}
+
+/* --- About + category card: image placeholder --------------------------------
+   Same draft stand-in for the workshop photo and the 4 category shots. The
+   sizing classes (.about__image / .category-card__image) already set width,
+   aspect-ratio, radius + hover zoom — the modifier just turns the box into
+   the visible "drop image here" state. Swap back to an <img> once real
+   photos are available. -------------------------------------------------------- */
+.about__image--placeholder,
+.category-card__image--placeholder,
+.product-card__image--placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-2);
+  width: 100%;
+  text-align: center;
+  color: rgba(212, 165, 116, 0.9);
+  background:
+    repeating-linear-gradient(45deg,
+      rgba(212, 165, 116, 0.05) 0 14px,
+      transparent 14px 28px),
+    linear-gradient(160deg,
+      var(--color-rosewood) 0%,
+      var(--color-crimson) 60%,
+      var(--color-maroon) 100%);
+  outline: 2px dashed rgba(212, 165, 116, 0.6);
+  outline-offset: -14px;
+}
+
+
+/* One-side reading overlay for the hero slides: solid burgundy on the left,
+   fading to fully transparent toward the right so the banner artwork stays
+   visible. Flex row so the slide's CTA buttons sit on the dark end of the
+   fade where the contrast (and readability) is strongest. */
 .hero__overlay {
   position: absolute;
   inset: 0;
-  z-index: -1;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  background: linear-gradient(90deg,
+    rgba(43, 13, 13, 0.85) 0%,
+    rgba(43, 13, 13, 0.55) 30%,
+    rgba(43, 13, 13, 0.22) 48%,
+    rgba(43, 13, 13, 0) 66%);
+}
+
+.hero__overlay .hero__cta {
+  justify-content: flex-start;
+  width: min(100%, 540px);
+  padding-left: clamp(var(--sp-6), 7vw, 7rem);
+  padding-right: var(--sp-4);
+  display: flex;
+  flex-wrap: nowrap;
+  gap: var(--sp-3);
+}
+
+/* Readable outline button on the dark side of the overlay */
+.hero__overlay .btn--outline {
+  color: var(--color-white);
+  border-color: rgba(255, 255, 255, 0.85);
+}
+
+.hero__overlay .btn--outline:hover {
+  background: var(--color-white);
+  border-color: var(--color-white);
+  color: var(--color-maroon);
+}
+
+/* Text block inside the one-side overlay — keeps copy on the dark end of
+   the gradient so it's legible without a full-screen dimming layer. */
+.hero__copy {
+  width: 100%;
+  max-width: 420px;
+  text-align: left;
+  padding-right: var(--sp-6);
+  /* Prevent any text from visually escaping the dark zone of the gradient */
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  hyphens: auto;
+  padding-left: 1.5rem;
+}
+
+.hero__copy .hero__eyebrow {
+  background: transparent;
+  border-color: rgba(255, 255, 255, 0.45);
+  color: var(--color-gold);
+  backdrop-filter: none;
+}
+
+.hero__copy .hero__title {
+  color: var(--color-white);
+  text-shadow: 0 8px 28px rgba(0, 0, 0, 0.55);
+  font-size: clamp(var(--fs-xl), 4.5vw, var(--fs-3xl));
+  line-height: 1.08;
+  margin-bottom: var(--sp-4);
+  text-wrap: balance;
+}
+
+.hero__copy .hero__title .script {
+  color: var(--color-gold);
+}
+
+.hero__copy .hero__text {
+  color: rgba(255, 255, 255, 0.88);
+  max-width: 100%;
+  margin-bottom: var(--sp-5);
+  font-size: clamp(var(--fs-sm), 1.6vw, var(--fs-md));
+  line-height: 1.6;
+}
+
+.hero__copy .hero__cta {
+  justify-content: flex-start;
+  gap: var(--sp-3);
+  width: 100%;
+  padding: 0;
+}
+
+.hero__overlay--sage {
   background: linear-gradient(
     115deg,
-    rgba(10, 18, 38, 0.84) 0%,
-    rgba(14, 22, 38, 0.55) 45%,
-    rgba(42, 91, 140, 0.3) 100%
+    rgba(60, 96, 82, 0.55) 0%,
+    rgba(107, 142, 127, 0.40) 50%,
+    rgba(50, 80, 70, 0.45) 100%
   );
 }
 
@@ -439,17 +1020,20 @@ h1, h2, h3, h4 {
   z-index: 1;
   max-width: 900px;
   text-align: center;
-  padding: var(--sp-16) var(--sp-6);
+  padding: var(--sp-14) var(--sp-6);
   margin-inline: auto;
+  /* Currently empty (text is commented out); never let it block the CTA
+     buttons layered under it inside .hero__overlay. */
+  pointer-events: none;
 }
 
 .hero__eyebrow {
   display: inline-flex;
   align-items: center;
   gap: var(--sp-2);
-  background: rgba(201, 162, 39, 0.16);
-  border: 1px solid rgba(201, 162, 39, 0.55);
-  color: #E8C46B;
+  background: rgba(253, 251, 247, 0.85);
+  border: 1px solid rgba(212, 165, 116, 0.55);
+  color: var(--color-crimson);
   padding: 0.45rem 1.2rem;
   border-radius: 100px;
   font-size: var(--fs-xs);
@@ -462,17 +1046,19 @@ h1, h2, h3, h4 {
 
 .hero__title {
   font-size: var(--fs-4xl);
-  color: var(--color-white);
+  color: var(--color-ink);
   margin-bottom: var(--sp-5);
 }
 
-.hero__title span {
-  color: #E8C46B;
-  font-style: italic;
+.hero__title .script {
+  font-family: var(--font-script);
+  font-style: normal;
+  font-weight: 500;
+  color: var(--color-crimson);
 }
 
 .hero__text {
-  color: rgba(255, 255, 255, 0.88);
+  color: var(--color-charcoal);
   max-width: 54ch;
   margin: 0 auto var(--sp-7);
   font-size: var(--fs-md);
@@ -489,32 +1075,38 @@ h1, h2, h3, h4 {
   box-shadow: var(--shadow-lg);
 }
 
-.hero__stats {
+/* Carousel dots - pinned to the base of the hero */
+.hero__dots {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: var(--sp-7);
   display: flex;
-  gap: var(--sp-10);
-  margin-top: var(--sp-10);
-  flex-wrap: wrap;
   justify-content: center;
+  gap: var(--sp-3);
+  z-index: 2;
 }
 
-.hero__stat {
-  border-left: 2px solid rgba(201, 162, 39, 0.55);
-  padding-left: var(--sp-4);
-  text-align: left;
+.hero__dot {
+  width: 12px;
+  height: 12px;
+  border-radius: var(--radius-full);
+  background: rgba(43, 13, 13, 0.25);
+  border: 1px solid rgba(253, 251, 247, 0.45);
+  cursor: pointer;
+  padding: 0;
+  transition: background var(--transition-fast), transform var(--transition-fast),
+              border-color var(--transition-fast);
 }
 
-.hero__stat-num {
-  font-family: var(--font-heading);
-  font-size: var(--fs-xl);
-  color: #E8C46B;
-  font-weight: var(--fw-bold);
+.hero__dot.is-active {
+  background: var(--color-crimson);
+  border-color: var(--color-crimson);
+  transform: scale(1.25);
 }
 
-.hero__stat-label {
-  font-size: var(--fs-xs);
-  color: rgba(255, 255, 255, 0.72);
-  text-transform: uppercase;
-  letter-spacing: 1.5px;
+.hero__dot:hover {
+  background: var(--color-crimson-light);
 }
 
 /* ==========================================================================
@@ -537,15 +1129,104 @@ h1, h2, h3, h4 {
   aspect-ratio: 4 / 5;
 }
 
-/* Soft gold offset frame behind the image */
-.about__media::before {
-  content: "";
-  position: absolute;
-  inset: -16px 16px 16px -16px;
-  border: 2px solid rgba(201, 162, 39, 0.55);
+/* Vertical looping jewellery carousel - 2 columns, opposite directions.
+   Photos are shown in full (never cropped) at their intrinsic 3:4 ratio with
+   a small gap between each one. JS keeps --carousel-item-h matched to the
+   column width so the frame shows exactly one set per column (4 pictures
+   total) with the loop duplicates hidden below the fold. */
+.jewellery-carousel {
+  /* Modest gap between every image (columns AND stacked rows). */
+  --carousel-gap: var(--sp-3);
+  /* Card height = a column's width × 4/3; synced to layout by JS. */
+  --carousel-item-h: 240px;
+  /* Cards per column set; overwritten per track by JS so the seamless-loop
+     offset below stays correct however many photos are in the mix. */
+  --carousel-set: 2;
+  /* 2 cards + the gap between them + container vertical padding (2 × 24px) */
+  height: calc(2 * var(--carousel-item-h) + var(--carousel-gap) + 2 * 24px);
+  overflow: hidden;
+  border: none;
   border-radius: var(--radius-lg);
-  z-index: -1;
+  box-shadow: var(--shadow-lg);
+  position: relative;
+  background: linear-gradient(180deg, var(--color-cream) 0%, var(--color-ivory) 100%);
+  display: flex;
+  gap: var(--carousel-gap);
+  padding: 24px;
 }
+
+.jewellery-carousel__column {
+  flex: 1;
+  overflow: hidden;
+  border-radius: var(--radius-md);
+}
+
+.jewellery-carousel__track {
+  display: flex;
+  flex-direction: column;
+  gap: var(--carousel-gap);
+  will-change: transform;
+}
+
+/* Left column: scroll up. JS sets --carousel-duration so the pace holds
+   steady however many cards the set contains. */
+.jewellery-carousel__track--up {
+  animation: carousel-scroll-up var(--carousel-duration, 25s) linear infinite;
+}
+
+/* Right column: scroll down */
+.jewellery-carousel__track--down {
+  animation: carousel-scroll-down var(--carousel-duration, 25s) linear infinite;
+}
+
+/* Pause both animations on hover */
+.jewellery-carousel:hover .jewellery-carousel__track {
+  animation-play-state: paused;
+}
+
+.jewellery-carousel__item {
+  display: block;
+  width: 100%;
+  /* Match the photos' intrinsic 3:4 ratio so the whole image is shown,
+     never cropped or squashed. */
+  aspect-ratio: 3 / 4;
+  height: auto;
+  border-radius: var(--radius-sm);
+  flex-shrink: 0;
+  transition: transform var(--transition-fast);
+}
+
+.jewellery-carousel__item:hover {
+  transform: scale(1.05);
+}
+
+/* Each track holds 2 copies of its set; shift by exactly one set for a
+   seamless loop that never lets the duplicate cards enter the frame.
+   One set is `--carousel-set` cards, each followed by a gap — including the
+   gap that falls across the seam — so the shift is set × (card + gap). */
+@keyframes carousel-scroll-up {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(
+      calc(-1 * var(--carousel-set) * (var(--carousel-item-h) + var(--carousel-gap)))
+    );
+  }
+}
+
+@keyframes carousel-scroll-down {
+  from {
+    transform: translateY(
+      calc(-1 * var(--carousel-set) * (var(--carousel-item-h) + var(--carousel-gap)))
+    );
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+/* Soft gold offset frame behind the image — removed per user request */
 
 .about__eyebrow {
   color: var(--color-crimson);
@@ -589,8 +1270,8 @@ h1, h2, h3, h4 {
   height: 42px;
   flex-shrink: 0;
   border-radius: var(--radius-full);
-  background: linear-gradient(135deg, rgba(201, 162, 39, 0.14), rgba(201, 162, 39, 0.06));
-  border: 1px solid rgba(201, 162, 39, 0.35);
+  background: linear-gradient(135deg, rgba(212, 165, 116, 0.16), rgba(212, 165, 116, 0.06));
+  border: 1px solid rgba(212, 165, 116, 0.35);
   display: grid;
   place-items: center;
   font-size: var(--fs-md);
@@ -626,6 +1307,7 @@ h1, h2, h3, h4 {
 .category-card__image {
   aspect-ratio: 4 / 5;
   width: 100%;
+  object-fit: contain;
   transition: transform var(--transition-slow);
 }
 
@@ -636,7 +1318,7 @@ h1, h2, h3, h4 {
 .category-card__body {
   padding: var(--sp-5);
   text-align: center;
-  border-top: 1px solid rgba(14, 22, 38, 0.06);
+  border-top: 1px solid rgba(43, 13, 13, 0.06);
 }
 
 .category-card__name {
@@ -685,9 +1367,9 @@ h1, h2, h3, h4 {
   position: absolute;
   top: var(--sp-4);
   left: var(--sp-4);
-  background: rgba(14, 22, 38, 0.78);
+  background: rgba(43, 13, 13, 0.82);
   backdrop-filter: blur(4px);
-  color: #E8C46B;
+  color: var(--color-gold);
   font-size: var(--fs-xs);
   font-weight: var(--fw-semibold);
   padding: 0.3rem 0.9rem;
@@ -699,43 +1381,12 @@ h1, h2, h3, h4 {
 .product-card__image {
   aspect-ratio: 1 / 1;
   width: 100%;
+  object-fit: contain;
   transition: transform var(--transition-slow);
 }
 
 .product-card:hover .product-card__image {
   transform: scale(1.04);
-}
-
-/* Quick-add button slides up on hover */
-.product-card__quick-add {
-  position: absolute;
-  left: 50%;
-  bottom: var(--sp-5);
-  transform: translate(-50%, 24px);
-  opacity: 0;
-  background: var(--color-white);
-  color: var(--color-maroon);
-  border: 1px solid var(--color-gold);
-  border-radius: 100px;
-  padding: 0.65rem 1.5rem;
-  font-size: var(--fs-xs);
-  font-weight: var(--fw-semibold);
-  cursor: pointer;
-  white-space: nowrap;
-  box-shadow: var(--shadow-md);
-  transition: opacity var(--transition-med), transform var(--transition-med),
-              background var(--transition-fast);
-}
-
-.product-card:hover .product-card__quick-add,
-.product-card__quick-add:focus {
-  opacity: 1;
-  transform: translate(-50%, 0);
-}
-
-.product-card__quick-add:hover {
-  background: var(--color-gold);
-  color: var(--color-white);
 }
 
 .product-card__body {
@@ -777,74 +1428,276 @@ h1, h2, h3, h4 {
   margin-top: var(--sp-12);
 }
 
+/* Empty search state (injected by main.js live filter) */
+.products__empty {
+  grid-column: 1 / -1;
+  text-align: center;
+  color: var(--color-charcoal);
+  font-size: var(--fs-md);
+  padding: var(--sp-10) var(--sp-4);
+}
+
 /* ==========================================================================
    9. WHY CHOOSE US
    ========================================================================== */
-.features {
-  background: var(--color-cream);
+/* ==========================================================================
+   9. WHY CHOOSE US — Cinematic full-viewport carousel
+   --------------------------------------------------------------------------
+   Inspired by dramatic brand pages: a full-viewport dark stage with a
+   large jewellery image, bold overlaid headline, semi-transparent
+   decorative text, and navigation dots.
+   ========================================================================== */
+.features-carousel {
   position: relative;
+  height: 80vh;
+  min-height: 500px;
+  max-height: 740px;
+  overflow: hidden;
+  max-width: 100%;
+  background: var(--color-rosewood);
+  color: var(--color-white);
 }
 
-.features .section-head__title { color: var(--color-maroon); }
-.features .section-head__subtitle { color: var(--color-charcoal); }
-
-.features__grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: var(--sp-6);
-  max-width: 920px;
-  margin: 0 auto;
+.features-carousel__track {
+  position: absolute;
+  inset: 0;
 }
 
-.feature-card {
-  text-align: left;
-  padding: var(--sp-7);
-  border: 1px solid rgba(14, 22, 38, 0.06);
-  border-radius: var(--radius-lg);
-  background: var(--color-white);
-  box-shadow: var(--shadow-sm);
-  transition: transform var(--transition-med), box-shadow var(--transition-med),
-              border-color var(--transition-med);
+.features-carousel__slide {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  opacity: 0;
+  visibility: hidden;
+  transform: scale(1.06);
+  transition: opacity 0.9s ease, transform 1.4s ease, visibility 0.9s ease;
 }
 
-.feature-card:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-lift);
-  border-color: rgba(201, 162, 39, 0.45);
+.features-carousel__slide--active {
+  opacity: 1;
+  visibility: visible;
+  transform: scale(1);
 }
 
-.feature-card__icon {
-  width: 58px;
-  height: 58px;
-  margin: 0 0 var(--sp-4);
-  border-radius: var(--radius-full);
-  background: linear-gradient(135deg, rgba(201, 162, 39, 0.14), rgba(201, 162, 39, 0.06));
-  border: 1px solid var(--color-gold);
-  display: grid;
-  place-items: center;
+.features-carousel__img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
+}
+
+.features-carousel__overlay {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg,
+      rgba(21, 6, 6, 0.88) 0%,
+      rgba(21, 6, 6, 0.62) 42%,
+      rgba(21, 6, 6, 0.28) 70%,
+      rgba(21, 6, 6, 0.62) 100%);
+}
+
+.features-carousel__deco {
+  position: absolute;
+  right: -2%;
+  bottom: 6%;
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: clamp(9rem, 22vw, 22rem);
+  line-height: 0.82;
+  letter-spacing: 0.02em;
+  color: rgba(255, 255, 255, 0.06);
+  -webkit-text-stroke: 1px rgba(212, 165, 116, 0.22);
+  white-space: nowrap;
+  user-select: none;
+  pointer-events: none;
+  overflow: hidden;
+  max-width: 100vw;
+}
+
+.features-carousel__content {
+  position: relative;
+  z-index: 2;
+  max-width: 560px;
+  margin-left: clamp(var(--sp-6), 8vw, 9rem);
+  margin-right: 2rem;
+}
+
+.features-carousel__eyebrow {
+  display: inline-block;
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--color-gold);
+  margin-bottom: var(--sp-4);
+  padding-bottom: var(--sp-2);
+  border-bottom: 1px solid rgba(212, 165, 116, 0.45);
+}
+
+.features-carousel__title {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: clamp(2.6rem, 6vw, 5rem);
+  line-height: 1.02;
+  letter-spacing: 0.01em;
+  color: var(--color-white);
+  text-shadow: 0 12px 40px rgba(0, 0, 0, 0.45);
+  margin-bottom: var(--sp-5);
+}
+
+.features-carousel__text {
+  font-size: var(--fs-md);
+  line-height: 1.7;
+  color: rgba(255, 255, 255, 0.86);
+  max-width: 46ch;
+}
+
+/* Slide entrance choreography */
+.features-carousel__slide--active .features-carousel__content > * {
+  animation: fc-rise 0.9s ease both;
+}
+.features-carousel__slide--active .features-carousel__content > *:nth-child(1) { animation-delay: 0.10s; }
+.features-carousel__slide--active .features-carousel__content > *:nth-child(2) { animation-delay: 0.22s; }
+.features-carousel__slide--active .features-carousel__content > *:nth-child(3) { animation-delay: 0.34s; }
+
+@keyframes fc-rise {
+  from { opacity: 0; transform: translateY(28px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ---- Navigation dots ---- */
+.features-carousel__dots {
+  position: absolute;
+  left: clamp(1rem, 3vw, 3rem);
+  bottom: 2.25rem;
+  display: flex;
+  gap: var(--sp-3);
+  z-index: 3;
+}
+
+.features-carousel__dot {
+  width: 11px;
+  height: 11px;
+  padding: 0;
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  border-radius: 999px;
+  background: transparent;
+  cursor: pointer;
+  transition: width var(--transition-fast), background var(--transition-fast),
+              border-color var(--transition-fast);
+}
+
+.features-carousel__dot--active {
+  width: 34px;
+  background: var(--color-gold);
+  border-color: var(--color-gold);
+}
+
+.features-carousel__dot:hover:not(.features-carousel__dot--active) {
+  background: rgba(212, 165, 116, 0.55);
+  border-color: var(--color-gold);
+}
+
+/* ---- Slide counter ---- */
+.features-carousel__counter {
+  position: absolute;
+  right: clamp(1rem, 3vw, 3rem);
+  bottom: 2.25rem;
+  display: flex;
+  align-items: baseline;
+  gap: 0.35rem;
+  z-index: 3;
+  font-family: var(--font-heading);
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.features-carousel__current {
   font-size: var(--fs-lg);
   color: var(--color-gold);
 }
 
-.feature-card__title {
-  color: var(--color-maroon);
-  font-size: var(--fs-md);
-  margin-bottom: var(--sp-2);
+.features-carousel__sep,
+.features-carousel__total {
+  font-size: var(--fs-sm);
+  color: rgba(255, 255, 255, 0.55);
 }
 
-.feature-card__text {
-  color: var(--color-charcoal);
-  font-size: var(--fs-sm);
-  max-width: 42ch;
+/* ---- Scroll hint ---- */
+.features-carousel__scroll-hint {
+  position: absolute;
+  left: 50%;
+  bottom: 1.4rem;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  z-index: 3;
+  opacity: 0.85;
+}
+
+.features-carousel__scroll-text {
+  font-size: var(--fs-xs);
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.features-carousel__scroll-line {
+  width: 1px;
+  height: 34px;
+  background: linear-gradient(to bottom, var(--color-gold), transparent);
+  animation: fc-scroll 1.8s ease-in-out infinite;
+}
+
+@keyframes fc-scroll {
+  0%   { transform: scaleY(0); transform-origin: top;    opacity: 0; }
+  35%  { transform: scaleY(1); transform-origin: top;    opacity: 1; }
+  70%  { transform: scaleY(1); transform-origin: bottom; opacity: 0.6; }
+  100% { transform: scaleY(0); transform-origin: bottom; opacity: 0; }
 }
 
 /* ==========================================================================
    10. TESTIMONIALS
    ========================================================================== */
-.testimonials__grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
+.testimonials__marquee {
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
   gap: var(--sp-6);
+  margin-top: var(--sp-8);
+  /* Soft-fade the card edges as they enter / leave the viewport */
+  -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 8%, #000 92%, transparent 100%);
+  mask-image: linear-gradient(90deg, transparent 0%, #000 8%, #000 92%, transparent 100%);
+}
+
+.testimonials__row {
+  display: flex;
+  width: max-content;
+}
+
+.testimonials__track {
+  display: flex;
+  gap: var(--sp-6);
+  width: max-content;
+  animation: testimonials-scroll-left 48s linear infinite;
+}
+
+/* Second row loops left-to-right a little faster for texture */
+.testimonials__track--faster {
+  animation-direction: reverse;
+  animation-duration: 32s;
+}
+
+/* Constant left → right loop. The track holds two identical card sets,
+   so translating by exactly -50% can never show a seam or a gap. */
+@keyframes testimonials-scroll-left {
+  from { transform: translateX(-50%); }
+  to   { transform: translateX(0); }
 }
 
 .testimonial-card {
@@ -854,6 +1707,7 @@ h1, h2, h3, h4 {
   box-shadow: var(--shadow-sm);
   border-left: 4px solid var(--color-gold);
   position: relative;
+  flex: 0 0 clamp(280px, 26vw, 380px);
   transition: transform var(--transition-med), box-shadow var(--transition-med);
 }
 
@@ -962,7 +1816,7 @@ h1, h2, h3, h4 {
 }
 
 .newsletter__note {
-  color: #E8C46B;
+  color: var(--color-gold);
   font-size: var(--fs-xs);
   width: 100%;
   margin-top: var(--sp-2);
@@ -1007,8 +1861,8 @@ h1, h2, h3, h4 {
   height: 50px;
   flex-shrink: 0;
   border-radius: var(--radius-full);
-  background: linear-gradient(135deg, rgba(201, 162, 39, 0.14), rgba(201, 162, 39, 0.06));
-  border: 1px solid rgba(201, 162, 39, 0.35);
+  background: linear-gradient(135deg, rgba(212, 165, 116, 0.16), rgba(212, 165, 116, 0.06));
+  border: 1px solid rgba(212, 165, 116, 0.35);
   display: grid;
   place-items: center;
   font-size: var(--fs-md);
@@ -1053,7 +1907,7 @@ h1, h2, h3, h4 {
 .form-field__input,
 .form-field__textarea {
   padding: 0.95rem 1.15rem;
-  border: 1px solid #DCE3EA;
+  border: 1px solid rgba(43, 13, 13, 0.15);
   border-radius: var(--radius-sm);
   font-family: var(--font-body);
   font-size: var(--fs-sm);
@@ -1065,7 +1919,7 @@ h1, h2, h3, h4 {
 .form-field__input:focus,
 .form-field__textarea:focus {
   border-color: var(--color-gold);
-  box-shadow: 0 0 0 4px rgba(201, 162, 39, 0.12);
+  box-shadow: 0 0 0 4px rgba(212, 165, 116, 0.14);
 }
 
 .form-field__input.is-error,
@@ -1087,35 +1941,51 @@ h1, h2, h3, h4 {
    13. FOOTER
    ========================================================================== */
 .footer {
-  background: var(--color-rosewood);
-  color: rgba(255, 255, 255, 0.78);
+  /* The footer stays deep burgundy in both themes (Tanishq-style).
+     Expose fixed light-theme tokens so its internals keep white/gold
+     contrast even when <html data-theme="dark"> flips the globals. */
+  --color-white: #FFFFFF;
+  --color-gold: #D4A574;
+  --color-maroon: #3B0D0D;
+  background: #3B0D0D;
+  color: rgba(255, 255, 255, 0.82);
   padding-block: var(--sp-12) var(--sp-6);
 }
 
-.footer__grid {
-  display: grid;
-  grid-template-columns: 2fr 1fr 1fr 1.4fr;
-  gap: var(--sp-8);
-  padding-bottom: var(--sp-8);
-  border-bottom: 1px solid rgba(201, 162, 39, 0.18);
+.footer__brand {
+  margin-bottom: var(--sp-8);
 }
 
 .footer .logo__text {
   color: var(--color-white);
 }
 
-.footer__brand-text {
-  font-size: var(--fs-sm);
-  margin-top: var(--sp-3);
-  color: rgba(255, 255, 255, 0.62);
-  max-width: 30ch;
+.footer__grid {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr 1fr 1.2fr;
+  gap: var(--sp-8);
+  padding-bottom: var(--sp-8);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
 }
 
 .footer__heading {
-  color: #E8C46B;
+  color: var(--color-white);
   font-family: var(--font-heading);
   font-size: var(--fs-md);
   margin-bottom: var(--sp-4);
+}
+
+.footer__phone {
+  color: var(--color-gold);
+  font-size: var(--fs-md);
+  font-weight: var(--fw-semibold);
+  margin-bottom: var(--sp-1);
+}
+
+.footer__text {
+  font-size: var(--fs-sm);
+  color: rgba(255, 255, 255, 0.62);
+  margin-bottom: var(--sp-3);
 }
 
 .footer__links li {
@@ -1128,38 +1998,102 @@ h1, h2, h3, h4 {
 }
 
 .footer__links a:hover {
-  color: #E8C46B;
+  color: var(--color-gold);
   padding-left: var(--sp-2);
 }
 
-.footer__contact li {
+/* QR code + app store badges */
+.footer__qr {
+  margin-bottom: var(--sp-4);
+}
+
+.footer__qr-placeholder {
+  width: 132px;
+  height: 132px;
+  border-radius: var(--radius-sm);
+  background: var(--color-white);
+  display: grid;
+  place-items: center;
+  box-shadow: var(--shadow-xs);
+}
+
+.footer__stores {
   display: flex;
   gap: var(--sp-3);
-  font-size: var(--fs-sm);
-  margin-bottom: var(--sp-3);
+  flex-wrap: wrap;
+}
+
+.footer__store-badge {
+  display: inline-flex;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  transition: transform var(--transition-fast), opacity var(--transition-fast);
+}
+
+.footer__store-badge:hover {
+  transform: translateY(-2px);
+  opacity: 0.9;
+}
+
+/* Chat icons */
+.footer__chat-icons {
+  display: flex;
+  gap: var(--sp-3);
+  margin-top: var(--sp-2);
+}
+
+.footer__chat-icons a {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border-radius: var(--radius-full);
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--color-white);
+  transition: background var(--transition-fast), color var(--transition-fast),
+              transform var(--transition-fast);
+}
+
+.footer__chat-icons a:hover {
+  background: var(--color-gold);
+  color: var(--color-maroon);
+  transform: translateY(-3px);
+}
+
+/* Social row */
+.footer__social-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-4);
+  flex-wrap: wrap;
+  padding-block: var(--sp-7) var(--sp-5);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.footer__social-row .footer__heading {
+  margin-bottom: 0;
 }
 
 .footer__social {
   display: flex;
   gap: var(--sp-3);
-  margin-top: var(--sp-5);
 }
 
 .footer__social a {
-  width: 38px;
-  height: 38px;
+  width: 40px;
+  height: 40px;
   border-radius: var(--radius-full);
-  border: 1px solid rgba(201, 162, 39, 0.45);
+  background: rgba(255, 255, 255, 0.1);
   display: grid;
   place-items: center;
-  font-size: var(--fs-sm);
-  color: #E8C46B;
+  color: var(--color-white);
   transition: background var(--transition-fast), color var(--transition-fast),
               transform var(--transition-fast);
 }
 
 .footer__social a:hover {
-  background: #E8C46B;
+  background: var(--color-gold);
   color: var(--color-maroon);
   transform: translateY(-3px);
 }
@@ -1176,7 +2110,7 @@ h1, h2, h3, h4 {
 }
 
 .footer__bottom a {
-  color: #E8C46B;
+  color: var(--color-gold);
 }
 
 /* ==========================================================================
@@ -1210,17 +2144,30 @@ h1, h2, h3, h4 {
 
 /* ----- Tablet (≤ 1024px) ----- */
 @media (max-width: 1024px) {
+  .hero {
+    aspect-ratio: 1448 / 1086;
+  }
+
   .categories__grid {
     grid-template-columns: repeat(2, 1fr);
   }
 
-  .products__grid,
-  .testimonials__grid {
+  .products__grid {
     grid-template-columns: repeat(2, 1fr);
   }
 
-  .features__grid {
-    grid-template-columns: repeat(2, 1fr);
+  .features-carousel {
+    height: 72vh;
+    min-height: 420px;
+  }
+
+  .features-carousel__deco {
+    bottom: 12%;
+    font-size: clamp(7rem, 20vw, 12rem);
+  }
+
+  .features-carousel__content {
+    max-width: 460px;
   }
 
   .footer__grid {
@@ -1231,8 +2178,30 @@ h1, h2, h3, h4 {
     font-size: var(--fs-3xl);
   }
 
-  .hero__stats {
-    gap: var(--sp-8);
+  /* Header search takes less room on tablets */
+  .header__searchbar {
+    max-width: 260px;
+  }
+
+  /* Icon cluster spacing on tablets: even air between icons, with the theme
+     toggle and hamburger treated as peers of the icon links */
+  .header__inner {
+    gap: var(--sp-4);
+    justify-content: space-between;
+  }
+
+  .header__actions {
+    gap: var(--sp-2);
+  }
+
+  .header__icon,
+  .theme-toggle {
+    width: 40px;
+    height: 40px;
+  }
+
+  .hamburger {
+    margin-left: var(--sp-2);
   }
 }
 
@@ -1246,7 +2215,7 @@ h1, h2, h3, h4 {
     height: 100vh;
     width: min(80vw, 320px);
     background: var(--color-white);
-    border-left: 1px solid rgba(14, 22, 38, 0.08);
+    border-left: 1px solid rgba(43, 13, 13, 0.08);
     transform: translateX(100%);
     transition: transform var(--transition-med);
     z-index: var(--z-overlay);
@@ -1262,7 +2231,7 @@ h1, h2, h3, h4 {
 
   .nav__list {
     flex-direction: column;
-    gap: var(--sp-7);
+    gap: var(--sp-6);
   }
 
   .nav__link {
@@ -1274,6 +2243,168 @@ h1, h2, h3, h4 {
     display: block;
   }
 
+  /* Mega-menu is a desktop hover affordance; hide it on touch layouts.
+     The category links themselves still navigate to #categories. */
+  .mega-menu {
+    display: none;
+  }
+
+  /* The category bar compacts behind the hamburger; the search bar now
+     fills its empty slot as a full-width row under the logo/icon row. */
+  .secondary-nav {
+    display: none;
+  }
+
+  .header__inner {
+    gap: var(--sp-3);
+    padding-block: var(--sp-2);
+  }
+
+  .header__searchbar {
+    grid-row: 2;
+    grid-column: 1;
+    align-self: auto;
+    justify-self: stretch;
+    width: 100%;
+    max-width: none; /* cancels the ≤1024px 260px clamp */
+    padding: var(--sp-2);
+    border-top: 1px solid rgba(43, 13, 13, 0.08);
+    background: var(--color-white);
+    pointer-events: auto;
+  }
+
+  .header__searchbar .header__search {
+    width: 100%;
+    max-width: none;
+  }
+
+  .header__searchbar .header__search input {
+    width: 100%;
+  }
+
+  /* The drawer becomes a scrollable column of page links + categories */
+  .nav {
+    align-items: stretch;
+    justify-content: flex-start;
+    flex-direction: column;
+    overflow-y: auto;
+    padding: var(--sp-8) var(--sp-6);
+  }
+
+  /* Close button pinned to the drawer's top-right corner */
+  .nav__close {
+    position: absolute;
+    top: var(--sp-4);
+    right: var(--sp-4);
+    display: grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    border: none;
+    border-radius: var(--radius-full);
+    background: var(--color-crimson-soft);
+    color: var(--color-maroon);
+    cursor: pointer;
+    transition: background var(--transition-fast), color var(--transition-fast),
+                transform var(--transition-fast);
+  }
+
+  .nav__close:hover {
+    background: var(--color-crimson);
+    color: #fff;
+    transform: rotate(90deg);
+  }
+
+  .nav__close:focus-visible {
+    outline: 2px solid var(--color-gold);
+    outline-offset: 2px;
+  }
+
+  .nav__shop {
+    margin-top: var(--sp-7);
+    padding-top: var(--sp-5);
+    border-top: 1px solid rgba(43, 13, 13, 0.08);
+  }
+
+  .nav__shop-label {
+    font-size: var(--fs-xs);
+    font-weight: var(--fw-semibold);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--color-charcoal);
+    margin-bottom: var(--sp-4);
+    display: flex;
+    align-items: center;
+    gap: var(--sp-2);
+  }
+
+  .nav__shop-label::before,
+  .nav__shop-label::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: rgba(43, 13, 13, 0.10);
+  }
+
+  .nav__shop-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--sp-2);
+  }
+
+  .nav__shop-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--sp-3) var(--sp-3);
+    background: var(--color-ivory);
+    border: 1px solid rgba(43, 13, 13, 0.10);
+    border-radius: var(--radius-sm);
+    font-size: var(--fs-sm);
+    font-weight: var(--fw-medium);
+    color: var(--color-maroon);
+    text-align: center;
+    transition: background var(--transition-fast), color var(--transition-fast),
+                border-color var(--transition-fast), transform var(--transition-fast);
+  }
+
+  .nav__shop-link:hover {
+    background: var(--color-crimson-soft);
+    border-color: var(--color-crimson);
+    color: var(--color-crimson);
+    transform: translateY(-1px);
+  }
+
+  .nav__shop-link:focus-visible {
+    outline: 2px solid var(--color-gold);
+    outline-offset: 2px;
+  }
+
+  .header__icon,
+  .theme-toggle {
+    width: 36px;
+    height: 36px;
+  }
+
+  .header__actions {
+    gap: var(--sp-2);
+  }
+
+  /* Right-aligned icon cluster stays snug; the contact icon keeps a touch
+     more air since the wishlist heart was removed. */
+  .header__actions .header__icon + .header__icon {
+    margin-left: var(--sp-1);
+  }
+
+  .hamburger {
+    margin-left: var(--sp-2);
+  }
+
+  .logo__text {
+    font-size: var(--fs-md);
+    letter-spacing: 1px;
+  }
+
   /* Stack hero, about, contact into one column */
   .hero__content {
     padding: var(--sp-14) var(--sp-6);
@@ -1281,6 +2412,17 @@ h1, h2, h3, h4 {
 
   .hero__title {
     font-size: var(--fs-2xl);
+  }
+
+  /* Larger, easier-to-tap carousel dots on touch screens */
+  .hero__dots {
+    bottom: var(--sp-5);
+    gap: var(--sp-4);
+  }
+
+  .hero__dot {
+    width: 14px;
+    height: 14px;
   }
 
   .about__inner,
@@ -1302,16 +2444,63 @@ h1, h2, h3, h4 {
   }
 }
 
+/* ----- Mobile (≤ 600px) ----- */
+@media (max-width: 600px) {
+  .hero {
+    aspect-ratio: 971 / 1619;
+    padding-bottom: 1.5rem;
+  }
+  .hero__bg {
+    height: 100%;
+  }
+  .hero__dots {
+    bottom: var(--sp-3);
+  }
+}
+
 /* ----- Small mobile (≤ 560px) ----- */
 @media (max-width: 560px) {
   .categories__grid,
-  .products__grid,
-  .testimonials__grid {
+  .products__grid {
     grid-template-columns: 1fr;
   }
 
-  .features__grid {
-    grid-template-columns: 1fr;
+  .features-carousel {
+    height: 68vh;
+    min-height: 380px;
+  }
+
+  .features-carousel__overlay {
+    background:
+      linear-gradient(180deg,
+        rgba(21, 6, 6, 0.55) 0%,
+        rgba(21, 6, 6, 0.80) 70%,
+        rgba(21, 6, 6, 0.94) 100%);
+  }
+
+  .features-carousel__deco {
+    right: -4%;
+    bottom: 20%;
+    font-size: clamp(3.6rem, 30vw, 6rem);
+  }
+
+  .features-carousel__content {
+    margin-left: var(--sp-6);
+    margin-right: var(--sp-6);
+    padding-top: 12vh;
+  }
+
+  .features-carousel__title {
+    font-size: clamp(2.2rem, 11vw, 3rem);
+  }
+
+  .features-carousel__text {
+    font-size: var(--fs-base);
+  }
+
+  .features-carousel__dots,
+  .features-carousel__counter {
+    bottom: 1.6rem;
   }
 
   .footer__grid {
@@ -1327,9 +2516,79 @@ h1, h2, h3, h4 {
     margin-top: var(--sp-4);
   }
 
+  .hero__dots {
+    bottom: var(--sp-4);
+  }
+
+  /* On phones the overlay becomes a bottom-up fade so the banner artwork stays
+     visible on top; the CTAs re-centre and stay above the dots. */
+  .hero__overlay {
+    align-items: flex-end;
+    background: linear-gradient(180deg,
+      rgba(43, 13, 13, 0) 52%,
+      rgba(43, 13, 13, 0.55) 74%,
+      rgba(43, 13, 13, 0.88) 100%);
+    padding-bottom: var(--sp-14);
+  }
+
+  .hero__overlay .hero__cta {
+    justify-content: center;
+    width: 100%;
+    padding: 0 var(--sp-5);
+    gap: var(--sp-3);
+    display: flex;
+    flex-wrap: nowrap;
+  }
+
+  .hero__overlay .hero__cta .btn {
+    padding: 0.85rem 1.7rem;
+    font-size: var(--fs-xs);
+  }
+
+  .hero__overlay .hero__copy {
+    max-width: 100%;
+    text-align: center;
+    padding: 0 var(--sp-5);
+  }
+
+  .hero__overlay .hero__copy .hero__title {
+    font-size: clamp(var(--fs-lg), 6vw, var(--fs-2xl));
+    line-height: 1.15;
+  }
+
+  .hero__overlay .hero__copy .hero__text {
+    font-size: clamp(var(--fs-xs), 2.2vw, var(--fs-sm));
+    line-height: 1.5;
+  }
+
+  .hero__overlay .hero__copy .hero__eyebrow {
+    justify-content: center;
+  }
+
+  .hero__overlay .hero__copy .hero__cta {
+    justify-content: center;
+  }
+
+  [data-theme="dark"] .hero__overlay {
+    background: linear-gradient(180deg,
+      rgba(0, 0, 0, 0) 52%,
+      rgba(8, 3, 3, 0.55) 74%,
+      rgba(5, 2, 2, 0.92) 100%);
+  }
+
+  /* Tuck the search input away - keep just the icons */
+  .header__search input {
+    width: 80px;
+  }
+
+  .header__icon:nth-of-type(1),
+  .header__icon:nth-of-type(2) {
+    display: none;
+  }
+
   /* Hide the logo text on the smallest screens to save space */
   .logo__text {
-    font-size: var(--fs-md);
+    font-size: var(--fs-base);
   }
 }
 
@@ -1344,3 +2603,620 @@ h1, h2, h3, h4 {
     scroll-behavior: auto !important;
   }
 }
+
+/* ==========================================================================
+   DAY / NIGHT MODE OVERRIDES
+   --------------------------------------------------------------------------
+   The token flip in variables.css re-themes most of the site automatically.
+   A few surfaces hard-code light-only colors, so they are overridden here
+   when <html data-theme="dark"> is active.
+   ========================================================================== */
+
+/* Header panel - darker burgundy on a dark page */
+[data-theme="dark"] .header {
+  background: var(--color-rosewood);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+[data-theme="dark"] .header.is-scrolled {
+  background: var(--color-rosewood);
+  box-shadow: var(--shadow-md);
+}
+[data-theme="dark"] .secondary-nav {
+  border-top-color: rgba(255, 255, 255, 0.08);
+}
+[data-theme="dark"] .header__search {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.14);
+}
+[data-theme="dark"] .theme-toggle {
+  border-color: rgba(255, 255, 255, 0.18);
+}
+[data-theme="dark"] .mega-menu {
+  background: var(--color-white);
+  border-color: rgba(255, 255, 255, 0.10);
+}
+[data-theme="dark"] .mega-menu__item-icon {
+  background: var(--color-ivory);
+  border-color: rgba(255, 255, 255, 0.08);
+  color: var(--color-ink);
+}
+[data-theme="dark"] .mega-menu__promo {
+  background: linear-gradient(160deg, #65211F 0%, #3B0D0D 100%);
+}
+[data-theme="dark"] .mega-menu__banner {
+  background: rgba(255, 255, 255, 0.04);
+  border-top-color: rgba(255, 255, 255, 0.08);
+}
+
+/* Hero title sits over a darker overlay in night mode - keep light */
+[data-theme="dark"] .hero__overlay {
+  background: linear-gradient(90deg,
+    rgba(8, 3, 3, 0.90) 0%,
+    rgba(18, 8, 6, 0.50) 30%,
+    rgba(6, 3, 3, 0.15) 48%,
+    rgba(0, 0, 0, 0) 66%);
+}
+[data-theme="dark"] .hero__dots {
+  bottom: var(--sp-6);
+}
+[data-theme="dark"] .hero__dot {
+  background: rgba(243, 230, 219, 0.3);
+}
+[data-theme="dark"] .hero__dot.is-active {
+  background: var(--color-gold);
+}
+[data-theme="dark"] .hero__title {
+  color: var(--color-ink);
+}
+[data-theme="dark"] .hero__eyebrow {
+  background: rgba(26, 5, 5, 0.55);
+  color: var(--color-gold);
+}
+[data-theme="dark"] .hero .btn--outline {
+  color: var(--color-gold);
+  border-color: var(--color-gold);
+}
+[data-theme="dark"] .hero .btn--outline:hover {
+  background: var(--color-gold);
+  color: var(--color-rosewood);
+}
+
+/* Gold button text needs the light burgundy for contrast on gold */
+[data-theme="dark"] .btn--gold {
+  background: var(--color-gold);
+  color: #3B0D0D;
+}
+[data-theme="dark"] .btn--gold:hover {
+  background: #DDB377;
+  color: #2A0A0A;
+}
+
+/* Brand-filled components must stay burgundy-with-light-text in night mode;
+   --color-maroon is now a chalk text tone, so re-assert the fills here. */
+[data-theme="dark"] .btn--primary,
+[data-theme="dark"] .scroll-top {
+  background: #4E1A1A;
+  color: #F3E6DB;
+}
+[data-theme="dark"] .btn--primary:hover,
+[data-theme="dark"] .scroll-top:hover {
+  background: #65211F;
+  color: #FFFFFF;
+}
+[data-theme="dark"] .btn--outline {
+  color: #F3E6DB;
+  border-color: rgba(243, 230, 219, 0.55);
+}
+[data-theme="dark"] .btn--outline:hover {
+  background: #F3E6DB;
+  color: #2A0A0A;
+  border-color: #F3E6DB;
+}
+[data-theme="dark"] .btn--outline-light:hover {
+  background: #F3E6DB;
+  color: #2A0A0A;
+}
+[data-theme="dark"] .testimonial-card__avatar {
+  background: linear-gradient(135deg, #65211F 0%, #3B0D0D 100%);
+  color: #F3E6DB;
+}
+
+/* Footer social tags flip their hover to the dark burgundy */
+[data-theme="dark"] .footer__social a:hover,
+[data-theme="dark"] .footer__chat-icons a:hover {
+  color: var(--color-crimson-dark);
+}
+
+/* Newsletter band gets its own burgundy gradient instead of the light one */
+/* Newsletter stays deep burgundy with white text in both themes */
+[data-theme="dark"] .newsletter {
+  background: linear-gradient(135deg, #3B0D0D 0%, #5C1F1F 100%);
+  --color-white: #FFFFFF;
+  --color-gold: #D4A574;
+}
+[data-theme="dark"] .newsletter__title {
+  color: #fff;
+}
+
+/* Testimonial avatars keep their light text on the gradient */
+[data-theme="dark"] .testimonial-card__avatar {
+  background: linear-gradient(135deg, var(--color-crimson) 0%, var(--color-rosewood) 100%);
+  color: #fff;
+}
+
+/* Hairline separators become subtle light hairlines */
+[data-theme="dark"] .category-card__body,
+[data-theme="dark"] .product-card__body,
+[data-theme="dark"] .feature-card {
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+/* Soft wash section - restate with a dark burgundy tint */
+[data-theme="dark"] .section--wash {
+  background: linear-gradient(180deg, var(--color-ivory) 0%, var(--color-cream) 100%);
+}
+
+/* Form fields get visible light borders on dark surfaces */
+[data-theme="dark"] .form-field__input,
+[data-theme="dark"] .form-field__textarea {
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+/* --- SILVER DARK MODE overrides for hardcoded burgundy elements ---------- */
+[data-theme="dark"][data-metal="silver"] .scroll-top {
+  background: #1A2332;
+  color: #D4DCE6;
+}
+[data-theme="dark"][data-metal="silver"] .scroll-top:hover {
+  background: #4A6480;
+  color: #FFFFFF;
+}
+[data-theme="dark"][data-metal="silver"] .newsletter {
+  background: linear-gradient(135deg, #1A2332 0%, #3A506B 100%);
+}
+[data-theme="dark"][data-metal="silver"] .newsletter__title {
+  color: #D4DCE6;
+}
+[data-theme="dark"][data-metal="silver"] .btn--primary {
+  background: var(--gradient-btn);
+  color: #FFFFFF;
+}
+[data-theme="dark"][data-metal="silver"] .btn--primary:hover {
+  background: var(--color-crimson-dark);
+  color: #FFFFFF;
+}
+[data-theme="dark"][data-metal="silver"] .testimonial-card__avatar {
+  background: linear-gradient(135deg, #4A6480 0%, #1A2332 100%);
+  color: #D4DCE6;
+}
+
+/* Footer overrides for silver mode */
+[data-metal="silver"] .footer {
+  --color-white: #FFFFFF;
+  --color-gold: #8FA2B4;
+  --color-maroon: #1A2332;
+  background: #1A2332;
+  color: rgba(255, 255, 255, 0.82);
+}
+
+[data-metal="silver"] .footer .logo__text {
+  color: var(--color-white);
+}
+
+[data-metal="silver"] .footer__phone {
+  color: var(--color-gold);
+}
+/* ==========================================================================
+   CATEGORY FILTER CHIPS (built automatically from data/products.json)
+   ========================================================================== */
+.products__filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-2);
+  justify-content: center;
+  margin-bottom: var(--sp-6);
+}
+
+.products__filter-btn {
+  appearance: none;
+  font: inherit;
+  font-size: var(--fs-sm);
+  font-weight: 500;
+  color: var(--color-crimson);
+  background: var(--color-white);
+  border: 1px solid rgba(92, 31, 31, 0.28);
+  border-radius: 999px;
+  padding: var(--sp-2) var(--sp-4);
+  cursor: pointer;
+  transition: color var(--transition-med), background-color var(--transition-med),
+              border-color var(--transition-med), box-shadow var(--transition-med);
+}
+
+.products__filter-btn:hover {
+  border-color: var(--color-crimson);
+  background: var(--color-crimson-soft);
+}
+
+.products__filter-btn.is-active {
+  color: var(--color-white);
+  background: var(--color-crimson);
+  border-color: var(--color-crimson);
+  box-shadow: 0 2px 12px rgba(92, 31, 31, 0.28);
+}
+
+.products__filter-btn.is-active:hover {
+  background: var(--color-crimson-dark);
+  border-color: var(--color-crimson-dark);
+}
+
+@media (max-width: 480px) {
+  .products__filters {
+    gap: var(--sp-2);
+    margin-bottom: var(--sp-6);
+  }
+}
+/* ==========================================================================
+   CATEGORIES LOAD MORE
+   ========================================================================== */
+.categories__footer {
+  text-align: center;
+  margin-top: var(--sp-10);
+}
+
+/* Hide cards beyond the 8th by default */
+.categories__grid .category-card:nth-child(n+9) {
+  display: none;
+}
+
+.categories__grid.is-expanded .category-card:nth-child(n+9) {
+  display: block;
+}
+
+/* ==========================================================================
+   SHOP BY CATEGORY CARDS ARE CLICKABLE FILTERS (drives the products grid)
+   ========================================================================== */
+.category-card:focus-visible {
+  outline: 2px solid var(--color-gold);
+  outline-offset: 2px;
+}
+
+.category-card.is-selected {
+  box-shadow: 0 0 0 2px var(--color-gold), var(--shadow-lift);
+}
+
+.category-card.is-selected .category-card__name {
+  color: var(--color-crimson);
+}
+
+/* ==========================================================================
+   METAL MODE TOGGLE — Floating sidebar (Gold / Silver switch)
+   ========================================================================== */
+.metal-toggle {
+  position: fixed;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: var(--z-overlay);
+  display: flex;
+  flex-direction: column;
+  background: var(--color-white);
+  border-radius: var(--radius-md) 0 0 var(--radius-md);
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-right: none;
+}
+
+.metal-toggle__btn {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 14px 10px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  color: var(--color-charcoal);
+  font-family: var(--font-body);
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-medium);
+  overflow: hidden;
+  transition: background var(--transition-fast), color var(--transition-fast);
+}
+
+.metal-toggle__btn:hover {
+  background: var(--color-cream);
+}
+
+.metal-toggle__btn.is-active {
+  background: var(--color-gold);
+  color: var(--color-white);
+}
+
+.metal-toggle__icon {
+  width: 20px;
+  height: 20px;
+}
+
+.metal-toggle__label {
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  letter-spacing: 0.06em;
+  font-size: var(--fs-xs);
+}
+
+/* --- Dark mode: metal toggle chrome --- */
+[data-theme="dark"] .metal-toggle {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.14);
+}
+
+[data-theme="dark"] .metal-toggle__btn:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+/* --- Silver mode: active button gets silver accent (var(--color-gold)) --- */
+/* Already handled via var(--color-gold) swap in variables.css. */
+
+/* --- Mobile & tablet: compact vertical rail (floating, right edge) ---
+   Same position as desktop — a slim vertical rail hugging the right edge
+   at vertical centre. A flat bar pinned to bottom: 0 was invisible on
+   phones (hidden behind browser URL bar / home indicator), so the mobile
+   variant keeps the exact desktop right-edge placement but shrinks the
+   padding/labels to stay proportionate on small screens. */
+@media (max-width: 1024px) {
+  .metal-toggle {
+    top: 50%;
+    right: 0;
+    left: auto;
+    bottom: auto;
+    transform: translateY(-50%);
+    flex-direction: column;
+    gap: 0;
+    padding: 0;
+    border-radius: var(--radius-md) 0 0 var(--radius-md);
+    border: 1px solid rgba(0, 0, 0, 0.10);
+    border-right: none;
+  }
+
+  .metal-toggle__btn {
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    padding: 10px 9px;
+    border-radius: 0;
+  }
+
+  .metal-toggle__label {
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    font-size: 0.7rem;
+    letter-spacing: 0.05em;
+  }
+}
+
+/* ==========================================================================
+   METAL MODE SWITCH — "Mode Pop" transition overlay
+   Injected by playModePop() in main.js at the click point. Layers, bottom →
+   top: a radial accent veil, a glossy shine sweep, a centre bloom, three
+   staggered shockwave rings, arcing gravity-embers and spinning sparkle
+   stars — all mixed between the outgoing and incoming accent colours.
+   Purely decorative (pointer-events: none).
+   ========================================================================== */
+.mode-pop {
+  position: fixed;
+  inset: 0;
+  z-index: calc(var(--z-toast) + 1);
+  pointer-events: none;
+  overflow: hidden;
+}
+
+/* Radial accent veil — light radiates from the press point */
+.mode-pop__veil {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at var(--pop-x) var(--pop-y),
+    rgba(255, 255, 255, 0.38) 0%,
+    var(--pop-color) 46%,
+    transparent 120%
+  );
+  opacity: 0;
+  animation: modeVeil 0.65s ease-out forwards;
+}
+@keyframes modeVeil {
+  0%   { opacity: 0; }
+  20%  { opacity: 0.9; }
+  38%  { opacity: 0.45; }
+  100% { opacity: 0; }
+}
+
+/* Glossy diagonal shine sweeping once across the whole screen */
+.mode-pop__shine {
+  position: absolute;
+  top: -20%;
+  left: -20%;
+  width: 140%;
+  height: 140%;
+  background: linear-gradient(
+    115deg,
+    transparent 42%,
+    rgba(255, 255, 255, 0.26) 50%,
+    rgba(255, 255, 255, 0.42) 52%,
+    transparent 58%
+  );
+  transform: translateX(-75%);
+  animation: modeShine 0.85s ease-in forwards;
+}
+@keyframes modeShine {
+  0%   { transform: translateX(-75%); }
+  100% { transform: translateX(75%); }
+}
+
+/* Bright bloom flash at the press point */
+.mode-pop__bloom {
+  position: absolute;
+  left: var(--pop-x);
+  top: var(--pop-y);
+  width: 46px;
+  height: 46px;
+  margin: -23px 0 0 -23px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 0.95) 0%,
+    var(--pop-color) 38%,
+    transparent 72%
+  );
+  opacity: 0;
+  animation: modeBloom 0.6s ease-out forwards;
+}
+@keyframes modeBloom {
+  0%   { transform: scale(0.1); opacity: 0; }
+  22%  { opacity: 0.95; }
+  100% { transform: scale(6.5); opacity: 0; }
+}
+
+/* Triple staggered shockwave rings expanding from the click point */
+.mode-pop__ring {
+  position: absolute;
+  box-sizing: border-box;
+  left: var(--pop-x);
+  top: var(--pop-y);
+  width: 14px;
+  height: 14px;
+  margin: -7px 0 0 -7px;
+  border-radius: 50%;
+  border: 2px solid var(--pop-color);
+  box-shadow: 0 0 16px var(--pop-color), inset 0 0 10px var(--pop-color);
+  opacity: 0;
+  animation: modeRing 0.9s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
+}
+.mode-pop__ring + .mode-pop__ring { animation-delay: 0.1s; }
+.mode-pop__ring + .mode-pop__ring + .mode-pop__ring { animation-delay: 0.2s; }
+@keyframes modeRing {
+  0%   { transform: scale(0.4); opacity: 0.95; }
+  55%  { opacity: 0.6; }
+  100% { transform: scale(80);  opacity: 0; }
+}
+
+/* Arcing embers: fly outward along --a, then fall under "gravity" (inner <b>).
+   Colours mix the outgoing (--pop-mix) and incoming (--pop-color) accents. */
+.mode-pop i {
+  position: absolute;
+  left: var(--pop-x);
+  top: var(--pop-y);
+  width: 6px;
+  height: 6px;
+  margin: -3px 0 0 -3px;
+  border-radius: 50%;
+  background: var(--pop-color);
+  box-shadow: 0 0 7px var(--pop-color), 0 0 18px var(--pop-color);
+  animation: emberFly 0.85s cubic-bezier(0.14, 0.6, 0.3, 1) forwards;
+  --a: 0deg;
+  --d: 70px;
+  --drop: 34px;
+}
+.mode-pop i b {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+  background: inherit;
+  box-shadow: inherit;
+  animation: emberFall 0.85s cubic-bezier(0.34, 0.5, 0.5, 0.34) forwards;
+}
+@keyframes emberFly {
+  0%   { transform: rotate(var(--a)) translateX(0); opacity: 0; }
+  14%  { opacity: 1; }
+  100% { transform: rotate(var(--a)) translateX(var(--d)); opacity: 0; }
+}
+@keyframes emberFall {
+  0%   { transform: translateY(0) scale(1); }
+  62%  { transform: translateY(calc(var(--drop) * -0.7)) scale(1.15); }
+  100% { transform: translateY(var(--drop)) scale(0.25); }
+}
+
+/* Spinning sparkle stars twinkling at radiating points */
+.mode-pop s {
+  position: absolute;
+  left: var(--pop-x);
+  top: var(--pop-y);
+  width: 11px;
+  height: 11px;
+  margin: -5.5px 0 0 -5.5px;
+  background: var(--pop-color);
+  box-shadow: 0 0 10px var(--pop-color);
+  clip-path: polygon(50% 0, 62% 38%, 100% 50%, 62% 62%, 50% 100%, 38% 62%, 0 50%, 38% 38%);
+  animation: starPop var(--star-dur, 0.75s) ease-out forwards;
+  --a: 0deg;
+  --d: 44px;
+  --spin: 100deg;
+}
+@keyframes starPop {
+  0%   { transform: rotate(var(--a)) translateX(0) rotate(0deg) scale(0); opacity: 0; }
+  30%  { opacity: 1; }
+  100% { transform: rotate(var(--a)) translateX(var(--d)) rotate(var(--spin)) scale(1); opacity: 0; }
+}
+
+/* The newly-activated button springs into place, with a gloss sheen */
+.metal-toggle__btn.is-active {
+  animation: metalPop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+@keyframes metalPop {
+  0%   { transform: scale(0.6); }
+  55%  { transform: scale(1.18); }
+  100% { transform: scale(1); }
+}
+
+.metal-toggle__btn.is-active::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    120deg,
+    transparent 30%,
+    rgba(255, 255, 255, 0.45) 50%,
+    transparent 70%
+  );
+  transform: translateX(-150%) rotate(-8deg);
+  animation: btnSheen 0.9s ease forwards;
+  pointer-events: none;
+}
+@keyframes btnSheen {
+  0%   { transform: translateX(-150%) rotate(-8deg); }
+  100% { transform: translateX(230%) rotate(-8deg); }
+}
+
+/* Respect reduced-motion preferences: swap instantly, no flourish */
+@media (prefers-reduced-motion: reduce) {
+  .mode-pop,
+  .metal-toggle__btn.is-active::after { display: none; }
+  .metal-toggle__btn.is-active { animation: none; }
+}
+
+/* ==========================================================================
+   SCROLL PROGRESS RIBBON
+   A thin 3px gradient bar fixed to the top of the viewport, filled
+   left→right as the user scrolls. Gradient matches the active metal mode.
+   ========================================================================== */
+
+.scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: var(--gradient-gold);
+  transform-origin: left;
+  transform: scaleX(0);
+  z-index: calc(var(--z-header, 100) + 1);
+  pointer-events: none;
+  transition: transform 0.1s linear;
+}
+
+[data-metal="silver"] .scroll-progress {
+  background: linear-gradient(90deg, #B0BCC8, #8FA2B4);
+}
+

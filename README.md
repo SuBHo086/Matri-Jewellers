@@ -1,11 +1,11 @@
 # 💎 Matri Jewellers — Royal Website
 
 A clean, contemporary marketing website for **Matri Jewellers**, a jewellery
-boutique. Themed around a **midnight sapphire royal palette** accented with
-champagne gold, restyled as a modern boutique: generous whitespace, soft
-layered shadows, and hand-crafted jewellery artwork.
+boutique. Themed around a **burgundy royal palette** accented with rose gold,
+restyled as a modern boutique: generous whitespace, soft layered shadows, and
+hand-crafted jewellery artwork.
 
-![Theme palette](#) — Sapphire `#2A5B8C` · Navy `#14213D` · Champagne Gold `#C9A227` · Ivory `#F6F7FB`
+![Theme palette](#) — Burgundy `#5C1F1F` · Deep Burgundy `#3B0D0D` · Rose Gold `#D4A574` · Ivory `#FDFBF7`
 
 ---
 
@@ -13,8 +13,8 @@ layered shadows, and hand-crafted jewellery artwork.
 
 - **Landing page** with a full-bleed hero banner + centered overlay, about story
 - **Collections grid** — Rings, Necklaces, Earrings, Bangles
-- **Featured products** — cards rendered dynamically from JS data with
-  "Quick Add" cart interaction and **Load More** pagination
+- **Featured products** — the entire catalogue is driven by a single JSON
+  file (`data/products.json`) with **Load More** pagination and live search
 - **Why Choose Us** — trust badges
 - **Testimonials**, **Newsletter sign-up**, and **Contact form** (client-side
   validation included)
@@ -40,6 +40,11 @@ There are no build steps or dependencies — it's a plain static site.
 No installation required. Google Fonts (Playfair Display + Poppins) load from
 the CDN; everything else is self-contained.
 
+> 💡 The collection is loaded from `data/products.json` over HTTP, so always
+> prefer **option 2** (a local server). Opening `index.html` directly from disk
+> (`file://`) can block that request in some browsers — in that case the
+> collection area shows a short helper message instead of cards.
+
 ## 🗂️ File Structure
 
 ```
@@ -48,8 +53,10 @@ Matri Jewellers Website/
 ├── css/
 │   ├── variables.css       # Design tokens: colors, fonts, spacing, shadows
 │   └── styles.css          # All component styles + responsive rules
+├── data/
+│   └── products.json       # 🗂 The product catalogue - add/edit products here
 ├── js/
-│   └── main.js             # Product data + all interactivity
+│   └── main.js             # Loads data/products.json + all interactivity
 ├── assets/
 │   └── images/             # Hand-crafted SVG artwork (hero, about, categories, products)
 └── README.md
@@ -63,23 +70,75 @@ All colors live in one place — `css/variables.css`. Edit the `:root` block to
 re-theme the entire site in seconds:
 
 ```css
---color-crimson: #2A5B8C;   /* primary sapphire blue */
---color-gold:    #C9A227;   /* champagne gold accent  */
+--color-crimson: #5C1F1F;   /* primary burgundy */
+--color-gold:    #D4A574;   /* rose gold accent  */
 ```
 
-### Swap in real product photos
+### Add real product photos
 
-The site ships with **hand-crafted SVG artwork**. To publish real photography:
+The catalogue ships without real photos — each card shows a labelled
+placeholder and its `"img"` field is empty. To publish real photography:
 
-- Replace the `src` in each `<img>` tag in `index.html`, **and**
-- Update the `img` field inside `PRODUCT_DATA` in `js/main.js`
-- Add your photos under `assets/images/` (PNG/JPG/WebP recommended)
+1. Drop the image under `assets/images/` (PNG/JPG/WebP recommended)
+2. In `data/products.json`, set that product's `"img"` to its path,
+   e.g. `"img": "assets/images/product-necklace.png"`
 
-### Edit products / prices
+The card swaps the placeholder for the photo automatically — no JS changes.
 
-Edit the `PRODUCT_DATA` array at the top of `js/main.js` — add or remove
-objects to change what's displayed. `PRODUCTS_PER_PAGE` controls how many
-cards show before the "Load More" button.
+### Add / edit products — the JSON catalogue
+
+The whole collection lives in **one file**: `data/products.json`. To add a
+product (or edit an existing one), open that file and add or change an
+object in the array — save, and reload the page. No JS or HTML changes
+needed. (`PRODUCTS_PER_PAGE` in `js/main.js` still controls how many cards
+appear before the "Load More" button.)
+
+Every product entry looks like this:
+
+```json
+{
+  "name": "Product name shown on the card",
+  "category": "Rings",
+  "price": "₹ 12,345",
+  "oldPrice": "",
+  "badge": "",
+  "img": "",
+  "imgFile": "product-photo.png"
+}
+```
+
+| Field    | Meaning                                             | Example                              |
+| -------- | --------------------------------------------------- | ------------------------------------ |
+| `name`   | Shown on the card                                   | `"Royale Diamond Necklace"`         |
+| `category` | Label used for search — any text is fine, old or new | `"Rings"`                         |
+| `price`  | Displayed price, any format                         | `"₹ 89,999"`                  |
+| `oldPrice` | Strike-through compare-at price; `""` hides it    | `"₹ 1,09,999"`                |
+| `badge`  | Small corner label; `""` hides it                  | `"Bestseller"`                      |
+| `img`    | Real photo path; `""` shows the placeholder        | `"assets/images/product-necklace.png"` |
+| `imgFile` | Only labels the placeholder (used while `img` is empty) | `"product-necklace.png"`         |
+
+Quick rules:
+
+- **Commas** — every entry except the last one needs a comma after its closing `}`.
+- **Copy-paste** — duplicate an existing entry to stay safe, then edit the fields.
+- **New categories** — just type any `category` value; search picks it up
+  automatically (no button or code to add).
+- **Photos** — set `img` and the card uses the photo (see below).
+
+### Searching & filtering (name **and** category)
+
+- **Header search box** — matches product **name** *or* **category** as you
+  type. E.g. `ring` finds rings *and* earrings; `bangles` finds the bangles.
+- **Category chips** — the "All / Rings / Bangles / …" pills above the grid.
+  They are built automatically from `data/products.json`, so a brand-new
+  category (say `Tikka`) becomes a chip the moment you add a product with it.
+- **They combine** — pick a chip *and* type in the search box: e.g. chip
+  `Earrings` + search `gold` shows only gold earrings.
+- **Shop by Category cards** — the cards in the "Shop by Category" section are
+  clickable too: clicking (or keyboard-focusing) `Rings` / `Necklaces` / …
+  lists every product with that category, scrolls to the grid, and keeps the
+  matching chip + card highlight in sync. Their "N Designs" counts are the
+  real live counts from `data/products.json`.
 
 ### Contact & newsletter forms
 
@@ -97,8 +156,8 @@ Express endpoint, or an email API) in the submit handlers in `js/main.js`.
 
 ## 🧭 Section Index (index.html)
 
-1. **Header / Navigation** — fixed, white with soft blur, navy links
-2. **Hero** — full-bleed SVG scene, gradient overlay, headline, CTAs, stat row
+1. **Header / Navigation** — fixed, white with centered search + category menu
+2. **Hero** — full-bleed sage SVG scene, elegant serif + script headline, CTAs, carousel dots
 3. **About** — legacy story + atelier artwork
 4. **Collections** — image cards with white caption bodies
 5. **Featured Products** — JS-rendered cards

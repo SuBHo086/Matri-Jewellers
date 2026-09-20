@@ -1,0 +1,134 @@
+[
+  {
+    "name": "Royale Diamond Necklace",
+    "category": "Necklaces",
+    "price": "₹ 89,999",
+    "oldPrice": "₹ 1,09,999",
+    "badge": "Bestseller",
+    "img": "",
+    "imgFile": "product-necklace.png",
+    "featured": false,
+    "metal": "gold"
+  },
+  {
+    "name": "Crimson Kundan Ring",
+    "category": "Rings",
+    "price": "₹ 24,499",
+    "oldPrice": "",
+    "badge": "",
+    "img": "",
+    "imgFile": "product-ring.png",
+    "featured": false,
+    "metal": "gold"
+  },
+  {
+    "name": "Morning Dew Earrings",
+    "category": "Earrings",
+    "price": "₹ 15,999",
+    "oldPrice": "₹ 19,999",
+    "badge": "Sale",
+    "img": "",
+    "imgFile": "product-earrings.png",
+    "featured": true,
+    "metal": "silver"
+  },
+  {
+    "name": "Heritage Temple Bangle",
+    "category": "Bangles",
+    "price": "₹ 48,750",
+    "oldPrice": "",
+    "badge": "Handcrafted",
+    "img": "",
+    "imgFile": "product-bangle.png",
+    "featured": true,
+    "metal": "gold"
+  },
+  {
+    "name": "Aureate Pendant Set",
+    "category": "Pendants",
+    "price": "₹ 32,400",
+    "oldPrice": "₹ 39,999",
+    "badge": "Sale",
+    "img": "",
+    "imgFile": "product-pendant.png",
+    "featured": false,
+    "metal": "gold"
+  },
+  {
+    "name": "Blossom Rose Stud Set",
+    "category": "Earrings",
+    "price": "₹ 9,999",
+    "oldPrice": "",
+    "badge": "",
+    "img": "",
+    "imgFile": "product-stud.png",
+    "featured": true,
+    "metal": "silver"
+  },
+  {
+    "name": "Empress Diamond Bangle",
+    "category": "Bangles",
+    "price": "₹ 1,25,000",
+    "oldPrice": "",
+    "badge": "Limited",
+    "img": "",
+    "imgFile": "product-bangle-2.png",
+    "featured": false,
+    "metal": "gold"
+  },
+  {
+    "name": "Gilded Temple Choker",
+    "category": "Necklaces",
+    "price": "₹ 65,800",
+    "oldPrice": "₹ 78,000",
+    "badge": "Bestseller",
+    "img": "",
+    "imgFile": "product-choker.png",
+    "featured": true,
+    "metal": "gold"
+  },
+  {
+    "name": "Vintage Solitaire Ring",
+    "category": "Rings",
+    "price": "₹ 42,900",
+    "oldPrice": "",
+    "badge": "",
+    "img": "",
+    "imgFile": "product-ring-2.png",
+    "featured": true,
+    "metal": "silver"
+  },
+  {
+    "name": "Noor Radiant Maang Tikka",
+    "category": "Tikka",
+    "price": "₹ 18,750",
+    "oldPrice": "₹ 22,000",
+    "badge": "New",
+    "img": "",
+    "imgFile": "product-tikka.png",
+    "featured": false,
+    "metal": "gold"
+  },
+  {
+    "name": "Golden Hoop Cascade",
+    "category": "Earrings",
+    "price": "₹ 12,480",
+    "oldPrice": "",
+    "badge": "",
+    "img": "",
+    "imgFile": "product-hoops.png",
+    "featured": false,
+    "metal": "gold"
+  },
+  {
+    "name": "Ratan Polki Anklet",
+    "category": "Anklets",
+    "price": "₹ 26,300",
+    "oldPrice": "",
+    "badge": "Handcrafted",
+    "img": "",
+    "imgFile": "product-anklet.png",
+    "featured": false,
+    "metal": "silver"
+  }
+]
