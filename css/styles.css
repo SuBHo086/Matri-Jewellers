@@ -246,6 +246,119 @@ h1, h2, h3, h4 {
   transform: translateY(-3px);
 }
 
+/* Metal mode help popup */
+.metal-mode-popup {
+  position: fixed;
+  bottom: var(--sp-8);
+  right: var(--sp-8);
+  max-width: 320px;
+  background: var(--color-white);
+  border: 2px solid var(--color-gold);
+  border-radius: var(--radius-lg);
+  padding: var(--sp-5);
+  box-shadow: 0 8px 24px rgba(43, 13, 13, 0.15);
+  z-index: calc(var(--z-toast) + 1);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(20px) scale(0.95);
+  transition: opacity var(--transition-med), transform var(--transition-med),
+              visibility var(--transition-med);
+}
+
+.metal-mode-popup.is-visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0) scale(1);
+}
+
+.metal-mode-popup__close {
+  position: absolute;
+  top: var(--sp-2);
+  right: var(--sp-2);
+  width: 28px;
+  height: 28px;
+  border: none;
+  background: var(--color-crimson-soft);
+  color: var(--color-maroon);
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  font-size: var(--fs-lg);
+  line-height: 1;
+  transition: all var(--transition-fast);
+}
+
+.metal-mode-popup__close:hover {
+  background: var(--color-crimson);
+  color: var(--color-white);
+  transform: rotate(90deg);
+}
+
+.metal-mode-popup__icon {
+  width: 48px;
+  height: 48px;
+  margin: 0 auto var(--sp-3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, var(--color-gold) 0%, #d4a574 100%);
+  border-radius: var(--radius-full);
+  color: var(--color-white);
+}
+
+.metal-mode-popup__title {
+  font-family: var(--font-heading);
+  font-size: var(--fs-lg);
+  font-weight: var(--fw-bold);
+  color: var(--color-maroon);
+  margin-bottom: var(--sp-2);
+  text-align: center;
+}
+
+.metal-mode-popup__text {
+  font-family: var(--font-body);
+  font-size: var(--fs-sm);
+  color: var(--color-charcoal);
+  line-height: 1.6;
+  margin-bottom: var(--sp-3);
+  text-align: center;
+}
+
+.metal-mode-popup__highlight {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-1);
+  padding: 2px var(--sp-2);
+  background: var(--color-gold);
+  color: var(--color-white);
+  border-radius: 100px;
+  font-weight: var(--fw-semibold);
+  font-size: var(--fs-xs);
+}
+
+.metal-mode-popup__cta {
+  display: block;
+  width: 100%;
+  padding: var(--sp-2) var(--sp-3);
+  background: var(--color-gold);
+  color: var(--color-white);
+  border: none;
+  border-radius: 100px;
+  font-family: var(--font-body);
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-semibold);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  text-align: center;
+}
+
+.metal-mode-popup__cta:hover {
+  background: var(--color-crimson);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(212, 165, 116, 0.3);
+}
+
 /* ==========================================================================
    4. HEADER / NAVIGATION
    ========================================================================== */
@@ -259,11 +372,10 @@ h1, h2, h3, h4 {
   border-bottom: 1px solid rgba(43, 13, 13, 0.08);
   box-shadow: 0 2px 12px rgba(43, 13, 13, 0.05);
   transition: background var(--transition-med), box-shadow var(--transition-med);
-  /* Grid: row 1 is the logo/action bar with the search overlaid dead-centre;
-     row 2 is the category nav. On mobile the search drops into row 2. */
   display: grid;
   grid-template-columns: 1fr;
   grid-template-rows: auto auto;
+  padding-top: var(--sp-2);
 }
 
 .header.is-scrolled {
@@ -271,13 +383,11 @@ h1, h2, h3, h4 {
 }
 
 .header__inner {
-  grid-row: 1;
-  grid-column: 1;
   min-height: 76px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: var(--sp-5);
+  gap: var(--sp-4);
   padding-block: var(--sp-3);
 }
 
@@ -321,18 +431,17 @@ h1, h2, h3, h4 {
   font-weight: var(--fw-normal);
 }
 
-/* Centered search bar */
+/* Centered search bar — sits between logo and icons as a flex sibling */
 .header__search {
   display: flex;
   align-items: center;
   gap: var(--sp-2);
   flex: 1;
-  max-width: 520px;
-  margin-inline: auto;
+  max-width: 560px;
   background: var(--color-ivory);
   border: 1px solid rgba(43, 13, 13, 0.12);
   border-radius: 100px;
-  padding: var(--sp-1) var(--sp-2) var(--sp-1) var(--sp-2);
+  padding: var(--sp-2) var(--sp-3);
   transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
 }
 
@@ -390,24 +499,96 @@ h1, h2, h3, h4 {
   50%      { color: var(--color-gold);      opacity: 1; }
 }
 
-/* Search bar now lives in its own grid row; on desktop it overlays the logo/
-   action row dead-centre (identical to the old inline position). On phone/
-   tablet the overlay rules are dropped and it becomes a full-width row in
-   the category nav's old slot (row 2 of the header grid). */
-.header__searchbar {
-  grid-row: 1;
-  grid-column: 1;
+/* Metal toggle button inside search bar */
+.metal-toggle__btn-search {
   display: flex;
   align-items: center;
-  justify-content: flex-start;
-  padding-inline: var(--sp-6);
-  padding-left: 280px; /* Move searchbar to the right of logo — overridden on mobile */
-  pointer-events: none;
+  gap: var(--sp-1);
+  padding: var(--sp-1) var(--sp-2);
+  border: 1px solid var(--color-gold);
+  background: linear-gradient(135deg, var(--color-gold) 0%, #d4a574 100%);
+  color: var(--color-white);
+  border-radius: 100px;
+  cursor: pointer;
+  font-family: var(--font-body);
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-semibold);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  white-space: nowrap;
+  flex-shrink: 0;
+  position: relative;
+  overflow: hidden;
 }
 
-.header__searchbar .header__search {
-  pointer-events: auto;
+.metal-toggle__btn-search:hover {
+  transform: scale(1.05) translateY(-1px);
+  box-shadow: 0 4px 12px rgba(212, 165, 116, 0.4);
 }
+
+.metal-toggle__btn-search:active {
+  transform: scale(0.98) translateY(0);
+}
+
+.metal-toggle__btn-search .metal-toggle__icon {
+  flex-shrink: 0;
+  transition: transform 0.3s ease;
+}
+
+.metal-toggle__btn-search:hover .metal-toggle__icon {
+  transform: rotate(15deg) scale(1.1);
+}
+
+.metal-toggle__label-search {
+  display: inline-block;
+  transition: transform 0.3s ease;
+}
+
+.metal-toggle__btn-search:hover .metal-toggle__label-search {
+  transform: translateX(2px);
+}
+
+/* Add ripple effect */
+.metal-toggle__btn-search::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 5px;
+  height: 5px;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  opacity: 0;
+}
+
+.metal-toggle__btn-search:active::after {
+  animation: ripple 0.6s ease-out;
+}
+
+@keyframes ripple {
+  0% {
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(30);
+    opacity: 0;
+  }
+}
+
+/* Silver mode for the search toggle button */
+[data-metal="silver"] .metal-toggle__btn-search {
+  border-color: #B0BCC8;
+  background: linear-gradient(135deg, #B0BCC8 0%, #8FA2B4 100%);
+  color: #1A2332;
+}
+
+[data-metal="silver"] .metal-toggle__btn-search:hover {
+  box-shadow: 0 4px 12px rgba(143, 162, 180, 0.5);
+  transform: scale(1.05) translateY(-1px);
+  background: linear-gradient(135deg, #C5D0DC 0%, #9AACBE 100%);
+}
+
 
 /* Utility icons */
 .header__actions {
@@ -2178,11 +2359,6 @@ h1, h2, h3, h4 {
     font-size: var(--fs-3xl);
   }
 
-  /* Header search takes less room on tablets */
-  .header__searchbar {
-    max-width: 260px;
-  }
-
   /* Icon cluster spacing on tablets: even air between icons, with the theme
      toggle and hamburger treated as peers of the icon links */
   .header__inner {
@@ -2270,28 +2446,6 @@ h1, h2, h3, h4 {
   .header__inner {
     gap: var(--sp-3);
     padding-block: var(--sp-2);
-  }
-
-  .header__searchbar {
-    grid-row: 2;
-    grid-column: 1;
-    align-self: auto;
-    justify-self: stretch;
-    width: 100%;
-    max-width: none; /* cancels the ≤1024px 260px clamp */
-    padding: var(--sp-2);
-    border-top: 1px solid rgba(43, 13, 13, 0.08);
-    background: var(--color-white);
-    pointer-events: auto;
-  }
-
-  .header__searchbar .header__search {
-    width: 100%;
-    max-width: none;
-  }
-
-  .header__searchbar .header__search input {
-    width: 100%;
   }
 
   /* The drawer becomes a scrollable column of page links + categories */
@@ -2458,6 +2612,18 @@ h1, h2, h3, h4 {
 
 /* ----- Mobile (≤ 600px) ----- */
 @media (max-width: 600px) {
+  /* Move search bar below the navbar on mobile */
+  .header__inner {
+    flex-wrap: wrap;
+    gap: var(--sp-2);
+  }
+
+  .header__search {
+    order: 3;
+    flex: 1 1 100%;
+    max-width: none;
+  }
+
   .hero {
     aspect-ratio: 971 / 1619;
     padding-bottom: 1.5rem;
@@ -2637,6 +2803,30 @@ h1, h2, h3, h4 {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+  }
+
+  /* Specifically disable the metal toggle animations */
+  .metal-toggle:hover,
+  .metal-toggle__btn:hover,
+  .metal-toggle__btn-search:hover,
+  .metal-toggle__btn-search .metal-toggle__icon,
+  .metal-toggle__btn .metal-toggle__icon,
+  .metal-toggle__btn-search .metal-toggle__label-search,
+  .metal-toggle__btn .metal-toggle__label {
+    transform: none !important;
+    transition: none !important;
+    animation: none !important;
+  }
+
+  .metal-toggle__btn.is-active,
+  .metal-toggle__btn-search:active {
+    transform: none !important;
+    box-shadow: none !important;
+  }
+
+  /* Hide ripple effect */
+  .metal-toggle__btn-search::after {
+    display: none !important;
   }
 }
 
@@ -2941,6 +3131,12 @@ h1, h2, h3, h4 {
   overflow: hidden;
   border: 1px solid rgba(0, 0, 0, 0.08);
   border-right: none;
+  transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+/* Add smooth pulse animation on hover */
+.metal-toggle:hover {
+  transform: translateY(-50%) scale(1.05);
 }
 
 .metal-toggle__btn {
@@ -2958,21 +3154,51 @@ h1, h2, h3, h4 {
   font-size: var(--fs-xs);
   font-weight: var(--fw-medium);
   overflow: hidden;
-  transition: background var(--transition-fast), color var(--transition-fast);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .metal-toggle__btn:hover {
   background: var(--color-cream);
+  transform: translateX(-3px);
 }
 
 .metal-toggle__btn.is-active {
   background: var(--color-gold);
   color: var(--color-white);
+  transform: translateX(-5px) scale(1.08);
+  box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.3);
+}
+
+/* Silver mode active button styling */
+[data-metal="silver"] .metal-toggle__btn[data-metal="silver"].is-active {
+  background: linear-gradient(135deg, #B0BCC8 0%, #8FA2B4 100%);
+  box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.4), 0 4px 16px rgba(143, 162, 180, 0.3);
 }
 
 .metal-toggle__icon {
   width: 20px;
   height: 20px;
+  transition: transform 0.3s ease;
+}
+
+.metal-toggle__btn:hover .metal-toggle__icon {
+  transform: rotate(12deg) scale(1.1);
+}
+
+.metal-toggle__btn.is-active .metal-toggle__icon {
+  animation: iconPulse 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Silver mode icon color */
+[data-metal="silver"] .metal-toggle__btn[data-metal="silver"] .metal-toggle__icon,
+[data-metal="silver"] .metal-toggle__btn[data-metal="silver"].is-active .metal-toggle__icon {
+  stroke: #E8ECF1;
+}
+
+@keyframes iconPulse {
+  0%, 100% { transform: scale(1) rotate(0deg); }
+  25% { transform: scale(1.2) rotate(-8deg); }
+  75% { transform: scale(1.2) rotate(8deg); }
 }
 
 .metal-toggle__label {
@@ -2980,6 +3206,11 @@ h1, h2, h3, h4 {
   text-orientation: mixed;
   letter-spacing: 0.06em;
   font-size: var(--fs-xs);
+  transition: transform 0.3s ease;
+}
+
+.metal-toggle__btn:hover .metal-toggle__label {
+  transform: translateY(-2px);
 }
 
 /* --- Dark mode: metal toggle chrome --- */
@@ -3029,6 +3260,13 @@ h1, h2, h3, h4 {
     text-orientation: mixed;
     font-size: 0.7rem;
     letter-spacing: 0.05em;
+  }
+}
+
+/* --- Phone: hide the right-side floating toggle, keep only the search bar button --- */
+@media (max-width: 600px) {
+  .metal-toggle {
+    display: none;
   }
 }
 

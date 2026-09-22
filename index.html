@@ -185,6 +185,29 @@
         <span class="logo__text">MATRI<span>JEWELLERS</span></span>
       </a>
 
+      <!-- Centered search bar -->
+      <div class="header__search">
+        <button class="header__search-icon" aria-label="Visual search">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="3" width="18" height="18" rx="2"/>
+            <circle cx="8.5" cy="8.5" r="1.5"/>
+            <path d="M21 21l-5.2-5.2"/>
+          </svg>
+        </button>
+        <input type="search" placeholder="Search by name or category..." aria-label="Search products" />
+        <button class="metal-toggle__btn-search" id="metalToggleSearch" aria-label="Toggle metal mode"
+                aria-checked="true" aria-pressed="true">
+          <svg class="metal-toggle__icon" viewBox="0 0 24 24" width="18" height="18"
+               fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
+               stroke-linejoin="round" aria-hidden="true">
+            <path d="M4.5 8h15l-1.4 8.4a2 2 0 0 1-2 1.6H7.9a2 2 0 0 1-2-1.6L4.5 8z"/>
+            <path d="M4 8h16a.8.8 0 0 1 0 1.6H4A.8.8 0 0 1 4 8z"/>
+            <path d="M12 5.2a1.4 1.4 0 1 1 2.4 1z"/>
+          </svg>
+          <span class="metal-toggle__label-search">Gold</span>
+        </button>
+      </div>
+
       <!-- Utility icons right -->
       <div class="header__actions">
         <a href="#categories" class="header__icon" aria-label="Browse designs">
@@ -222,21 +245,6 @@
         </button>
       </div>
 
-    </div>
-
-    <!-- Centered search bar — its own row so mobile can drop it to the
-         bottom slot where the category nav used to sit. -->
-    <div class="header__searchbar">
-      <div class="header__search">
-        <button class="header__search-icon" aria-label="Visual search">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <rect x="3" y="3" width="18" height="18" rx="2"/>
-            <circle cx="8.5" cy="8.5" r="1.5"/>
-            <path d="M21 21l-5.2-5.2"/>
-          </svg>
-        </button>
-        <input type="search" placeholder="Search by name or category..." aria-label="Search products" />
-      </div>
     </div>
 
     <!-- Secondary nav (category menu) -->
@@ -1473,6 +1481,24 @@
       </svg>
       <span class="metal-toggle__label">Silver</span>
     </button>
+  </div>
+
+  <!-- Metal mode help popup -->
+  <div class="metal-mode-popup" id="metalModePopup" role="dialog" aria-modal="true" aria-labelledby="metalPopupTitle">
+    <button class="metal-mode-popup__close" id="metalPopupClose" aria-label="Close tip">×</button>
+    <div class="metal-mode-popup__icon" aria-hidden="true">
+      <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M4.5 8h15l-1.4 8.4a2 2 0 0 1-2 1.6H7.9a2 2 0 0 1-2-1.6L4.5 8z"/>
+        <path d="M4 8h16a.8.8 0 0 1 0 1.6H4A.8.8 0 0 1 4 8z"/>
+        <path d="M12 5.2a1.4 1.4 0 1 1 2.4 1z"/>
+      </svg>
+    </div>
+    <p class="metal-mode-popup__title" id="metalPopupTitle">Switch Your Metal Mode ✨</p>
+    <p class="metal-mode-popup__text">
+      Did you know you can browse jewellery by metal?<br/>
+      Use the <span class="metal-mode-popup__highlight">Gold / Silver</span> button in the search bar to switch between gold and silver collections — the entire site updates instantly!
+    </p>
+    <button class="metal-mode-popup__cta" id="metalPopupCta">Got it, let me explore!</button>
   </div>
 
   <!-- Site scripts -->

@@ -616,6 +616,8 @@ function setMetalMode(metal) {
   refreshAllProducts();
   // Re-sample the carousel so only pieces matching the active metal appear.
   rebuildCarousel();
+  // Keep the search bar metal button in sync.
+  if (typeof syncSearchMetalBtn === "function") syncSearchMetalBtn(metal);
 }
 
 /** Re-render both Featured and Category product views from scratch. */
@@ -746,6 +748,72 @@ metalToggle?.addEventListener("click", (e) => {
       btn.setAttribute("aria-pressed", String(isActive));
     });
   }
+})();
+
+/* Search bar metal toggle button */
+const metalToggleSearch = document.getElementById("metalToggleSearch");
+
+function syncSearchMetalBtn(metal) {
+  if (!metalToggleSearch) return;
+  const label = metalToggleSearch.querySelector(".metal-toggle__label-search");
+  const icon  = metalToggleSearch.querySelector("svg");
+  if (metal === "silver") {
+    if (label) label.textContent = "Silver";
+    // swap icon to diamond/silver shape
+    if (icon) icon.innerHTML = `
+      <path d="M6 3h12l4 6-10 12L2 9l4-6z"/>
+      <path d="M2 9h20"/>`;
+  } else {
+    if (label) label.textContent = "Gold";
+    // swap icon back to goblet/gold shape
+    if (icon) icon.innerHTML = `
+      <path d="M4.5 8h15l-1.4 8.4a2 2 0 0 1-2 1.6H7.9a2 2 0 0 1-2-1.6L4.5 8z"/>
+      <path d="M4 8h16a.8.8 0 0 1 0 1.6H4A.8.8 0 0 1 4 8z"/>
+      <path d="M12 5.2a1.4 1.4 0 1 1 2.4 1z"/>`;
+  }
+}
+
+// Sync on load
+syncSearchMetalBtn(document.documentElement.getAttribute("data-metal") || "gold");
+
+// Toggle on click — reuse existing setMetalMode
+metalToggleSearch?.addEventListener("click", () => {
+  const next = activeMetal === "gold" ? "silver" : "gold";
+  setMetalMode(next);
+  syncSearchMetalBtn(next);
+});
+
+/* Metal mode help popup — shown once randomly between 8–20 s after load */
+(function initMetalPopup() {
+  const popup     = document.getElementById("metalModePopup");
+  const closeBtn  = document.getElementById("metalPopupClose");
+  const ctaBtn    = document.getElementById("metalPopupCta");
+  if (!popup) return;
+
+  // Only show once per session
+  try {
+    if (sessionStorage.getItem("matri-metal-popup-seen")) return;
+  } catch (e) { /* ignore */ }
+
+  const delay = 8000 + Math.random() * 12000; // 8–20 s
+  setTimeout(() => {
+    popup.classList.add("is-visible");
+  }, delay);
+
+  function dismissPopup() {
+    popup.classList.remove("is-visible");
+    try { sessionStorage.setItem("matri-metal-popup-seen", "1"); } catch (e) {}
+  }
+
+  closeBtn?.addEventListener("click", dismissPopup);
+  ctaBtn?.addEventListener("click", dismissPopup);
+
+  // Also dismiss if user clicks outside the popup
+  document.addEventListener("click", (e) => {
+    if (popup.classList.contains("is-visible") && !popup.contains(e.target) && e.target !== metalToggleSearch) {
+      dismissPopup();
+    }
+  });
 })();
 
 /* ==========================================================================
