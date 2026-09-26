@@ -10,9 +10,17 @@
      6.  Newsletter form validation
      7.  Contact form validation
      8.  Auto-updating footer year
+     9.  Product detail modal with WhatsApp integration
    ========================================================================== */
 
 "use strict";
+
+/* ==========================================================================
+   0. CONFIGURATION
+   ========================================================================== */
+
+/** WhatsApp business phone number for product inquiries (user can change this) */
+const WHATSAPP_PHONE = "+917439433150";
 
 /* ==========================================================================
    1. PRODUCT CATALOGUE
@@ -1590,6 +1598,7 @@ const FLUENT_DEFAULT_HINT = SEARCH_HINTS[SEARCH_HINTS.length - 1];
   window.addEventListener("scroll", update, { passive: true });
   // Run once on load so it's correct for pre-scrolled refreshes.
   update();
+})();
 
 /* ==========================================================================
    13. CATEGORIES LOAD MORE
@@ -1608,4 +1617,158 @@ const FLUENT_DEFAULT_HINT = SEARCH_HINTS[SEARCH_HINTS.length - 1];
     }
   });
 })();
+
+/* ==========================================================================
+   12. PRODUCT DETAIL MODAL WITH WHATSAPP INTEGRATION
+   ========================================================================== */
+
+(function initProductDetailModal() {
+  const modal = document.getElementById("productDetailModal");
+  const modalClose = document.getElementById("productDetailClose");
+  const modalCloseBtnFooter = document.getElementById("productDetailCloseBtnFooter");
+  const whatsappBtn = document.getElementById("productDetailWhatsApp");
+
+  if (!modal) return;
+
+  // DOM elements that will be populated with product data
+  const imageEl = document.getElementById("productDetailImage");
+  const categoryEl = document.getElementById("productDetailCategory");
+  const nameEl = document.getElementById("productDetailTitle");
+  const priceEl = document.getElementById("productDetailPrice");
+
+  let currentProduct = null;
+
+  /**
+   * Open the product detail modal with product information.
+   * @param {Object} product - Product object with name, category, price, img, imgFile
+   */
+  function openProductModal(product) {
+    currentProduct = product;
+
+    // Populate modal with product data
+    nameEl.textContent = product.name;
+    categoryEl.textContent = product.category;
+    priceEl.textContent = product.price + (product.oldPrice ? ` (was ${product.oldPrice})` : "");
+
+    // Handle image: use img if available, otherwise use placeholder with imgFile
+    if (product.img) {
+      imageEl.src = product.img;
+      imageEl.alt = product.name;
+    } else if (product.imgFile) {
+      imageEl.src = `assets/images/${product.imgFile}`;
+      imageEl.alt = product.name;
+    } else {
+      imageEl.src = "";
+      imageEl.alt = "Product image not available";
+    }
+
+    // Show modal
+    modal.classList.add("is-visible");
+    document.body.style.overflow = "hidden";
+  }
+
+  /**
+   * Close the product detail modal.
+   */
+  function closeProductModal() {
+    modal.classList.remove("is-visible");
+    document.body.style.overflow = "";
+    currentProduct = null;
+  }
+
+  /**
+   * Send product details to WhatsApp.
+   */
+  function sendToWhatsApp() {
+    if (!currentProduct) return;
+
+    // Build message with product details
+    const message = `Hello! I'm interested in this jewellery:\n\n*${currentProduct.name}*\nCategory: ${currentProduct.category}\nPrice: ${currentProduct.price}\n\nPlease share more details or images.`;
+
+    // Encode message for URL
+    const encodedMessage = encodeURIComponent(message);
+
+    // Create WhatsApp link
+    const whatsappUrl = `https://wa.me/${WHATSAPP_PHONE}?text=${encodedMessage}`;
+
+    // Open WhatsApp in new window
+    window.open(whatsappUrl, "_blank");
+
+    // Close modal after opening WhatsApp
+    closeProductModal();
+  }
+
+  // Event listeners
+  modalClose.addEventListener("click", closeProductModal);
+  modalCloseBtnFooter.addEventListener("click", closeProductModal);
+  whatsappBtn.addEventListener("click", sendToWhatsApp);
+
+  // Close modal when clicking on backdrop
+  modal.addEventListener("click", (e) => {
+    if (e.target === modal || e.target.classList.contains("product-detail-modal__backdrop")) {
+      closeProductModal();
+    }
+  });
+
+  // Close modal on Escape key
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && modal.classList.contains("is-visible")) {
+      closeProductModal();
+    }
+  });
+
+  /**
+   * Attach click handlers to product cards in a grid.
+   * Uses event delegation to handle dynamically added cards.
+   */
+  function wireProductCards(gridElement) {
+    if (!gridElement) return;
+
+    gridElement.addEventListener("click", (e) => {
+      const card = e.target.closest(".product-card");
+      if (!card) return;
+
+      // Extract product data from the card's DOM
+      const nameText = card.querySelector(".product-card__name")?.textContent || "";
+      const categoryText = card.querySelector(".product-card__category")?.textContent || "";
+      const priceText = card.querySelector(".product-card__price")?.textContent || "";
+      const imgEl = card.querySelector(".product-card__image");
+
+      // Get image source
+      let imgSrc = "";
+      let imgFile = "";
+      if (imgEl && imgEl.tagName === "IMG") {
+        imgSrc = imgEl.src;
+      } else if (imgEl) {
+        // It's a placeholder, extract imgFile from the hint text
+        const hint = imgEl.querySelector(".hero__placeholder-hint");
+        if (hint) {
+          imgFile = hint.textContent;
+        }
+      }
+
+      // Build product object from card data
+      const product = {
+        name: nameText,
+        category: categoryText,
+        price: priceText,
+        img: imgSrc,
+        imgFile: imgFile
+      };
+
+      openProductModal(product);
+    });
+  }
+
+  // Wire the featured products grid
+  const featuredGrid = document.getElementById("productsGrid");
+  if (featuredGrid) {
+    wireProductCards(featuredGrid);
+  }
+
+  // Wire the category products grid
+  const categoryGrid = document.getElementById("categoryProductsGrid");
+  if (categoryGrid) {
+    wireProductCards(categoryGrid);
+  }
 })();
