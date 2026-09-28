@@ -1,0 +1,12 @@
+# Claude / local workspace
+.claude/
+
+# Playwright MCP logs and artifacts
+.playwright-mcp/
+
+# Temp/generated images and screenshots
+*.png
+
+# OS files
+.DS_Store
+Thumbs.db
