@@ -20,7 +20,7 @@
    ========================================================================== */
 
 /** WhatsApp business phone number for product inquiries (user can change this) */
-const WHATSAPP_PHONE = "+917439433150";
+const WHATSAPP_PHONE = "+918981307455";
 
 /* ==========================================================================
    1. PRODUCT CATALOGUE
@@ -1611,9 +1611,9 @@ const FLUENT_DEFAULT_HINT = SEARCH_HINTS[SEARCH_HINTS.length - 1];
   btn.addEventListener("click", () => {
     const expanded = grid.classList.toggle("is-expanded");
     btn.textContent = expanded ? "Show Less" : "Load More Categories";
-    // Scroll smoothly back to the grid top when collapsing
+    // Scroll smoothly back to the button when collapsing, keeping user context
     if (!expanded) {
-      grid.scrollIntoView({ behavior: "smooth", block: "start" });
+      btn.scrollIntoView({ behavior: "smooth", block: "nearest" });
     }
   });
 })();

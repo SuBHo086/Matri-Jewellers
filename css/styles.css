@@ -2675,6 +2675,27 @@ h1, h2, h3, h4 {
   .hamburger {
     margin-left: var(--sp-2);
   }
+
+  /* Tablet and below: hide the shop logo image, keep the shop name */
+  .header .logo__image {
+    display: none;
+  }
+
+  /* Tablet: the right-side icon cluster crops off the edge, so keep only
+     the wishlist / liked (star) button and the hamburger, and drop the
+     rest (gift, contact, theme toggle). The hamburger stays visible all
+     the way down to 600px — at 600px and below the mobile rule moves the
+     search bar to a full-width row, so the top row has room again. */
+  .header__actions .header__icon:not(:first-of-type),
+  .header__actions .theme-toggle {
+    display: none;
+  }
+
+  /* Tablet: pull the search bar in a touch so it doesn't kiss the
+     star + hamburger on the right. */
+  .header__search {
+    max-width: 420px;
+  }
 }
 
 /* ----- Mobile / Small tablet (≤ 768px) ----- */
