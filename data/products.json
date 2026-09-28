@@ -5,8 +5,8 @@
     "price": "₹ 89,999",
     "oldPrice": "₹ 1,09,999",
     "badge": "Bestseller",
-    "img": "",
-    "imgFile": "product-necklace.png",
+    "img": "https://res.cloudinary.com/dsg7cssq/image/upload/v1790584231/Gold_Chain_5_ge0fit.webp",
+    "imgFile": "",
     "featured": false,
     "metal": "gold"
   },
