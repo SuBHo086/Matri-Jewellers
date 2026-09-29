@@ -68,6 +68,7 @@ let featuredShownCount = 0;
 /** DOM references for the Featured Products section. */
 const featuredGrid = document.getElementById("productsGrid");
 const featuredLoadMoreBtn = document.getElementById("loadMoreBtn");
+const showLessBtn = document.getElementById("showLessBtn");
 
 /* ---- Category Products view (ALL products of one category) ------------- */
 
@@ -86,6 +87,7 @@ let categoryShownCount = 0;
 /** DOM references for the separate Category Products section. */
 const categoryGrid = document.getElementById("categoryProductsGrid");
 const categoryLoadMoreBtn = document.getElementById("categoryLoadMoreBtn");
+const categoryShowLessBtn = document.getElementById("categoryShowLessBtn");
 const categoryTitle = document.getElementById("categoryProductsTitle");
 const categorySubtitle = document.getElementById("categoryProductsSubtitle");
 const categorySection = document.getElementById("categoryProducts");
@@ -194,17 +196,20 @@ function renderCategoryProducts() {
     categoryShownCount,
     categoryShownCount + PRODUCTS_PER_PAGE
   );
+
   categoryShownCount += slice.length;
 
   const html = slice
     .map((product, index) => productCardHTML(product, index))
     .join("");
+
   categoryGrid.insertAdjacentHTML("beforeend", html);
 
   if (categoryVisibleProducts.length === 0) {
     const searchNote = categorySearchTerm.trim()
       ? ` matching “${categorySearchTerm.trim()}”`
       : "";
+
     categoryGrid.innerHTML =
       `<p class="products__empty">No ${activeMetal} designs${searchNote} in ` +
       `“${categoryDisplayName()}” yet. Try a different search.</p>`;
@@ -213,7 +218,9 @@ function renderCategoryProducts() {
   }
 
   categoryLoadMoreBtn.style.display =
-    categoryShownCount >= categoryVisibleProducts.length ? "none" : "inline-block";
+    categoryShownCount >= categoryVisibleProducts.length
+      ? "none"
+      : "inline-block";
 
   observeReveals();
 }
@@ -1016,8 +1023,84 @@ function observeReveals() {
   });
 }
 
-featuredLoadMoreBtn.addEventListener("click", renderFeaturedProducts);
-categoryLoadMoreBtn.addEventListener("click", renderCategoryProducts);
+featuredLoadMoreBtn.addEventListener("click", () => {
+  const total = featuredVisibleProducts.length;
+  // Only allow the button to work once if over 6 items; otherwise paginate.
+  if (total > 6) {
+    featuredGrid.innerHTML = "";
+    const html = featuredVisibleProducts
+      .map((p, i) => productCardHTML(p, i)).join("");
+    featuredGrid.insertAdjacentHTML("beforeend", html);
+    featuredLoadMoreBtn.style.display = "none";
+    if (showLessBtn) showLessBtn.style.display = "inline-block";
+    observeReveals();
+    return;
+  }
+  renderFeaturedProducts();
+});
+
+showLessBtn.addEventListener("click", () => {
+  featuredShownCount = PRODUCTS_PER_PAGE;
+  featuredGrid.innerHTML = "";
+  const slice = featuredVisibleProducts.slice(0, PRODUCTS_PER_PAGE);
+  featuredShownCount = slice.length;
+  const html = slice.map((p, i) => productCardHTML(p, i)).join("");
+  featuredGrid.insertAdjacentHTML("beforeend", html);
+  showLessBtn.style.display = "none";
+  featuredLoadMoreBtn.style.display = "inline-block";
+  observeReveals();
+});
+categoryLoadMoreBtn.addEventListener("click", () => {
+  const remainingProducts = categoryVisibleProducts.slice(categoryShownCount);
+
+  categoryShownCount = categoryVisibleProducts.length;
+
+  const html = remainingProducts
+    .map((product, index) => productCardHTML(product, index))
+    .join("");
+
+  categoryGrid.insertAdjacentHTML("beforeend", html);
+
+  categoryLoadMoreBtn.style.display = "none";
+  categoryShowLessBtn.style.display = "inline-block";
+
+  observeReveals();
+});
+
+categoryShowLessBtn.addEventListener("click", () => {
+  // Remember the category section position before changing the grid
+  const sectionTop =
+    categorySection.getBoundingClientRect().top + window.scrollY;
+
+  categoryShownCount = Math.min(
+    PRODUCTS_PER_PAGE,
+    categoryVisibleProducts.length
+  );
+
+  const initialProducts = categoryVisibleProducts.slice(
+    0,
+    PRODUCTS_PER_PAGE
+  );
+
+  categoryGrid.innerHTML = initialProducts
+    .map((product, index) => productCardHTML(product, index))
+    .join("");
+
+  categoryShowLessBtn.style.display = "none";
+
+  categoryLoadMoreBtn.style.display =
+    categoryShownCount < categoryVisibleProducts.length
+      ? "inline-block"
+      : "none";
+
+  observeReveals();
+
+  // Smoothly return to the Category Products section
+  window.scrollTo({
+    top: sectionTop,
+    behavior: "smooth"
+  });
+});
 
 // Load the catalogue from data/products.json, then render the grid.
 loadProducts();
@@ -1679,24 +1762,80 @@ const FLUENT_DEFAULT_HINT = SEARCH_HINTS[SEARCH_HINTS.length - 1];
   /**
    * Send product details to WhatsApp.
    */
-  function sendToWhatsApp() {
-    if (!currentProduct) return;
+  async function sendToWhatsApp() {
+  if (!currentProduct) return;
 
-    // Build message with product details
-    const message = `Hello! I'm interested in this jewellery:\n\n*${currentProduct.name}*\nCategory: ${currentProduct.category}\nPrice: ${currentProduct.price}\n\nPlease share more details or images.`;
+  const message =
+    `Hello! I'm interested in this jewellery:\n\n` +
+    `*${currentProduct.name}*\n` +
+    `Category: ${currentProduct.category}\n` +
+    `Price: ${currentProduct.price}\n\n` +
+    `Please share more details or images.`;
 
-    // Encode message for URL
+  try {
+    // Get the actual product image
+    const imageUrl = currentProduct.img;
+
+    if (!imageUrl) {
+      throw new Error("No product image available");
+    }
+
+    // Download the image
+    const response = await fetch(imageUrl);
+
+    if (!response.ok) {
+      throw new Error("Could not fetch product image");
+    }
+
+    const blob = await response.blob();
+
+    // Create a file that can be shared by the mobile/tablet browser
+    const file = new File(
+      [blob],
+      `${currentProduct.name.replace(/[^a-z0-9]/gi, "_")}.webp`,
+      {
+        type: blob.type || "image/webp",
+      }
+    );
+
+    // Check whether the browser supports sharing files
+    if (
+      navigator.share &&
+      navigator.canShare &&
+      navigator.canShare({ files: [file] })
+    ) {
+      await navigator.share({
+        text: message,
+        files: [file],
+      });
+
+      closeProductModal();
+      return;
+    }
+
+    // Fallback if file sharing isn't supported
     const encodedMessage = encodeURIComponent(message);
+    const whatsappUrl =
+      `https://wa.me/${WHATSAPP_PHONE}?text=${encodedMessage}`;
 
-    // Create WhatsApp link
-    const whatsappUrl = `https://wa.me/${WHATSAPP_PHONE}?text=${encodedMessage}`;
+    window.location.href = whatsappUrl;
+    closeProductModal();
 
-    // Open WhatsApp in new window
-    window.open(whatsappUrl, "_blank");
+  } catch (error) {
+    // User cancelled the share sheet — do nothing
+    if (error.name === "AbortError") {
+      return;
+    }
 
-    // Close modal after opening WhatsApp
+    // Fallback to normal WhatsApp message
+    const encodedMessage = encodeURIComponent(message);
+    const whatsappUrl =
+      `https://wa.me/${WHATSAPP_PHONE}?text=${encodedMessage}`;
+
+    window.location.href = whatsappUrl;
     closeProductModal();
   }
+}
 
   // Event listeners
   modalClose.addEventListener("click", closeProductModal);
